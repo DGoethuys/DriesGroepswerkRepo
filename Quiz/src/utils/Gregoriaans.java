@@ -22,8 +22,9 @@ public class Gregoriaans implements Comparable<Datum> {
 	}
 	
 	public void Datum( int dag, int maand, int jaar){
-		GregorianCalendar gregorianCalendar=new GregorianCalendar();
-		
+		maand=this.maand;
+		dag=this.dag;
+		jaar=this.jaar;
 		//Een constructor met parameters dag, maand en jaar ( 3 gehele getallen).
 	}
 	
