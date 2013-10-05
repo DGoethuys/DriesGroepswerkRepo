@@ -1,9 +1,20 @@
 package utils;
 
-import java.util.GregorianCalendar;
+//import java.util.GregorianCalendar;
 
-public class Gregoriaans implements Comparable<Datum> {
+
+public class Gregoriaans implements Comparable<Datum> {	
 	
+	/*INFO
+	 * 
+	 * (deze klasse is omgevormd tot documentatie om foutmeldingen weg te krijgen)
+	 * 
+	 * *De constructoren zijn omgevormd tot methodes met de naam van de klasse Datum
+	 * *Deze zouden constructoren moeten zijn met de naam van de klasse Gregoriaans 
+	 * *(btw ik stel voor om een makkelijkere naam te kiezen "DatumG" bijvoorbeeld
+	 */
+	
+/*
 	private int dag;
 	private int maand;
 	private int jaar;
@@ -35,7 +46,7 @@ public class Gregoriaans implements Comparable<Datum> {
 	/*Set methoden, nog niet zeker of we deze allemaal public zouden laten of alleen de setDatum public of setDatum weg doen en ze in de constructor steken
 	Set methoden:
 	boolean setDatum (int dag, int maand, int jaar): een methode om een Datumobject een geldige waarde te geven (indien ongeldige dag of maand Exception werpen). Je kan ook private setters maken voor dag, maand en jaar die dan worden aangeroepen door de constructor.
-	*/
+	*//*
 	
 	public void setDag( int dag ){
 		if(dag > 0 && dag < 31)
@@ -129,7 +140,7 @@ public class Gregoriaans implements Comparable<Datum> {
 			return false;
 		return true;
 	}
-	
+	*/
 	@Override
 	public int compareTo(Datum o) {
 		// TODO Auto-generated method stub
