@@ -1,34 +1,36 @@
 package utils;
 
 import java.util.GregorianCalendar;
+import java.util.Date;
 
 public class Gregoriaans implements Comparable<Datum> {
 	
-	private int dag;
-	private int maand;
-	private int jaar;
+	GregorianCalendar gregorianCalendar=new GregorianCalendar();
 	
 	public void Datum(){
 		//Constructor zonder parameters (object datum gelijk aan de systeemdatum)
-		GregorianCalendar gregorianCalendar=new GregorianCalendar();            
-		maand=(gregorianCalendar.get(GregorianCalendar.MONTH));         
-		dag=(gregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH));
-		jaar=(gregorianCalendar.get(GregorianCalendar.YEAR));
+		gregorianCalendar.getTime();
 	}
 	
-	public void Datum( int datum){
+	//Terug opnieuw bekijken.
+	
+	public void Datum(Date d){
+		gregorianCalendar.setTime(d);
+	}
 		
 		//Een constructor met een datum object als parameter ; 
 	}
 	
 	public void Datum( int dag, int maand, int jaar){
-		maand=this.maand;
-		dag=this.dag;
-		jaar=this.jaar;
+		gregorianCalendar.set(jaar, maand, dag);
+		
+		
 		//Een constructor met parameters dag, maand en jaar ( 3 gehele getallen).
 	}
 	
 	public void Datum ( String datum ){
+		String[] p = datum.split("/", 3);
+		this.setDatum(Integer.parseInt(p[0]), Integer.parseInt(p[1]), Integer.parseInt(p[2]));
 		//Een constructor met een String als parameter. In deze String zit de datum in DDMMJJJJ formaat maar tussen de dag, maand en jaar staat een scheidingsteken (Vb 12/05/2009)
 	}
 	
@@ -38,21 +40,19 @@ public class Gregoriaans implements Comparable<Datum> {
 	*/
 	
 	public void setDag( int dag ){
-		if(dag > 0 && dag < 31)
 		this.dag = dag;
 	}
 	
 	public void setMaand( int maand ){
-		if(maand > 0 && maand < 13)
 		this.maand = maand;
 	}
 	
 	public void setJaar( int jaar ){
-		if(jaar > 0)
 		this.jaar = jaar;
 	}
 	
 	public void setDatum( int dag, int maand, int jaar ){
+		this.gregorianCalendar.
 		this.setDag(dag);
 		this.setMaand(maand);
 		this.setJaar(jaar);
@@ -129,12 +129,13 @@ public class Gregoriaans implements Comparable<Datum> {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public int compareTo(Datum o) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
 
 }
 
