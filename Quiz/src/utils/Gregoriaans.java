@@ -1,69 +1,58 @@
 package utils;
 
-//import java.util.GregorianCalendar;
+import java.util.GregorianCalendar;
+import java.util.Date;
 
-
-public class Gregoriaans implements Comparable<Datum> {	
+public class Gregoriaans implements Comparable<Datum> {
 	
-	/*INFO
-	 * 
-	 * (deze klasse is omgevormd tot documentatie om foutmeldingen weg te krijgen)
-	 * 
-	 * *De constructoren zijn omgevormd tot methodes met de naam van de klasse Datum
-	 * *Deze zouden constructoren moeten zijn met de naam van de klasse Gregoriaans 
-	 * *(btw ik stel voor om een makkelijkere naam te kiezen "DatumG" bijvoorbeeld
-	 */
-	
-/*
-	private int dag;
-	private int maand;
-	private int jaar;
+	GregorianCalendar gregorianCalendar=new GregorianCalendar();
 	
 	public void Datum(){
 		//Constructor zonder parameters (object datum gelijk aan de systeemdatum)
-		GregorianCalendar gregorianCalendar=new GregorianCalendar();            
-		maand=(gregorianCalendar.get(GregorianCalendar.MONTH));         
-		dag=(gregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH));
-		jaar=(gregorianCalendar.get(GregorianCalendar.YEAR));
+		gregorianCalendar.getTime();
 	}
 	
-	public void Datum( int datum){
+	//Terug opnieuw bekijken.
+	
+	public void Datum(Date d){
+		gregorianCalendar.setTime(d);
+	}
 		
 		//Een constructor met een datum object als parameter ; 
 	}
 	
 	public void Datum( int dag, int maand, int jaar){
-		maand=this.maand;
-		dag=this.dag;
-		jaar=this.jaar;
+		gregorianCalendar.set(jaar, maand, dag);
+		
+		
 		//Een constructor met parameters dag, maand en jaar ( 3 gehele getallen).
 	}
 	
 	public void Datum ( String datum ){
+		String[] p = datum.split("/", 3);
+		this.setDatum(Integer.parseInt(p[0]), Integer.parseInt(p[1]), Integer.parseInt(p[2]));
 		//Een constructor met een String als parameter. In deze String zit de datum in DDMMJJJJ formaat maar tussen de dag, maand en jaar staat een scheidingsteken (Vb 12/05/2009)
 	}
 	
 	/*Set methoden, nog niet zeker of we deze allemaal public zouden laten of alleen de setDatum public of setDatum weg doen en ze in de constructor steken
 	Set methoden:
 	boolean setDatum (int dag, int maand, int jaar): een methode om een Datumobject een geldige waarde te geven (indien ongeldige dag of maand Exception werpen). Je kan ook private setters maken voor dag, maand en jaar die dan worden aangeroepen door de constructor.
-	*//*
+	*/
 	
 	public void setDag( int dag ){
-		if(dag > 0 && dag < 31)
 		this.dag = dag;
 	}
 	
 	public void setMaand( int maand ){
-		if(maand > 0 && maand < 13)
 		this.maand = maand;
 	}
 	
 	public void setJaar( int jaar ){
-		if(jaar > 0)
 		this.jaar = jaar;
 	}
 	
 	public void setDatum( int dag, int maand, int jaar ){
+		this.gregorianCalendar.
 		this.setDag(dag);
 		this.setMaand(maand);
 		this.setJaar(jaar);
@@ -140,12 +129,13 @@ public class Gregoriaans implements Comparable<Datum> {
 			return false;
 		return true;
 	}
-	*/
+
 	@Override
 	public int compareTo(Datum o) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
 
 }
 
