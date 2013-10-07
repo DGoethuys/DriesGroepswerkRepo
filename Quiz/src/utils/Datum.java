@@ -12,8 +12,10 @@ public class Datum implements Comparable<Datum> {
 	 * *VerschilInJaren(Datum)		--Aanvullen (niet nauwkeurig genoeg)
 	 * *VerschilInMaanden(Datum)	--Aanvullen (niet nauwkeurig genoeg)
 	 * *veranderHuidigeDatum(int)	--Meer duidelijkheid nodig
-	 * *equals(Object)				--Moet hier iets mee gebeuren?
-	 * *compareTo(Datum)			--Hier moet iets mee gebeuren, maar wat?
+	 * *equals(Object)				--Bijna af, nog getters schrijven en gebruiken
+	 * *compareTo(Datum)			--Bekijk voorbeeld Tijd van loopwedstrijd
+	 * *Testen op eeuwen toevoegen, tests op maanden en jaren ook in aparte methods steken
+	 * *enum schrijven voor maanden
 	 */
 	
 	private int dag;
@@ -330,6 +332,8 @@ public class Datum implements Comparable<Datum> {
 		return result;
 	}
 
+	
+	//getters schrijven en hier in gebruiken ipv other.dag enzovoort, voor de rest ok
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -351,6 +355,9 @@ public class Datum implements Comparable<Datum> {
 	@Override
 	public int compareTo(Datum o) {
 		// TODO Auto-generated method stub
+		/* Kijk naar Tijd klasse in voorbeelden
+		 * Vergelijk de waarde en bepaal of de Datum vroeger of later is
+		 */
 		return 0;
 	}
 	
