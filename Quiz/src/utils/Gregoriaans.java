@@ -17,9 +17,7 @@ public class Gregoriaans implements Comparable<Datum> {
 	public void Datum(Date d){
 		gregorianCalendar.setTime(d);
 	}
-		
-		//Een constructor met een datum object als parameter ; 
-	}
+	
 	
 	public void Datum( int dag, int maand, int jaar){
 		gregorianCalendar.set(jaar, maand, dag);
@@ -30,7 +28,7 @@ public class Gregoriaans implements Comparable<Datum> {
 	
 	public void Datum ( String datum ){
 		String[] p = datum.split("/", 3);
-		this.setDatum(Integer.parseInt(p[0]), Integer.parseInt(p[1]), Integer.parseInt(p[2]));
+		gregorianCalendar.set(Integer.parseInt(p[0]), Integer.parseInt(p[1]), Integer.parseInt(p[2]));
 		//Een constructor met een String als parameter. In deze String zit de datum in DDMMJJJJ formaat maar tussen de dag, maand en jaar staat een scheidingsteken (Vb 12/05/2009)
 	}
 	
@@ -39,24 +37,24 @@ public class Gregoriaans implements Comparable<Datum> {
 	boolean setDatum (int dag, int maand, int jaar): een methode om een Datumobject een geldige waarde te geven (indien ongeldige dag of maand Exception werpen). Je kan ook private setters maken voor dag, maand en jaar die dan worden aangeroepen door de constructor.
 	*/
 	
-	public void setDag( int dag ){
-		this.dag = dag;
-	}
+	//public void setDag( int dag ){
+	//	this.dag = dag;
+	//}
+	//
+	//public void setMaand( int maand ){
+	//	this.maand = maand;
+	//}
 	
-	public void setMaand( int maand ){
-		this.maand = maand;
-	}
+	//public void setJaar( int jaar ){
+	//	this.jaar = jaar;
+	//}
 	
-	public void setJaar( int jaar ){
-		this.jaar = jaar;
-	}
-	
-	public void setDatum( int dag, int maand, int jaar ){
-		this.gregorianCalendar.
-		this.setDag(dag);
-		this.setMaand(maand);
-		this.setJaar(jaar);
-	}
+	//public void setDatum( int dag, int maand, int jaar ){
+	//	this.gregorianCalendar.
+	//	this.setDag(dag);
+	//	this.setMaand(maand);
+	//	this.setJaar(jaar);
+	//}
 
 	public String getDatumInAmerikaansFormaat(){
 		//getDatumInAmerikaansFormaat: geeft een datum in Amerikaans formaat terug (vb 2009/2/4)
@@ -104,30 +102,12 @@ public class Gregoriaans implements Comparable<Datum> {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + dag;
-		result = prime * result + jaar;
-		result = prime * result + maand;
-		return result;
+		return gregorianCalendar.hashCode();	
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Datum other = (Datum) obj;
-		if (dag != other.dag)
-			return false;
-		if (jaar != other.jaar)
-			return false;
-		if (maand != other.maand)
-			return false;
-		return true;
+		return gregorianCalendar.equals(obj);
 	}
 
 	@Override
