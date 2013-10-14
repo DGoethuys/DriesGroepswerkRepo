@@ -12,49 +12,48 @@ public class OpdrachtTest {
 	
 	private Opdracht opdracht;
 	
-	//@Before
-	//public void setUp(){
-	//	 opdracht = new Opdracht();
-	//}
+	@Before
+	public void setUp(){
+		 opdracht = new Opdracht();
+	}
 	
 	@Test
 	public void Test_SetVraag_GeldigeParameters_Aanvaard() {
-	    opdracht = new opdracht();
-	    opdacht.setVraag("Wat is je naam?");	
+	    opdracht.setVraag("Wat is je naam?");	
 		
 		assertEquals("Wat is je naam?", opdracht.getVraag());
 		
 	}
 	
+	@Test
 	public void Test_SetJuisteAntwoord_GeldigeParameters_Aanvaard() {
-	    opdracht = new opdracht();
-	    opdacht.setJuisteAntwoord("Jan");	
+	    opdracht.setJuisteAntwoord("Jan");	
 		
 		assertEquals("Jan", opdracht.getJuisteAntwoord());
 		
 	}
 	
+	@Test
 	public void Test_setAantalPogingen_GeldigeParameters_Aanvaard() {
-	    opdracht = new opdracht();
-	    opdacht.setAantalPogingen(3);	
+	    opdracht.setAantalPogingen(3);	
 		
 		assertEquals(3, opdracht.getAantalPogingen());
 		
 	}
 	
+	@Test
 	public void Test_setMaxAntwoordTijd_GeldigeParameters_Aanvaard() {
-	    opdracht = new opdracht();
-	    opdacht.setMaxAntwoordTijd(10);	
+	    opdracht.setMaxAntwoordTijd(10);	
 		
 		assertEquals(10, opdracht.getMaxAntwoordTijd());
 		
 	}
 	
+	@Test
 	public void Test_addHint_GeldigeParameters_Aanvaard() {
-	    opdracht = new opdracht();
-	    opdacht.addHint("Haepers");	
+	    opdracht.addHint("Haepers");	
 		
-		assertEquals("Haepers", opdracht.getHint(1));
+		assertEquals("Haepers", opdracht.getHint(0));
 		
 	}
 	
