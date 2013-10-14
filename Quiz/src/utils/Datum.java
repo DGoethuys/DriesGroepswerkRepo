@@ -7,8 +7,6 @@ public class Datum implements Comparable<Datum> {
 	/*INFO
 	 * 
 	 * Waar nog aan gewerkt moet worden:
-	 * *Datum() 					--Geen idee, misschien kan het zo gelaten worden
-	 * *Datum(String)				--Meer duidelijkheid nodig
 	 * *VerschilInJaren(Datum)		--Aanvullen (niet nauwkeurig genoeg)
 	 * *VerschilInMaanden(Datum)	--Aanvullen (niet nauwkeurig genoeg)
 	 * *veranderHuidigeDatum(int)	--Meer duidelijkheid nodig
@@ -16,6 +14,7 @@ public class Datum implements Comparable<Datum> {
 	 * *compareTo(Datum)			--Bekijk voorbeeld Tijd van loopwedstrijd
 	 * *Testen op eeuwen toevoegen, tests op maanden en jaren ook in aparte methods steken
 	 * *enum schrijven voor maanden
+	 * *error bij Datum()
 	 */
 	
 	private int dag;
@@ -44,18 +43,18 @@ public class Datum implements Comparable<Datum> {
 	//Hier zou ik nog veranderingen willen voor duidelijkere code
 	public Datum ( String datum )throws IllegalArgumentException{
 		String[] p = datum.split("/", 3);
-		if( this.isInt(p[0]) && this.isInt(p[1]) && this.isInt(p[2]) ){
+		if(  p.length == 3 && this.isInt(p[0]) && this.isInt(p[1]) && this.isInt(p[2]) ){
 			if(p[1].length() != 2 ){
-				throw new IllegalArgumentException("De maand moet met 2 getallen ingevoerd worden! (bijvoorbeeld: \"O8\")");
+				throw new IllegalArgumentException("Error: De maand moet met 2 getallen ingevoerd worden! (bijvoorbeeld: \"O8\")");
 			}else{
 				if(p[2].length() != 4 ){
-					throw new IllegalArgumentException("Het jaartal moet met 4 getallen ingevoerd worden! (bijvoorbeeld: \"0564\")");
+					throw new IllegalArgumentException("Error: Het jaartal moet met 4 getallen ingevoerd worden! (bijvoorbeeld: \"0564\")");
 				}else{
 				this.setDatum(Integer.parseInt(p[0]), Integer.parseInt(p[1]), Integer.parseInt(p[2]));
 				}
 			}
 		}else{
-			throw new IllegalArgumentException("Gelieve getallen in te geven");
+			throw new IllegalArgumentException("Error: Gelieve 3 getallen in te geven gescheiden door een \"\\\"!");
 		}
 	}
 	
@@ -77,23 +76,23 @@ public class Datum implements Comparable<Datum> {
 	//waarde te geven (indien ongeldige dag of maand Exception werpen). Je kan ook private setters maken 
 	//voor dag, maand en jaar die dan worden aangeroepen door de constructor.
 	public void setDatum( int dag, int maand, int jaar ) throws IllegalArgumentException{
-		if (maand == 1 && dag > 31 || maand == 3 && dag > 31 || maand == 5 && dag > 31 || maand == 7 && dag > 31 || maand == 8 && dag > 31 || maand == 10 && dag > 31 || maand == 12 && dag > 31){
-			throw new IllegalArgumentException("Maand met 31 dagen!");
+		if ( this.isEenendertigMaad(maand) && dag > 31){
+			throw new IllegalArgumentException("Error: Maand met 31 dagen!");
 		}
-		if (maand == 4 && dag > 30 || maand == 6 && dag > 30 || maand == 9 && dag > 30 || maand == 11 && dag > 30){
-			throw new IllegalArgumentException("Maand met 30 dagen!");
+		if ( this.isDertigMaand(maand) && dag > 30){
+			throw new IllegalArgumentException("Error: Maand met 30 dagen!");
 		}
 		if(maand == 2 && dag > 28 && jaar % 4 != 0){
-			throw new IllegalArgumentException("Februari kan niet meer dan 28 dagen tellen!");
+			throw new IllegalArgumentException("Error: Februari kan niet meer dan 28 dagen tellen!");
 		}
 		if(maand == 2 && dag > 29 && jaar % 4 == 0){
-			throw new IllegalArgumentException("Februari kan niet meer dan 29 dagen tellen! (schrikkeljaar)");
+			throw new IllegalArgumentException("Error: Februari kan niet meer dan 29 dagen tellen! (schrikkeljaar)");
 		}
 		if(maand > 12){
-			throw new IllegalArgumentException("Een jaar kan niet meer dan 12 maanden tellen!");
+			throw new IllegalArgumentException("Error: Een jaar kan niet meer dan 12 maanden tellen!");
 		}
 		if(dag <= 0 || maand <= 0 || jaar <= 0){
-			throw new IllegalArgumentException("Gelieve voor de dag, maand en jaar een geldige waarde in te voeren groter dan 0!");
+			throw new IllegalArgumentException("Error: Gelieve voor de dag, maand en jaar een geldige waarde in te voeren groter dan 0!");
 		}
 		this.setDag(dag);
 		this.setMaand(maand);
@@ -165,17 +164,6 @@ public class Datum implements Comparable<Datum> {
 			}
 			j--;
 		}
-		/*
-		 * Dit was een for loop die voor een onbekende reden niet werkt
-		for( int j = jaar; j==0; j--){
-			if( jaar % 4 != 0 ){
-				totDagen += 365;
-			}
-			if( jaar % 4 == 0 ){
-				totDagen += 366;
-			}
-		}
-		*/
 		return totDagen;
 	}
 	
@@ -184,10 +172,10 @@ public class Datum implements Comparable<Datum> {
 		int totDagen = 0;
 		int m = maanden;
 		while( m != 0 ){
-			if ( m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12 ){
+			if ( this.isEenendertigMaad(m) ){
 				totDagen += 31;
 			}
-			if ( m == 4 || m == 6 || m == 9 || m == 11 ){
+			if ( this.isDertigMaand(m) ){
 				totDagen += 30;
 			}
 			if( m == 2 && jaar % 4 != 0 ){
@@ -198,25 +186,6 @@ public class Datum implements Comparable<Datum> {
 			}
 			m--;
 		}
-		
-		/*
-		 * Dit was een for loop die voor een onbekende reden niet werkt
-		for(int m = maanden; m == 0 ; m = m--){
-			if ( m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12 ){
-				totDagen += 31;
-			}
-			if ( m == 4 || m == 6 || m == 9 || m == 11 ){
-				totDagen += 30;
-			}
-			if( m == 2 && jaar % 4 != 0 ){
-				totDagen += 28;
-			}
-			if( m == 2 && jaar % 4 == 0 ){
-				totDagen += 29;
-			}
-		}
-		*/
-		
 		return totDagen;
 	}
 
@@ -225,7 +194,7 @@ public class Datum implements Comparable<Datum> {
 	void veranderHuidigeDatum (int aantalDagen){
 		int a = aantalDagen;
 		while(a != 0){
-			if ( this.maand == 1 && this.dag == 31 || this.maand == 3 && this.dag == 31 || this.maand == 5 && this.dag == 31 || this.maand == 7 && this.dag == 31 || this.maand == 8 && this.dag == 31 || this.maand == 10 && this.dag == 31 || this.maand == 12 && this.dag == 31 ){
+			if ( this.isEenendertigMaad(this.maand) && this.dag == 31 ){
 				this.setDag(1);
 				if(this.maand == 12){
 					this.setMaand(1);
@@ -233,7 +202,7 @@ public class Datum implements Comparable<Datum> {
 				}else{
 					this.maand++;
 				}
-			}else if( this.maand == 4 && this.dag == 30 || this.maand == 6 && this.dag == 30 || this.maand == 9 && this.dag == 30 || this.maand == 11 && this.dag == 30 ){
+			}else if( this.isDertigMaand(this.maand) && this.dag == 30 ){
 				this.setDag(1);
 				if(this.maand == 12){
 					this.setMaand(1);
@@ -261,6 +230,24 @@ public class Datum implements Comparable<Datum> {
 		return datum;
 	}
 
+	//method om te bepalen of een maand 30 dagen bevat
+	private boolean isDertigMaand(int maand){
+		if( maand == 4 || maand == 6|| maand == 9 || maand == 11 ){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	//method om te bepalen of een maand 31 dagen bevat
+	private boolean isEenendertigMaad(int maand){
+		if ( maand == 1 || maand == 3 || maand == 5 || maand == 7 || maand == 8 || maand == 10 || maand == 12 ){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
 	//getDatumInAmerikaansFormaat: geeft een datum in Amerikaans formaat terug (vb 2009/2/4)
 	public String getDatumInAmerikaansFormaat(){
 		return this.jaar + "/" + this.maand + "/" + this.dag;
@@ -363,6 +350,19 @@ public class Datum implements Comparable<Datum> {
 	
 	/*Main voor het testen van de nest*/
 	public static void main(String[] args) {
+
+		Datum systeemDatum = null;
+		Datum datumString = null;
+		try{
+			systeemDatum = new Datum();
+			datumString = new Datum("11/08/1990");
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		System.out.printf("%s%n", systeemDatum);
+		System.out.printf( "Datum: %s%nDatum Amerikaanse format: %s%nnDatum Europese format: %s", datumString, datumString.getDatumInAmerikaansFormaat(), datumString.getDatumInEuropeesFormaat());
+		
+		/*
 		Datum datumInt = null;
 		Datum datumDatum = null;
 		Datum datumString = null;
@@ -389,6 +389,7 @@ public class Datum implements Comparable<Datum> {
 		  System.out.println(datumInt.verschilInJaren(datumString));
 		  System.out.println(datumInt.verschilInMaanden(datumString));
 		  System.out.println(datumInt.verschilInDagen(datumString));
+		  */
 	}
 
 }
