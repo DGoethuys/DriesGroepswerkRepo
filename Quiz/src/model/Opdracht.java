@@ -7,7 +7,7 @@ public class Opdracht {
 	private String vraag;
 	private String juisteAntwoord;
 	private int aantalPogingen;
-	private ArrayList<String> hints;
+	private ArrayList<String> hints = new ArrayList<String>();
 	private int maxAntwoordTijd;
 	
 	//constructor die alleen vraag en antwoord nodig heeft en default waarde aan aantalPogingen en maxAntwoordTijd geeft
@@ -25,27 +25,18 @@ public class Opdracht {
 	
 	//3 constructoren voor hints mee te geven, van 1 tot 3
 	public Opdracht( String vraag, String juisteAntwoord, int aantalPogingen,int maxAntwoordTijd , String hint1 ){
-		this.setVraag(vraag);
-		this.setJuisteAntwoord(juisteAntwoord);
-		this.setAantalPogingen(aantalPogingen);
-		this.setMaxAntwoordTijd(maxAntwoordTijd);
+		this(vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
 		this.addHint(hint1);
 	}
 
 	public Opdracht( String vraag, String juisteAntwoord, int aantalPogingen,int maxAntwoordTijd , String hint1 , String hint2 ){
-		this.setVraag(vraag);
-		this.setJuisteAntwoord(juisteAntwoord);
-		this.setAantalPogingen(aantalPogingen);
-		this.setMaxAntwoordTijd(maxAntwoordTijd);
+		this(vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
 		this.addHint(hint1);
 		this.addHint(hint2);
 	}
 	
 	public Opdracht( String vraag, String juisteAntwoord, int aantalPogingen,int maxAntwoordTijd , String hint1, String hint2, String hint3 ){
-		this.setVraag(vraag);
-		this.setJuisteAntwoord(juisteAntwoord);
-		this.setAantalPogingen(aantalPogingen);
-		this.setMaxAntwoordTijd(maxAntwoordTijd);
+		this(vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
 		this.addHint(hint1);
 		this.addHint(hint2);
 		this.addHint(hint3);
@@ -95,7 +86,7 @@ public class Opdracht {
 	}
 	
 	public void removeLastHint(){
-		this.removeHint(this.numberOfHints());
+		this.removeHint(this.numberOfHints() - 1);
 	}
 	
 	public int numberOfHints(){
@@ -109,7 +100,11 @@ public class Opdracht {
 	
 	public String getLastHint(){
 		int numberOfHints = this.numberOfHints();
-		return this.hints.get(numberOfHints);
+		return this.hints.get(numberOfHints - 1);
+	}
+	
+	public String getFirstHint(){
+		return this.hints.get(0);
 	}
 	
 	public ArrayList<String> getAllHints(){
@@ -127,14 +122,24 @@ public class Opdracht {
 	
 	@Override
 	public String toString() {
-		return "Opdracht - vraag: " + vraag + ", juiste antwoord: "
-				+ juisteAntwoord + ", aantal pogingen: " + aantalPogingen
-				+ ", maximale antwoord tijd: " + maxAntwoordTijd + ", hints: " + this.numberOfHints();
+		return "Opdracht - vraag: " + this.vraag + ", juiste antwoord: "
+				+ this.juisteAntwoord + ", aantal pogingen: " + this.aantalPogingen
+				+ ", maximale antwoord tijd: " + this.maxAntwoordTijd + ", hints: " + this.numberOfHints();
 	}
 	
 	
 	public static void main(String[] args) {
-		
+		Opdracht opdracht1 = new Opdracht( "Wat is de vorm van de maan?", "rond");
+		opdracht1.addHint("Bal");
+		opdracht1.addHint("Hoepel");
+		System.out.println(opdracht1.toString());
+		System.out.println("Hint1 : " + opdracht1.getHint(0));
+		System.out.println("Hint2: " + opdracht1.getHint(1));
+		System.out.println("Eerste hint: " + opdracht1.getFirstHint());
+		System.out.println("Laatste hint: " + opdracht1.getLastHint());
+		System.out.println("Alle hints :" +opdracht1.getAllHints());
+		opdracht1.setAantalPogingen(4);
+		System.out.println(opdracht1.toString());
 
 
 	}
