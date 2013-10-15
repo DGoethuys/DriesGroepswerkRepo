@@ -34,6 +34,10 @@ public class Meerkeuze extends Opdracht{
 		this.Keuze = Keuze;
 	}
 	
+	public ArrayList<String> getKeuze(){
+		return this.Keuze;
+	}
+	
 	@Override
 	public String toString() {
 		return "Opdracht - vraag: " + this.vraag + ", juiste antwoord: "
