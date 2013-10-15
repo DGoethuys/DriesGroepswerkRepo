@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public class Meerkeuze extends Opdracht{
+public class Meerkeuze extends Opdracht implements Valideerbaar{
 
 	private String vraag;
 	private String juisteAntwoord;
@@ -43,6 +43,10 @@ public class Meerkeuze extends Opdracht{
 		return "Opdracht - vraag: " + this.vraag + ", juiste antwoord: "
 				+ this.juisteAntwoord + ", aantal pogingen: " + this.aantalPogingen
 				+ ", maximale antwoord tijd: " + this.maxAntwoordTijd + ", Keuzes: " + this.keuze;
+	}
+	
+	public boolean isValid(){
+		return true;
 	}
 
 }
