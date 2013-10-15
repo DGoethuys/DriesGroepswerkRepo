@@ -11,6 +11,7 @@ import model.Meerkeuze;
 public class MeerkeuzeTest {
 	public ArrayList<String> keuze;
 	private Meerkeuze meerkeuze;
+	public boolean Valide = true;
 	
 	
 	
@@ -29,7 +30,13 @@ public class MeerkeuzeTest {
 	    meerkeuze.setKeuze(keuze);
 		
 		assertEquals(this.keuze, meerkeuze.getKeuze());
+	}
+	
+	@Test
+	public void Test_SetIsValid_GeldigeParameters_Aanvaard(){
+		meerkeuze.isValid();
 		
+		assertEquals(this.Valide, meerkeuze.isValid());
 	}
 
 }
