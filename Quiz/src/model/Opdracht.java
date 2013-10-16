@@ -3,10 +3,10 @@ package model;
 
 public abstract class Opdracht {
 
-	private String vraag;
-	private String juisteAntwoord;
-	private int aantalPogingen;
-	private int maxAntwoordTijd;
+	protected String vraag;
+	protected String juisteAntwoord;
+	protected int aantalPogingen;
+	protected int maxAntwoordTijd;
 	
 	public Opdracht (){
 		
