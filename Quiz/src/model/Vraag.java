@@ -3,6 +3,10 @@ package model;
 import java.util.ArrayList;
 
 public class Vraag extends Opdracht {
+	
+	/*TO DO:
+	 * Exceptions voor hint methods en isJusiteAntwoord()
+	 */
 
 	private ArrayList<String> hints = new ArrayList<String>();
 	

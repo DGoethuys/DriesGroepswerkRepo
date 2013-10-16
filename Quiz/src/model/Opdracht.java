@@ -2,7 +2,12 @@ package model;
 
 
 public abstract class Opdracht {
-
+	
+	/*
+	 * TO DO:
+	 * Exceptions toevoegen tot nu toe
+	 */
+	
 	protected String vraag;
 	protected String juisteAntwoord;
 	protected int aantalPogingen;
@@ -22,7 +27,7 @@ public abstract class Opdracht {
 		this.setVraag(vraag);
 		this.setJuisteAntwoord(juisteAntwoord);
 		this.setAantalPogingen(aantalPogingen);
-		this.setMaxAntwoordTijd(maxAntwoordTijd);
+		this.setMaxAntwoordTijd(maxAntwoordTijd);	
 	}
 	
 	//getters
