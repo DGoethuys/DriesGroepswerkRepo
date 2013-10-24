@@ -4,22 +4,43 @@ import java.util.Date;
 
 public class Datum implements Comparable<Datum> {
 	
-	/*INFO
-	 * 
-	 * Waar nog aan gewerkt moet worden:
-	 * *VerschilInJaren(Datum)		--Aanvullen (niet nauwkeurig genoeg)
-	 * *VerschilInMaanden(Datum)	--Aanvullen (niet nauwkeurig genoeg)
-	 * *veranderHuidigeDatum(int)	--Meer duidelijkheid nodig
-	 * *equals(Object)				--Bijna af, nog getters schrijven en gebruiken
-	 * *compareTo(Datum)			--Bekijk voorbeeld Tijd van loopwedstrijd
-	 * *Testen op eeuwen toevoegen, tests op maanden en jaren ook in aparte methods steken
-	 * *enum schrijven voor maanden
-	 * *error bij Datum()
-	 */
+	//DONE
 	
 	private int dag;
 	private int maand;
 	private int jaar;
+	
+	//Enum voor het opvragen van de namen van de dagen met een nummer
+	private enum Maand {
+		januari(1),
+		februari(2),
+		maart(3),
+		april(4),
+		mei(5),
+		juni(6),
+		juli(7),
+		augustus(8),
+		september(9),
+		oktober(10),
+		november(11),
+		december(12);
+		
+		int maandNummer = 0;
+		
+		Maand(int maandNummer){
+			this.maandNummer = maandNummer;
+		}
+		
+		//method voor het verkrijgen van de maand met een nummer als parameter
+		public static Maand perNummer(int maandNummer){
+			for (Maand m : Maand.values()){
+				if (m.maandNummer == maandNummer){
+					return m;
+				}
+			}
+			return null;
+		}
+	}
 	
 	//Constructor zonder parameters (object datum gelijk aan de systeemdatum)
 	//Dit werkt ookal is er deprecation alleen kwam de dag er 1 teveel, de maand er 1 te weinig uit en tellen de jaartallen pas na 1900
@@ -111,6 +132,19 @@ public class Datum implements Comparable<Datum> {
 		this.jaar = jaar;
 	}
 	
+	//getters
+	public int getDag(){
+		return this.dag;
+	}
+	
+	public int getMaand(){
+		return this.maand;
+	}
+	
+	public int getJaar(){
+		return this.jaar;
+	}
+	
 	//bepaalt of een datum d kleiner is dan huidig datumobject
 	public boolean kleinerDan (Datum d){
 		if(this.jaar < d.jaar){
@@ -125,34 +159,47 @@ public class Datum implements Comparable<Datum> {
 	}
 	
 	//bepaalt het verschil in volledige jaren tussen datum d en huidig datumobject  (vb 01032007 en 03012009 -> 1 jaar)
-	//dit moet beter (nu houd het alleen rekening mert jaartallen, niet met maanden en dagen)
 	public int verschilInJaren (Datum d){
 		int verschil = Math.abs(this.jaar - d.jaar);
+		if(this.jaar > d.jaar){
+			if(this.maand > d.maand)
+				return verschil++;
+			if(this.maand == d.maand && this.dag > d.dag)
+				return verschil++;
+		}
+		if(d.jaar > this.jaar){
+			if(d.maand > this.maand)
+				return verschil++;
+			if(d.maand == this.maand && d.dag > this.dag)
+				return verschil++;
+		}
 		return verschil;
 	}
 	
 	//bepaalt het verschil in volledige maanden tussen datum d en huidig datumobject (vb 01032007 en 03012009 -> 22 maanden)
 	//dit houd geen rekening met de dagen
 	public int verschilInMaanden (Datum d){
-		int verschil = 0;
-		if(this.verschilInJaren(d) > 0){
-			verschil += (this.verschilInJaren(d)*12);
-		}
-		verschil += Math.abs(this.maand - d.maand);
+		int verschil = Math.abs(this.maand - d.maand);
+		if(this.jaar != d.jaar)
+			verschil += (Math.abs(this.jaar - d.jaar))*12;
+		if(d.jaar > this.jaar && d.maand > this.maand && d.dag > this.dag)
+				return verschil++;
+		if(this.jaar > d.jaar && this.maand > d.maand && this.dag > d.dag)
+				return verschil++;
 		return verschil;
 	}
 
 	//bepaalt het verschil in dagen tussen datum d en huidig datumobject 
 	public int verschilInDagen (Datum d){
 		int verschil = 0;
-		verschil += Math.abs(this.jaarInDagen(this.jaar) - this.jaarInDagen(d.jaar));
-		verschil += Math.abs(this.maandInDagen(this.maand, this.jaar) - this.maandInDagen(d.maand, d.jaar));
+		verschil += Math.abs(this.jarenInDagen(this.jaar) - this.jarenInDagen(d.jaar));
+		verschil += Math.abs(this.maandenInDagen(this.maand, this.jaar) - this.maandenInDagen(d.maand, d.jaar));
 		verschil += Math.abs(this.dag - d.dag);
 		return verschil;
 	}
 	
 	//Berekend hoeveel dagen een jaartal bevat
-	private int jaarInDagen(int jaren){
+	private int jarenInDagen(int jaren){
 		int totDagen = 0;
 		int j = jaren;
 		while( j != 0){
@@ -168,7 +215,7 @@ public class Datum implements Comparable<Datum> {
 	}
 	
 	//Berekend hoeveel dagen in de maanden van een jaar zitten
-	private int maandInDagen(int maanden, int jaar){
+	private int maandenInDagen(int maanden, int jaar){
 		int totDagen = 0;
 		int m = maanden;
 		while( m != 0 ){
@@ -178,15 +225,20 @@ public class Datum implements Comparable<Datum> {
 			if ( this.isDertigMaand(m) ){
 				totDagen += 30;
 			}
-			if( m == 2 && jaar % 4 != 0 ){
+			if( m == 2 && this.isSchrikkelJaar(jaar) ){
 				totDagen += 28;
 			}
-			if( m == 2 && jaar % 4 == 0 ){
+			if( m == 2 && this.isSchrikkelJaar(jaar) ){
 				totDagen += 29;
 			}
 			m--;
 		}
 		return totDagen;
+	}
+	
+	//method voor datum om te zetten naar dagen
+	private int datumInDagen(){
+		return this.dag + maandenInDagen(this.maand, this.jaar) + jarenInDagen(this.jaar);
 	}
 
 	//void veranderDatum (int aantalDagen): verhoogt of verlaagt de datum met een aantal dagen
@@ -194,6 +246,9 @@ public class Datum implements Comparable<Datum> {
 	void veranderHuidigeDatum (int aantalDagen){
 		int a = aantalDagen;
 		while(a != 0){
+			//test of de dag die toegevoegd word nog in het bereik zit van de maand
+			//(zo nee, maand word toegevoegd en dag op 1 gezet. als maand over 12 gaat gebeurd hetzelfde voor maand en jaar)
+			//getest als de maand eenendertig dagen heeft
 			if ( this.isEenendertigMaad(this.maand) && this.dag == 31 ){
 				this.setDag(1);
 				if(this.maand == 12){
@@ -202,7 +257,9 @@ public class Datum implements Comparable<Datum> {
 				}else{
 					this.maand++;
 				}
-			}else if( this.isDertigMaand(this.maand) && this.dag == 30 ){
+			}else
+			//als de maand dertig dagen heeft
+			if( this.isDertigMaand(this.maand) && this.dag == 30 ){
 				this.setDag(1);
 				if(this.maand == 12){
 					this.setMaand(1);
@@ -210,13 +267,19 @@ public class Datum implements Comparable<Datum> {
 				}else{
 					this.maand++;
 				}
-			}else if(this.maand == 2 && this.dag == 28 && this.jaar % 4 != 0){
+			}else
+			//als de maand fabruari is en niet in een schrikkeljaar
+			if(this.maand == 2 && this.dag == 28 && !this.isSchrikkelJaar(this.jaar)){
 				this.setDag(1);
 				this.maand++;
-			}else if(maand == 2 && dag == 29 && jaar % 4 == 0){
+			}else
+			//en als de maand februari is en wel in een schrikkeljaar
+			if(this.maand == 2 && this.dag == 29 && this.isSchrikkelJaar(this.jaar)){
 				this.setDag(1);
 				this.maand++;
-			}else{
+			}else
+			//anders word gewoon een dag toegevoegd en geen maand
+			{
 				this.dag++;
 			}
 			a--;
@@ -229,7 +292,7 @@ public class Datum implements Comparable<Datum> {
 		datum.veranderHuidigeDatum(aantalDagen);
 		return datum;
 	}
-
+	
 	//method om te bepalen of een maand 30 dagen bevat
 	private boolean isDertigMaand(int maand){
 		if( maand == 4 || maand == 6|| maand == 9 || maand == 11 ){
@@ -248,6 +311,14 @@ public class Datum implements Comparable<Datum> {
 		}
 	}
 	
+	//method om te bepalen of we in een schrikkeljaar zitten
+	private boolean isSchrikkelJaar(int jaar){
+		if ( jaar % 4 == 0 || jaar % 400 == 0 ){
+			return true;
+		}
+		return false;
+	}
+	
 	//getDatumInAmerikaansFormaat: geeft een datum in Amerikaans formaat terug (vb 2009/2/4)
 	public String getDatumInAmerikaansFormaat(){
 		return this.jaar + "/" + this.maand + "/" + this.dag;
@@ -261,54 +332,11 @@ public class Datum implements Comparable<Datum> {
 	//toString  : geeft datum object terug als volgt: 4 februari 2009
 	@Override
 	public String toString() {
-		String maandS = "";
-		switch(this.maand){
-		case 1:
-			maandS = "januari";
-			break;
-		case 2:
-			maandS = "februari";
-			break;
-		case 3:
-			maandS = "maart";
-			break;
-		case 4:
-			maandS = "april";
-			break;
-		case 5:
-			maandS = "mei";
-			break;
-		case 6:
-			maandS = "juni";
-			break;
-		case 7:
-			maandS = "juli";
-			break;
-		case 8:
-			maandS = "augustus";
-			break;
-		case 9:
-			maandS = "september";
-			break;
-		case 10:
-			maandS = "oktober";
-			break;
-		case 11:
-			maandS = "november";
-			break;
-		case 12:
-			maandS = "december";
-			break;
-		default:
-			maandS = "ongeldige maand";
-			break;
-		}
-		return dag + " " + maandS + " " + jaar;
+		return dag + " " + Maand.perNummer(maand) + " " + jaar;
 	}
 	
-	//Andere instantiemethoden:equals methode en compareTo methode
-	//Hier weet ik nog de klote wa ik moet doen...
-	
+
+	//hashCode... ik denk nie da dees nodig is of aangepast moet worden
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -320,7 +348,7 @@ public class Datum implements Comparable<Datum> {
 	}
 
 	
-	//getters schrijven en hier in gebruiken ipv other.dag enzovoort, voor de rest ok
+	//equals methode
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -330,22 +358,19 @@ public class Datum implements Comparable<Datum> {
 		if (getClass() != obj.getClass())
 			return false;
 		Datum other = (Datum) obj;
-		if (dag != other.dag)
+		if (this.dag != other.getDag())
 			return false;
-		if (jaar != other.jaar)
+		if (this.maand != other.getMaand())
 			return false;
-		if (maand != other.maand)
+		if (this.jaar != other.getJaar())
 			return false;
 		return true;
 	}
 	
+	//compareTo methode die de datums vergelijkt met aantal dagen
 	@Override
-	public int compareTo(Datum o) {
-		// TODO Auto-generated method stub
-		/* Kijk naar Tijd klasse in voorbeelden
-		 * Vergelijk de waarde en bepaal of de Datum vroeger of later is
-		 */
-		return 0;
+	public int compareTo(Datum datum) {
+		return this.datumInDagen() - datum.datumInDagen();
 	}
 	
 	/*Main voor het testen van de nest*/
@@ -391,5 +416,6 @@ public class Datum implements Comparable<Datum> {
 		  System.out.println(datumInt.verschilInDagen(datumString));
 		  */
 	}
+	
 
 }
