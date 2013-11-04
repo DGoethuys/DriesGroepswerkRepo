@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Meerkeuze extends Opdracht implements Valideerbaar{
 
-	private String vraag;
-	private String juisteAntwoord;
-	private int aantalPogingen;
+	//private String vraag;
+	//private String juisteAntwoord;
+	//private int aantalPogingen;
 	private ArrayList<String> Keuze = new ArrayList<String>();
-	private int maxAntwoordTijd;
+	//private int maxAntwoordTijd;
 	private String keuze;
 	
 	
@@ -47,6 +47,20 @@ public class Meerkeuze extends Opdracht implements Valideerbaar{
 	
 	public boolean isValid(){
 		return true;
+	}
+
+
+	@Override
+	public boolean isValid(String antwoord) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public String getValideerTekst() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
