@@ -1,21 +1,28 @@
 package model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 
-public abstract class Opdracht {
+
+public abstract class Opdracht implements Comparable<Quiz>, Cloneable, Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/*
 	 * TO DO:
-	 * Exceptions toevoegen tot nu toe
+	 * Exceptions toevoegen
+	 * compareTo()
+	 * clone()
+	 * Serializable?
 	 */
 	
 	protected String vraag;
 	protected String juisteAntwoord;
 	protected int aantalPogingen;
 	protected int maxAntwoordTijd;
-	
-	public Opdracht (){
-		
-	}
+	protected ArrayList<QuizOpdracht> quizOpdrachten = new ArrayList<QuizOpdracht>();
 	
 	//constructor die alleen vraag en antwoord nodig heeft en default waarde aan aantalPogingen en maxAntwoordTijd geeft
 	public Opdracht ( String vraag, String juisteAntwoord){
@@ -72,5 +79,19 @@ public abstract class Opdracht {
 			return false;
 		}
 	}
+
+	@Override
+	public int compareTo(Quiz o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.clone();
+	}
+	
+	
 
 }
