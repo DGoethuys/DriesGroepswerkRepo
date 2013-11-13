@@ -1,22 +1,31 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Quiz {
+public class Quiz implements Comparable<Quiz>, Cloneable, Serializable {
+
+	private static final long serialVersionUID = 1L;
 	
 	
+	private String naam;
 	private String onderwerp;
 	private String leerjaren;
-	private ArrayList<String> quiz = new ArrayList<String>();
 	private boolean test = false;
+	protected ArrayList<QuizOpdracht> quizOpdrachten = new ArrayList<QuizOpdracht>();
 	
 	// constructor
-	public Quiz( String leerjaren, String onderwerp){
+	public Quiz( String naam, String leerjaren, String onderwerp){
+		this.setNaam(naam);
 		this.setLeerjaren(leerjaren);
 		this.setOnderwerp(onderwerp);
 	}
 	
-	//getters	
+	//getters
+	public String getNaam(){
+		return this.naam;
+	}
+	
 	public String getOnderwerp(){
 		return this.onderwerp;
 	}
@@ -26,6 +35,9 @@ public class Quiz {
 	}
 	
 	//setters
+	public void setNaam( String naam ){
+		this.naam = naam;
+	}
 	
 	public void setOnderwerp(String onderwerp){
 		this.onderwerp = onderwerp;
@@ -34,14 +46,7 @@ public class Quiz {
 		this.leerjaren = leerjaren;
 	}
 		
-	// toevoegen en verwijderen van quiz
-	public void addQuiz( String quiz ){
-		this.quiz.add(quiz);
-	}
 
-	public void removeQuiz( String Quiz ){
-		this.quiz.remove(quiz);
-	}
 	
 	public void setTest( int i){
 		if(i == 1){
@@ -55,18 +60,33 @@ public class Quiz {
 		return this.test;
 	}
 	public boolean isUniekeDeelname(){
-		return test;
+		return this.test;
 		
 	}
 	
 	@Override
 	public String toString() {
-		return "Quiz: " + this.quiz + ", Onderwerp: "
+		return "Quiz: " + this.naam + ", Onderwerp: "
 				+ this.onderwerp + ", Voor Leerjaar: " + this.leerjaren;
 	}
 
-	public static void main(String[] args) {
-		
+	@Override
+	public int compareTo(Quiz o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
-}
 
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return super.equals(obj);
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.clone();
+	}
+	
+	
+}

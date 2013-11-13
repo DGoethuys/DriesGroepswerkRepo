@@ -2,17 +2,23 @@ package model;
 
 import java.util.ArrayList;
 
-public class Vraag extends Opdracht {
+public class Vraag extends Opdracht implements Valideerbaar {
 	
-	/*TO DO:
+	/*TO-DO:
 	 * Exceptions voor hint methods en isJusiteAntwoord()
+	 * Valideerbaar implementeren
+	 * 
 	 */
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
+	
 	private ArrayList<String> hints = new ArrayList<String>();
 	
-	public Vraag (){
-		
-	}
 	
 	//constructor die alleen vraag en antwoord nodig heeft en default waarde aan aantalPogingen en maxAntwoordTijd geeft
 	public Vraag ( String vraag, String juisteAntwoord){
@@ -109,6 +115,18 @@ public class Vraag extends Opdracht {
 		System.out.println(opdracht1.toString());
 
 
+	}
+
+	@Override
+	public boolean isValid(String antwoord) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getValideerTekst() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
