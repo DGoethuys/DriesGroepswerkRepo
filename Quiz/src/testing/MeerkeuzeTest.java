@@ -17,7 +17,7 @@ public class MeerkeuzeTest {
 	
 	@Before
 	public void setUp(){
-		 meerkeuze = new Meerkeuze();
+		 meerkeuze = new Meerkeuze(null, null, 0, 0, keuze);
 		 
 		final ArrayList<String> keuze = new ArrayList<String>();
 			keuze.add("Parijs");

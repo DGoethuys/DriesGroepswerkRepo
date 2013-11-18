@@ -139,7 +139,7 @@ public class Datum implements Comparable<Datum> {
 		if(jaar < 0){
 			this.jaar = jaar;
 		}
-		else throw new IllegalArgumentException("Maand moet tussen 1 en 12 liggen.")
+		else throw new IllegalArgumentException("Maand moet tussen 1 en 12 liggen.");
 	}
 	
 	//getters

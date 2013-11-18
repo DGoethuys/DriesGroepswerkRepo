@@ -76,7 +76,7 @@ public abstract class Opdracht implements Comparable<Quiz>, Cloneable, Serializa
 	public void setMaxAntwoordTijd(int maxAntwoordTijd) throws NullPointerException{
 		if(this.maxAntwoordTijd < 1)
 			this.maxAntwoordTijd = maxAntwoordTijd;
-		else throw new NullPointerException("Er moet een redelijke antwoordtijd worden opgegeven!")
+		else throw new NullPointerException("Er moet een redelijke antwoordtijd worden opgegeven!");
 	}
 	
 	//method om te bepalen of juiste antwoord is gegeven
