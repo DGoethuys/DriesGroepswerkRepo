@@ -120,16 +120,26 @@ public class Datum implements Comparable<Datum> {
 		this.setJaar(jaar);
 	}
 	
-	private void setDag( int dag ){
-		this.dag = dag;
+	private void setDag(int dag) throws IllegalArgumentException 
+	{
+        if(dag >= 1 && dag <= 31)
+            this.dag = dag;
+        else throw new IllegalArgumentException("Dag moet tussen 1 & 31 liggen");     
 	}
 	
-	private void setMaand( int maand ){
-		this.maand = maand;
+	private void setMaand(int maand) throws IllegalArgumentException 
+	{
+		if(maand >= 1 && maand <= 12)
+			this.maand = maand;
+		else throw new IllegalArgumentException("Maand moet tussen 1 en 12 liggen!");
 	}
 	
-	private void setJaar( int jaar ){
-		this.jaar = jaar;
+	private void setJaar(int jaar) throws IllegalArgumentException
+	{
+		if(jaar < 0){
+			this.jaar = jaar;
+		}
+		else throw new IllegalArgumentException("Maand moet tussen 1 en 12 liggen.")
 	}
 	
 	//getters
