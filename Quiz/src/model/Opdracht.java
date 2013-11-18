@@ -25,12 +25,12 @@ public abstract class Opdracht implements Comparable<Quiz>, Cloneable, Serializa
 	protected ArrayList<QuizOpdracht> quizOpdrachten = new ArrayList<QuizOpdracht>();
 	
 	//constructor die alleen vraag en antwoord nodig heeft en default waarde aan aantalPogingen en maxAntwoordTijd geeft
-	public Opdracht ( String vraag, String juisteAntwoord){
-		this( vraag, juisteAntwoord, 3, 5);
+	public Opdracht(String vraag, String juisteAntwoord){
+		this(vraag, juisteAntwoord, 3, 5);
 	}
 	
 	//constructor voor alle parameters behalve de hints
-	public Opdracht( String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd ){
+	public Opdracht(String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd){
 		this.setVraag(vraag);
 		this.setJuisteAntwoord(juisteAntwoord);
 		this.setAantalPogingen(aantalPogingen);
@@ -55,20 +55,28 @@ public abstract class Opdracht implements Comparable<Quiz>, Cloneable, Serializa
 	}
 	
 	//setters
-	public void setVraag( String vraag ){
-		this.vraag = vraag;
+	public void setVraag(String vraag)throws NullPointerException{
+		if(this.vraag != null)
+			this.vraag = vraag;
+		else throw new NullPointerException("Vraag moet ingevuld zijn!");
 	}
 	
-	public void setJuisteAntwoord( String juisteAntwoord ){
-		this.juisteAntwoord = juisteAntwoord;
+	public void setJuisteAntwoord(String juisteAntwoord) throws NullPointerException{
+		if(this.juisteAntwoord != null)
+			this.juisteAntwoord = juisteAntwoord;
+		else throw new NullPointerException("Het juiste antwoord moet ingevuld zijn!");
 	}
 	
-	public void setAantalPogingen( int aantalPogingen ){
-		this.aantalPogingen = aantalPogingen;
+	public void setAantalPogingen(int aantalPogingen) throws NullPointerException{
+		if(this.aantalPogingen != 0)
+			this.aantalPogingen = aantalPogingen;
+		else throw new NullPointerException("Er moet minstens 1 poging worden gegevens");
 	}
 	
-	public void setMaxAntwoordTijd( int maxAntwoordTijd ){
-		this.maxAntwoordTijd = maxAntwoordTijd;
+	public void setMaxAntwoordTijd(int maxAntwoordTijd) throws NullPointerException{
+		if(this.maxAntwoordTijd < 1)
+			this.maxAntwoordTijd = maxAntwoordTijd;
+		else throw new NullPointerException("Er moet een redelijke antwoordtijd worden opgegeven!")
 	}
 	
 	//method om te bepalen of juiste antwoord is gegeven
