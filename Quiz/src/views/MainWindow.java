@@ -13,6 +13,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import javax.swing.JTextArea;
+import javax.swing.JTree;
+import javax.swing.JList;
 
 public class MainWindow {
 
@@ -80,23 +83,39 @@ public class MainWindow {
 		JLabel lblAantalToegevoegdeOpdrachten = new JLabel("Aantal toegevoegde opdrachten");
 		
 		JButton btnNewButton_1 = new JButton("^^^^^^");
+		
+		JList list = new JList();
+		
+		JList list_1 = new JList();
+		
+		JButton btnNewButton_2 = new JButton("<<<<");
+		
+		JButton btnNewButton_3 = new JButton(">>>>");
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblToonOpdrachtenVan)
-						.addComponent(lblSorteerOpdrachtenOp))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(comboBox_3, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(comboBox_2, 0, 124, Short.MAX_VALUE))
-					.addGap(100)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblToonOpdrachtenVan)
+								.addComponent(lblSorteerOpdrachtenOp))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(comboBox_3, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(comboBox_2, 0, 124, Short.MAX_VALUE)))
+						.addComponent(list_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(29)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnNewButton_3)
+						.addComponent(btnNewButton_2))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(list, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
 						.addComponent(lblAantalToegevoegdeOpdrachten)
 						.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 437, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(21, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -116,7 +135,17 @@ public class MainWindow {
 							.addComponent(lblAantalToegevoegdeOpdrachten)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(325, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(list, GroupLayout.PREFERRED_SIZE, 288, GroupLayout.PREFERRED_SIZE)
+						.addComponent(list_1, GroupLayout.PREFERRED_SIZE, 288, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(25, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addContainerGap(177, Short.MAX_VALUE)
+					.addComponent(btnNewButton_3)
+					.addGap(41)
+					.addComponent(btnNewButton_2)
+					.addGap(150))
 		);
 		panel.setLayout(gl_panel);
 		
