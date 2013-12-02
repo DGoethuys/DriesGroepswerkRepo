@@ -4,11 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public abstract class Opdracht implements Comparable<Quiz>, Cloneable, Serializable {
+public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	/*
 	 * TO DO:
@@ -56,32 +53,32 @@ public abstract class Opdracht implements Comparable<Quiz>, Cloneable, Serializa
 	
 	//setters
 	public void setVraag(String vraag)throws NullPointerException{
-		if(this.vraag != null)
+		if(vraag != null)
 			this.vraag = vraag;
 		else throw new NullPointerException("Vraag moet ingevuld zijn!");
 	}
 	
 	public void setJuisteAntwoord(String juisteAntwoord) throws NullPointerException{
-		if(this.juisteAntwoord != null)
+		if(juisteAntwoord != null)
 			this.juisteAntwoord = juisteAntwoord;
 		else throw new NullPointerException("Het juiste antwoord moet ingevuld zijn!");
 	}
 	
 	public void setAantalPogingen(int aantalPogingen) throws NullPointerException{
-		if(this.aantalPogingen != 0)
+		if(aantalPogingen != 0)
 			this.aantalPogingen = aantalPogingen;
 		else throw new NullPointerException("Er moet minstens 1 poging worden gegevens");
 	}
 	
 	public void setMaxAntwoordTijd(int maxAntwoordTijd) throws NullPointerException{
-		if(this.maxAntwoordTijd < 1)
+		if(maxAntwoordTijd > 1)
 			this.maxAntwoordTijd = maxAntwoordTijd;
 		else throw new NullPointerException("Er moet een redelijke antwoordtijd worden opgegeven!");
 	}
 	
 	//method om te bepalen of juiste antwoord is gegeven
 	public boolean isJuisteAntwoord( String antwoord ){
-		if( antwoord == this.juisteAntwoord ){
+		if(antwoord == this.juisteAntwoord){
 			return true;
 		}else{
 			return false;
@@ -89,15 +86,15 @@ public abstract class Opdracht implements Comparable<Quiz>, Cloneable, Serializa
 	}
 
 	@Override
-	public int compareTo(Quiz o) {
+	public int compareTo(Opdracht o) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
-		// TODO Auto-generated method stub
-		return super.clone();
+		 Opdracht clone=(Opdracht)super.clone();
+		 return clone;
 	}
 	
 	

@@ -17,7 +17,7 @@ public class MeerkeuzeTest {
 	
 	@Before
 	public void setUp(){
-		 meerkeuze = new Meerkeuze(null, null, 0, 0, keuze);
+		 meerkeuze = new Meerkeuze(null, null, keuze, 0, 0);
 		 
 		final ArrayList<String> keuze = new ArrayList<String>();
 			keuze.add("Parijs");
@@ -27,9 +27,9 @@ public class MeerkeuzeTest {
 	
 	@Test
 	public void Test_SetMeerkeuze_GeldigeParameters_Aanvaard() {
-	    meerkeuze.setKeuze(keuze);
+	    meerkeuze.setKeuzes(keuze);
 		
-		assertEquals(this.keuze, meerkeuze.getKeuze());
+		assertEquals(this.keuze, meerkeuze.getKeuzes());
 	}
 	
 	@Test

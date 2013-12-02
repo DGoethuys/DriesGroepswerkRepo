@@ -119,14 +119,12 @@ public class Vraag extends Opdracht implements Valideerbaar {
 
 	@Override
 	public boolean isValid(String antwoord) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.isJuisteAntwoord(antwoord);
 	}
 
 	@Override
 	public String getValideerTekst() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Je antwoord voor vraag: \"" + this.vraag + "\" was juist.";
 	}
 
 }

@@ -12,7 +12,6 @@ public class QuizCatalogus {
 	 * TO DO:
 	 * Testklasses schrijven
 	 * Method voor wijzigen van Quiz objecten
-	 * Methods voor wegschrijven in file
 	 */
 	
 	//Lijst waar Quiz objecten in gaan komen
@@ -38,22 +37,8 @@ public class QuizCatalogus {
 		return quizzen.get(quiz);
 	}
 	
-	//method om met de naam een object op te halen
-	public Quiz getQuizBijNaam( String naam ){
-		Quiz q = null;
-		for (int i = 0; i < quizzen.size(); i++ ){
-			if (getQuiz(i).getNaam() == naam){
-				q = getQuiz(i);
-			}
-		}
-		if(q == null){
-			throw new NullPointerException("Quiz met naam: " + naam + " niet gevonden");
-		}
-		return q;
-	}
-
 	public void leesQuizzenVanTekstBestand(){
-		  File file = new File("bestanden\\quizzen.txt");
+		  File file = new File("bestanden/quizzen.txt");
 		  try{
 			Scanner scanner = new Scanner(file);
 			while (scanner.hasNext()){
@@ -78,6 +63,19 @@ public class QuizCatalogus {
 		    System.out.println(ex.getMessage());
 		  }
 		}
+	
+	public Quiz getQuizBijNaam( String naam ){
+		Quiz q = null;
+		for (int i = 0; i < quizzen.size(); i++ ){
+			if (getQuiz(i).getNaam().contentEquals(naam)){
+				q = getQuiz(i);
+			}
+		}
+		if(q == null){
+			throw new NullPointerException("Quiz met naam: " + naam + " niet gevonden");
+		}
+		return q;
+	}
 	
 	@Override
 	public String toString() {

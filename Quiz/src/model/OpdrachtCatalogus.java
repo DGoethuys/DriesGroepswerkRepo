@@ -42,20 +42,6 @@ public class OpdrachtCatalogus {
 		return opdrachten.get(opdracht);
 	}
 	
-	//method om met de vraag een opdracht op te halen
-	public Opdracht getOpdrachtBijVraag( String vraag ){
-		Opdracht o = null;
-		for (int i = 0; i < opdrachten.size(); i++ ){
-			if (getOpdracht(i).getVraag() == vraag){
-				o = getOpdracht(i);
-			}
-		}
-		if(o == null){
-			throw new NullPointerException("Opdracht met vraag: " + vraag + " niet gevonden");
-		}
-		return o;
-	}
-	
 	public void verwisselOpdracht( int opdracht, Opdracht nieuweOpdracht ){
 		opdrachten.remove(opdracht);
 		opdrachten.add(opdracht, nieuweOpdracht);
@@ -78,7 +64,7 @@ public class OpdrachtCatalogus {
 		opdrachten.get(opdracht).setJuisteAntwoord(juisteAntwoord);
 	}
 	
-	public void veranderAantalPogingen( int opdracht, int aantalPogingen ){
+	public void veranderAantalPogingen(int opdracht, int aantalPogingen){
 		opdrachten.get(opdracht).setAantalPogingen(aantalPogingen);
 	}
 	
@@ -87,7 +73,7 @@ public class OpdrachtCatalogus {
 	}
 	
 	public void leesOpdrachtenVanTekstBestand(){
-		  File file = new File("bestanden\\opdrachten.txt");
+		  File file = new File("bestanden/opdrachten.txt");
 		  try{
 			Scanner scanner = new Scanner(file);
 			while (scanner.hasNext()){
@@ -96,16 +82,20 @@ public class OpdrachtCatalogus {
 			  String vraag = velden[0];
 			  String juisteAntwoord = velden[1];
 			  String type = velden[2];
+			  int n = 3;
+			  ArrayList<String> keuzes = new ArrayList<String>();
+			  while (scanner.hasNext()){
+				  keuzes.add(velden[n]);
+			  }
 			  switch(type){
 			  case "Vraag":
 				  Opdracht v = new Vraag(vraag, juisteAntwoord);		
 				  opdrachten.add(v);
 				  break;
-			  /*case "Meerkeuze":
-				  Opdracht m = new Meerkeuze(vraag, juisteAntwoord);		
+			  case "Meerkeuze":
+				  Opdracht m = new Meerkeuze(vraag, juisteAntwoord, keuzes);		
 				  opdrachten.add(m);
 				  break;
-				  */
 			  case "Opsomming":
 				  Opdracht o = new Opsomming(vraag, juisteAntwoord);		
 				  opdrachten.add(o);
@@ -124,6 +114,19 @@ public class OpdrachtCatalogus {
 		    System.out.println(ex.getMessage());
 		  }
 		}
+	
+	public Opdracht getOpdrachtBijVraag( String vraag ){
+		Opdracht o = null;
+		for (int i = 0; i < opdrachten.size(); i++ ){
+			if (getOpdracht(i).getVraag().contentEquals(vraag)){
+				o = getOpdracht(i);
+			}
+		}
+		if(o == null){
+			throw new NullPointerException("Opdracht met vraag: " + vraag + " niet gevonden");
+		}
+		return o;
+	}
 	
 	@Override
 	public String toString() {

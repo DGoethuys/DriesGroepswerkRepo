@@ -4,39 +4,34 @@ import java.util.ArrayList;
 
 public class Meerkeuze extends Opdracht implements Valideerbaar{
 
-	
-	private ArrayList<String> Keuze = new ArrayList<String>();
-	private String keuze;
-	
-	
-	//public Meerkeuze() {
-	// for (String s : Keuze)
-	//	{
-	//	    keuze += s + "\n";
-	//	}
-			
-		// TODO Auto-generated constructor stub
-	//}
+	private static final long serialVersionUID = 1L;
+	private ArrayList<String> keuzes = new ArrayList<String>();
 	
 	
-	public Meerkeuze(String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd, ArrayList<String> Keuze){
+	public Meerkeuze(String vraag, String juisteAntwoord, ArrayList<String> keuzes) {
+		super( vraag, juisteAntwoord);
+		this.keuzes = keuzes;
+	}
+	
+	
+	public Meerkeuze(String vraag, String juisteAntwoord, ArrayList<String> keuzes, int aantalPogingen, int maxAntwoordTijd){
 		super( vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
-		this.Keuze = Keuze;
+		this.keuzes = keuzes;
 	}
 	
-	public void setKeuze(ArrayList<String> Keuze ){
-		this.Keuze = Keuze;
+	public void setKeuzes(ArrayList<String> keuzes ){
+		this.keuzes = keuzes;
 	}
 	
-	public ArrayList<String> getKeuze(){
-		return this.Keuze;
+	public ArrayList<String> getKeuzes(){
+		return this.keuzes;
 	}
 	
 	@Override
 	public String toString() {
 		return "Opdracht - vraag: " + this.vraag + ", juiste antwoord: "
 				+ this.juisteAntwoord + ", aantal pogingen: " + this.aantalPogingen
-				+ ", maximale antwoord tijd: " + this.maxAntwoordTijd + ", Keuzes: " + this.keuze;
+				+ ", maximale antwoord tijd: " + this.maxAntwoordTijd + ", Keuzes: " + this.keuzes;
 	}
 	
 	public boolean isValid(){
@@ -46,15 +41,13 @@ public class Meerkeuze extends Opdracht implements Valideerbaar{
 
 	@Override
 	public boolean isValid(String antwoord) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.isJuisteAntwoord(antwoord);
 	}
 
 
 	@Override
 	public String getValideerTekst() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Je hebt de juiste keuze gekozen voor de vraag: \"" + this.vraag + "\"";
 	}
 
 }

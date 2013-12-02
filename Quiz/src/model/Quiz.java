@@ -84,8 +84,8 @@ public class Quiz implements Comparable<Quiz>, Cloneable, Serializable {
 
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
-		// TODO Auto-generated method stub
-		return super.clone();
+		Quiz clone=(Quiz)super.clone();
+		return clone;
 	}
 	
 	

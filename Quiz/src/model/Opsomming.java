@@ -2,7 +2,8 @@ package model;
 
 public class Opsomming extends Opdracht implements Valideerbaar {
 	
-
+	private static final long serialVersionUID = 1L;
+	
 	public Opsomming ( String vraag, String juisteAntwoord){
 		super( vraag, juisteAntwoord);
 	}
@@ -26,7 +27,12 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 	
 	@Override
 	public boolean isValid(String antwoord) {
-		return true;
+		return this.isJuisteVolgorde(antwoord);
+	}
+	
+	@Override
+	public String getValideerTekst() {
+		return "Je hebt de vraag: \"" + this.vraag + "\" in de juiste volgorde gezet.";
 	}
 	
 	public static void main(String[] args) {
@@ -35,11 +41,7 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 		
 
 	}
-	@Override
-	public String getValideerTekst() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	
 	

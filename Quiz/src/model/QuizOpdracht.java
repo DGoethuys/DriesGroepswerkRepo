@@ -1,9 +1,5 @@
 package model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class QuizOpdracht {
 	
@@ -18,7 +14,6 @@ public class QuizOpdracht {
 	 * want het is onlogisch om dit hier in te dumpen, maar dit word momenteel wel gedaan xD
 	 */
 	
-	private ArrayList<QuizOpdracht> quizOpdrachten = new ArrayList<QuizOpdracht>();
 	private Quiz quiz;
 	private Opdracht opdracht;
 	private int maxScore;
@@ -29,47 +24,20 @@ public class QuizOpdracht {
 		this.setMaxScore(maxScore);
 	}
 	
-	QuizOpdracht(String naam, String vraag, int maxScore){
-		QuizCatalogus qc = new QuizCatalogus();
-		qc.leesQuizzenVanTekstBestand();
-		Quiz quiz = qc.getQuizBijNaam(naam);
-		
-		OpdrachtCatalogus oc = new OpdrachtCatalogus();
-		oc.leesOpdrachtenVanTekstBestand();
-		Opdracht opdracht = oc.getOpdrachtBijVraag(vraag);
-		
-		this.setQuiz(quiz);
-		this.setOpdracht(opdracht);
-		this.setMaxScore(maxScore);
-	}
+ 	QuizOpdracht(String naam, String vraag, int maxScore){
+	QuizCatalogus qc = new QuizCatalogus();
+	qc.leesQuizzenVanTekstBestand();
+	Quiz quiz = qc.getQuizBijNaam(naam);
 	
-	public void leesQuizOpdrachtenVanTekstBestand(){
-		  File file = new File("bestanden\\quizOpdrachten.txt");
-		  try{
-			Scanner scanner = new Scanner(file);
-			while (scanner.hasNext()){
-		      String lijn = scanner.nextLine();
-			  String [] velden = lijn.split(",");
-			  String naam = velden[0];
-			  String vraag = velden[1];
-			  int maxScore= Integer.parseInt(velden[2]);
-			  
-			  QuizOpdracht qo = new QuizOpdracht(naam, vraag, maxScore);		
-			  quizOpdrachten.add(qo);
-
-			}
-			if (scanner!=null){
-			  scanner.close();
-			}
-		  }
-		  catch(FileNotFoundException ex){
-		    System.out.println("bestand met quizOpdrachten niet gevonden");
-		  }
-		  catch(Exception ex){
-		    System.out.println(ex.getMessage());
-		  }
-		}
-
+	OpdrachtCatalogus oc = new OpdrachtCatalogus();
+	oc.leesOpdrachtenVanTekstBestand();
+	Opdracht opdracht = oc.getOpdrachtBijVraag(vraag);
+	
+	this.setQuiz(quiz);
+	this.setOpdracht(opdracht);
+	this.setMaxScore(maxScore);
+ 	}
+	
 	public Quiz getQuiz() {
 		return quiz;
 	}
