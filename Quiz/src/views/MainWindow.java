@@ -91,6 +91,8 @@ public class MainWindow {
 		JButton btnNewButton_2 = new JButton("<<<<");
 		
 		JButton btnNewButton_3 = new JButton(">>>>");
+		
+		JLabel Counter = new JLabel("");
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -113,12 +115,15 @@ public class MainWindow {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(list, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
-						.addComponent(lblAantalToegevoegdeOpdrachten)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(lblAantalToegevoegdeOpdrachten)
+							.addGap(32)
+							.addComponent(Counter))
 						.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 437, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
+			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
@@ -132,7 +137,9 @@ public class MainWindow {
 								.addComponent(comboBox_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(32)
-							.addComponent(lblAantalToegevoegdeOpdrachten)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblAantalToegevoegdeOpdrachten)
+								.addComponent(Counter))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -140,7 +147,7 @@ public class MainWindow {
 						.addComponent(list, GroupLayout.PREFERRED_SIZE, 288, GroupLayout.PREFERRED_SIZE)
 						.addComponent(list_1, GroupLayout.PREFERRED_SIZE, 288, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(25, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap(177, Short.MAX_VALUE)
 					.addComponent(btnNewButton_3)
 					.addGap(41)
