@@ -1,6 +1,9 @@
 Wat is de hoofdstad van België?,Brussel,Vraag
 Wat is de hoofdstad van Nederland?,Amsterdam,Vraag
+Wat is de hoofdstad van Italië?,Rome,Meerkeuze,Venetië,Rome
+Wat is de hoofdstad van Duitsland?,Berlijn,Vraag
 Hoeveel is 1 * 1?,2,Vraag
 Hoeveel is 5 * 5?,25,Vraag
 Hoeveel is 5 + 5?,10,Meerkeuze,1,2,3,40,10
+Plaats in de juiste volgorde:(5;3;1;2;4),1;2;3;4;5,Opsomming
 

@@ -82,10 +82,11 @@ public class OpdrachtCatalogus {
 			  String vraag = velden[0];
 			  String juisteAntwoord = velden[1];
 			  String type = velden[2];
-			  int n = 3;
 			  ArrayList<String> keuzes = new ArrayList<String>();
-			  while (scanner.hasNext()){
-				  keuzes.add(velden[n]);
+			  if(velden.length > 3){
+				  for (int n = 3; n == velden.length ; n++){
+					  keuzes.add(velden[n]);
+				  }
 			  }
 			  switch(type){
 			  case "Vraag":

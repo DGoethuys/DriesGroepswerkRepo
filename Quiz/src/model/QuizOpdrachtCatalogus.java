@@ -36,4 +36,20 @@ public class QuizOpdrachtCatalogus {
 		  }
 		}
 
+	
+	public static void main(String[] args){
+		
+		
+		OpdrachtCatalogus oc = new OpdrachtCatalogus();
+		oc.leesOpdrachtenVanTekstBestand();
+		QuizCatalogus qc = new QuizCatalogus();
+		qc.leesQuizzenVanTekstBestand();
+		QuizOpdrachtCatalogus qoc = new QuizOpdrachtCatalogus();
+		qoc.leesQuizOpdrachtenVanTekstBestand();
+		
+		System.out.println(oc.toString() + "\n");
+		System.out.println(qc.toString() + "\n");
+		System.out.println(qoc.toString() + "\n");
+		
+	}
 }
