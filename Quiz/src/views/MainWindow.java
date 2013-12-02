@@ -54,23 +54,10 @@ public class MainWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(0, 0, 934, 91);
 		
 		JPanel panel = new JPanel();
-		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 922, Short.MAX_VALUE)
-					.addContainerGap())
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 934, Short.MAX_VALUE)
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE))
-		);
+		panel.setBounds(0, 109, 946, 418);
 		
 		JLabel lblToonOpdrachtenVan = new JLabel("Toon opdrachten van categorie");
 		
@@ -155,6 +142,7 @@ public class MainWindow {
 					.addGap(150))
 		);
 		panel.setLayout(gl_panel);
+		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Ondewerp");
 		
@@ -207,6 +195,7 @@ public class MainWindow {
 					.addContainerGap())
 		);
 		panel_1.setLayout(gl_panel_1);
-		frame.getContentPane().setLayout(groupLayout);
+		frame.getContentPane().add(panel_1);
+		frame.getContentPane().add(panel);
 	}
 }
