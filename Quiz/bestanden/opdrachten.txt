@@ -1,0 +1,6 @@
+Wat is de hoofdstad van België?,Brussel,Vraag
+Wat is de hoofdstad van Nederland?,Amsterdam,Vraag
+Hoeveel is 1 * 1?,2,Vraag
+Hoeveel is 5 * 5?,25,Vraag
+Hoeveel is 5 + 5?,10,Meerkeuze,1,2,3,40,10
+

@@ -1,0 +1,5 @@
+AardrijkskundeQuiz,Wat is de hoofdstad van België?,3
+AardrijkskundeQuiz,Wat is de hoofdstad van Nederland?,7
+RekenQuiz,Hoeveel is 1 * 1?,4
+RekenQuiz,Hoeveel is 5 * 5?,4
+RekenQuiz,Hoeveel is 5 + 5?,2
