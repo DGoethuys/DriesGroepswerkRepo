@@ -4,7 +4,11 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JMenuBar;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
@@ -17,7 +21,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.JList;
 
-public class MainWindow {
+public class MainWindow implements ActionListener {
 
 	private JFrame frame;
 	private JTextField textField;
@@ -136,5 +140,11 @@ public class MainWindow {
 		panel.add(lblAantalToegevoegdeOpdrachten);
 		panel.add(Counter);
 		panel.add(btnNewButton_1);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
