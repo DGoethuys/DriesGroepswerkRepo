@@ -2,6 +2,7 @@ package model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -63,6 +64,24 @@ public class QuizCatalogus {
 		    System.out.println(ex.getMessage());
 		  }
 		}
+	
+	public void schrijfQuizOpdrachtenNaarBestand(){
+		File file = new File("bestanden/quizzen.txt");
+		try{
+			PrintWriter writer = new PrintWriter(file);
+			for (int i = 0 ; i <quizzen.size() ; i++){
+				Quiz q = quizzen.get(i);
+				String lijn = q.getNaam().toString() + "," + q.getleerjaren().toString() + "," + q.getOnderwerp().toString();
+				writer.println(lijn);
+			}
+			if (writer !=null)
+				writer.println(" ");
+				writer.close();
+			}
+		catch(Exception ex){
+			System.out.println(ex.getMessage());
+		}
+	}
 	
 	public Quiz getQuizBijNaam( String naam ){
 		Quiz q = null;

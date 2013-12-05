@@ -2,3 +2,4 @@ AardrijkskundeQuiz,1,Aardrijkskunde
 RekenQuiz,2,Rekenen
 TaalQuiz,1,Nederlands
 GeschiedenisQuiz,3,Geschiedenis
+ 

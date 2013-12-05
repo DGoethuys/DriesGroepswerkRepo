@@ -6,9 +6,11 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 	
 	public Opsomming ( String vraag, String juisteAntwoord){
 		super( vraag, juisteAntwoord);
+		super.type = "Opsomming";
 	}
 	public Opsomming( String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd ){
 		super( vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
+		super.type = "Opsomming";
 	}
 	
 	//method om te bepalen of juiste antwoord is gegeven

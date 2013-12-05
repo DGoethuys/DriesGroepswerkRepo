@@ -23,23 +23,27 @@ public class Vraag extends Opdracht implements Valideerbaar {
 	//constructor die alleen vraag en antwoord nodig heeft en default waarde aan aantalPogingen en maxAntwoordTijd geeft
 	public Vraag ( String vraag, String juisteAntwoord){
 		super( vraag, juisteAntwoord);
+		super.type = "Vraag";
 	}
 	
 	//constructor voor alle parameters behalve de hints
 	public Vraag( String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd ){
 		super( vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
+		super.type = "Vraag";
 	}
 	
 	//3 constructoren voor hints mee te geven, van 1 tot 3
 	public Vraag( String vraag, String juisteAntwoord, int aantalPogingen,int maxAntwoordTijd , String hint1 ){
 		super(vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
 		this.addHint(hint1);
+		super.type = "Vraag";
 	}
 
 	public Vraag( String vraag, String juisteAntwoord, int aantalPogingen,int maxAntwoordTijd , String hint1 , String hint2 ){
 		super(vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
 		this.addHint(hint1);
 		this.addHint(hint2);
+		super.type = "Vraag";
 	}
 	
 	public Vraag( String vraag, String juisteAntwoord, int aantalPogingen,int maxAntwoordTijd , String hint1, String hint2, String hint3 ){
@@ -47,6 +51,7 @@ public class Vraag extends Opdracht implements Valideerbaar {
 		this.addHint(hint1);
 		this.addHint(hint2);
 		this.addHint(hint3);
+		super.type = "Vraag";
 	}
 	
 	//methods voor het toevoegen of verwijderen van hints

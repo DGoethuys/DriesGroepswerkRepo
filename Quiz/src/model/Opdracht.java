@@ -19,6 +19,9 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Seria
 	protected String juisteAntwoord;
 	protected int aantalPogingen;
 	protected int maxAntwoordTijd;
+	protected String type;
+
+
 	protected ArrayList<QuizOpdracht> quizOpdrachten = new ArrayList<QuizOpdracht>();
 	
 	//constructor die alleen vraag en antwoord nodig heeft en default waarde aan aantalPogingen en maxAntwoordTijd geeft
@@ -49,6 +52,10 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Seria
 	
 	public int getMaxAntwoordTijd(){
 		return this.maxAntwoordTijd;
+	}
+	
+	public String getType() {
+		return type;
 	}
 	
 	//setters

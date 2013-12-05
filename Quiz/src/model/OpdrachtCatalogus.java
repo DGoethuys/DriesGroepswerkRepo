@@ -2,6 +2,7 @@ package model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -82,18 +83,18 @@ public class OpdrachtCatalogus {
 			  String vraag = velden[0];
 			  String juisteAntwoord = velden[1];
 			  String type = velden[2];
-			  ArrayList<String> keuzes = new ArrayList<String>();
-			  if(velden.length > 3){
-				  for (int n = 3; n == velden.length ; n++){
-					  keuzes.add(velden[n]);
-				  }
-			  }
 			  switch(type){
 			  case "Vraag":
 				  Opdracht v = new Vraag(vraag, juisteAntwoord);		
 				  opdrachten.add(v);
 				  break;
 			  case "Meerkeuze":
+				  ArrayList<String> keuzes = new ArrayList<String>();
+				  int n= 3;
+				  while(velden.length > n){
+					  keuzes.add(velden[n]);
+					  n++;
+				  }
 				  Opdracht m = new Meerkeuze(vraag, juisteAntwoord, keuzes);		
 				  opdrachten.add(m);
 				  break;
@@ -115,6 +116,37 @@ public class OpdrachtCatalogus {
 		    System.out.println(ex.getMessage());
 		  }
 		}
+	
+
+	public void schrijfOpdrachtenNaarBestand(){
+		File file = new File("bestanden/opdrachten.txt");
+		try{
+			PrintWriter writer = new PrintWriter(file);
+			for (int i = 0 ; i <opdrachten.size() ; i++){
+				Opdracht o = opdrachten.get(i);
+				String lijn = null;
+				if(o.type == "Meerkeuze"){
+					lijn = o.getVraag() + "," + o.getJuisteAntwoord().toString() + "," + o.getType() + ",";
+					Meerkeuze m = (Meerkeuze)o;
+					int n = m.getKeuzes().size();
+					while(n != 0){
+						int keuze = n - 1;
+						lijn += m.getKeuzes().get(keuze) + ",";
+						n--;
+					}
+				}else{
+					lijn = o.getVraag() + "," + o.getJuisteAntwoord().toString() + "," + o.getType();
+				}
+				writer.println(lijn);
+			}
+			if (writer != null)
+				writer.println(" ");
+				writer.close();
+			}
+		catch(Exception ex){
+			System.out.println(ex.getMessage());
+		}
+	}
 	
 	public Opdracht getOpdrachtBijVraag( String vraag ){
 		Opdracht o = null;
