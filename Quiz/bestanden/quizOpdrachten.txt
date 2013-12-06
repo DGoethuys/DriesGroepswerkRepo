@@ -4,5 +4,4 @@ AardrijkskundeQuiz,Wat is de hoofdstad van Duitsland?,2
 RekenQuiz,Hoeveel is 1 * 1?,4
 RekenQuiz,Hoeveel is 5 * 5?,2
 RekenQuiz,Hoeveel is 5 + 5?,2
-RekenQuiz,Plaats in de juiste volgorde:(5;3;1;2;4),2
- 
+* 

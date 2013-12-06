@@ -77,7 +77,7 @@ public class OpdrachtCatalogus {
 		  File file = new File("bestanden/opdrachten.txt");
 		  try{
 			Scanner scanner = new Scanner(file);
-			while (scanner.hasNext()){
+			while (scanner.hasNext() || scanner.nextLine() != "*"){
 		      String lijn = scanner.nextLine();
 			  String [] velden = lijn.split(",");
 			  String vraag = velden[0];
@@ -139,8 +139,8 @@ public class OpdrachtCatalogus {
 				}
 				writer.println(lijn);
 			}
+			writer.println("*");
 			if (writer != null)
-				writer.println(" ");
 				writer.close();
 			}
 		catch(Exception ex){

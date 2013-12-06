@@ -42,7 +42,7 @@ public class QuizCatalogus {
 		  File file = new File("bestanden/quizzen.txt");
 		  try{
 			Scanner scanner = new Scanner(file);
-			while (scanner.hasNext()){
+			while (scanner.hasNext() || scanner.nextLine() != "*"){
 		      String lijn = scanner.nextLine();
 			  String [] velden = lijn.split(",");
 			  String naam = velden[0];
@@ -74,8 +74,8 @@ public class QuizCatalogus {
 				String lijn = q.getNaam().toString() + "," + q.getleerjaren().toString() + "," + q.getOnderwerp().toString();
 				writer.println(lijn);
 			}
+			writer.println("*");
 			if (writer !=null)
-				writer.println(" ");
 				writer.close();
 			}
 		catch(Exception ex){
