@@ -13,7 +13,7 @@ public class VraagTest {
 	
 	@Before
 	public void setUp(){
-		 vraag = new Vraag(null, null);
+		 vraag = new Vraag("Wat is je naam", "Jan");
 	}
 	
 	@Test
