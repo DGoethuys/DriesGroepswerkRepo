@@ -17,7 +17,7 @@ public class MeerkeuzeTest {
 	
 	@Before
 	public void setUp(){
-		 meerkeuze = new Meerkeuze(null, null, keuze, 0, 0);
+		 meerkeuze = new Meerkeuze("Wat is de hoofdstad van Belgie", "Brussel", keuze, 1, 50);
 		 
 		final ArrayList<String> keuze = new ArrayList<String>();
 			keuze.add("Parijs");
@@ -28,6 +28,7 @@ public class MeerkeuzeTest {
 	@Test
 	public void Test_SetMeerkeuze_GeldigeParameters_Aanvaard() {
 	    meerkeuze.setKeuzes(keuze);
+	    meerkeuze.setVraag("Wat is de hoofdstad van Belgie?");
 		
 		assertEquals(this.keuze, meerkeuze.getKeuzes());
 	}
