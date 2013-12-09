@@ -21,10 +21,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.JList;
 
+import model.*;
+
 public class MainWindow implements ActionListener {
 
 	private JFrame frame;
-	private JTextField textField;
+	private JTextField Onderwerp;
 
 	/**
 	 * Launch the application.
@@ -66,32 +68,32 @@ public class MainWindow implements ActionListener {
 		JLabel lblToonOpdrachtenVan = new JLabel("Toon opdrachten van categorie");
 		lblToonOpdrachtenVan.setBounds(12, 17, 222, 15);
 		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(252, 12, 124, 24);
+		JComboBox Categorie = new JComboBox();
+		Categorie.setBounds(252, 12, 124, 24);
 		
 		JLabel lblSorteerOpdrachtenOp = new JLabel("Sorteer opdrachten op");
 		lblSorteerOpdrachtenOp.setBounds(12, 59, 162, 15);
 		
-		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setBounds(252, 54, 124, 24);
+		JComboBox Sorteren = new JComboBox();
+		Sorteren.setBounds(252, 54, 124, 24);
 		
 		JLabel lblAantalToegevoegdeOpdrachten = new JLabel("Aantal toegevoegde opdrachten");
 		lblAantalToegevoegdeOpdrachten.setBounds(497, 32, 230, 15);
 		
-		JButton btnNewButton_1 = new JButton("^^^^^^");
-		btnNewButton_1.setBounds(497, 53, 437, 40);
+		JButton VraagOmhoog = new JButton("^^^^^^");
+		VraagOmhoog.setBounds(497, 53, 437, 40);
 		
-		JList list = new JList();
-		list.setBounds(497, 105, 437, 288);
+		JList LijstToegevoegd = new JList();
+		LijstToegevoegd.setBounds(497, 105, 437, 288);
 		
-		JList list_1 = new JList();
-		list_1.setBounds(12, 105, 364, 288);
+		JList LijstToevoegen = new JList();
+		LijstToevoegen.setBounds(12, 105, 364, 288);
 		
-		JButton btnNewButton_2 = new JButton("<<<<");
-		btnNewButton_2.setBounds(405, 243, 74, 25);
+		JButton QuizVerwijderen = new JButton("<<<<");
+		QuizVerwijderen.setBounds(405, 243, 74, 25);
 		
-		JButton btnNewButton_3 = new JButton(">>>>");
-		btnNewButton_3.setBounds(405, 177, 74, 25);
+		JButton QuizToevoegen = new JButton(">>>>");
+		QuizToevoegen.setBounds(405, 177, 74, 25);
 		
 		JLabel Counter = new JLabel("");
 		Counter.setBounds(759, 32, 0, 0);
@@ -100,46 +102,46 @@ public class MainWindow implements ActionListener {
 		JLabel lblNewLabel = new JLabel("Ondewerp");
 		lblNewLabel.setBounds(20, 17, 74, 15);
 		
-		textField = new JTextField();
-		textField.setBounds(106, 15, 278, 19);
-		textField.setColumns(10);
+		Onderwerp = new JTextField();
+		Onderwerp.setBounds(106, 15, 278, 19);
+		Onderwerp.setColumns(10);
 		
 		JLabel lblKlas = new JLabel("Klas");
 		lblKlas.setBounds(402, 17, 30, 15);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(450, 12, 62, 24);
+		JComboBox Klas = new JComboBox();
+		Klas.setBounds(450, 12, 62, 24);
 		
 		JLabel lblAuteur = new JLabel("Auteur");
 		lblAuteur.setBounds(539, 17, 48, 15);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(605, 12, 137, 24);
+		JComboBox Auteur = new JComboBox();
+		Auteur.setBounds(605, 12, 137, 24);
 		
-		JButton btnNewButton = new JButton("Registreer nieuwe quiz");
-		btnNewButton.setBounds(20, 48, 728, 31);
+		JButton RegistreerQuiz = new JButton("Registreer nieuwe quiz");
+		RegistreerQuiz.setBounds(20, 48, 728, 31);
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
-		panel_1.add(btnNewButton);
+		panel_1.add(RegistreerQuiz);
 		panel_1.add(lblNewLabel);
-		panel_1.add(textField);
+		panel_1.add(Onderwerp);
 		panel_1.add(lblKlas);
-		panel_1.add(comboBox);
+		panel_1.add(Klas);
 		panel_1.add(lblAuteur);
-		panel_1.add(comboBox_1);
+		panel_1.add(Auteur);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		panel.add(lblToonOpdrachtenVan);
 		panel.add(lblSorteerOpdrachtenOp);
-		panel.add(comboBox_3);
-		panel.add(comboBox_2);
-		panel.add(list_1);
-		panel.add(btnNewButton_3);
-		panel.add(btnNewButton_2);
-		panel.add(list);
+		panel.add(Sorteren);
+		panel.add(Categorie);
+		panel.add(LijstToevoegen);
+		panel.add(QuizToevoegen);
+		panel.add(QuizVerwijderen);
+		panel.add(LijstToegevoegd);
 		panel.add(lblAantalToegevoegdeOpdrachten);
 		panel.add(Counter);
-		panel.add(btnNewButton_1);
+		panel.add(VraagOmhoog);
 	}
 
 	@Override
