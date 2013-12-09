@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.JMenuBar;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
@@ -22,6 +23,8 @@ import javax.swing.JTree;
 import javax.swing.JList;
 
 import model.*;
+import Enums.*;
+
 
 public class MainWindow implements ActionListener {
 
@@ -109,13 +112,19 @@ public class MainWindow implements ActionListener {
 		JLabel lblKlas = new JLabel("Klas");
 		lblKlas.setBounds(402, 17, 30, 15);
 		
-		JComboBox Klas = new JComboBox();
+		JComboBox Klas = new JComboBox(); 
 		Klas.setBounds(450, 12, 62, 24);
 		
 		JLabel lblAuteur = new JLabel("Auteur");
 		lblAuteur.setBounds(539, 17, 48, 15);
 		
 		JComboBox Auteur = new JComboBox();
+		//Auteur.setModel(new DefaultComboBoxModel(EnumLeraren.enumsToStringArray()));
+		
+		frame.add(Auteur);  
+        frame.pack();  
+        frame.setLocationRelativeTo(null);  
+        frame.setVisible(true);
 		Auteur.setBounds(605, 12, 137, 24);
 		
 		JButton RegistreerQuiz = new JButton("Registreer nieuwe quiz");
