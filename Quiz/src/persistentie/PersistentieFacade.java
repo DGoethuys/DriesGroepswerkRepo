@@ -9,12 +9,25 @@ import model.QuizOpdrachtCatalogus;
 //Catalogussen staan hier in zodat deze in allebij de persistenties kunnen gebruikt worden zonder
 //ze appart te declareren en initialiseren
 
-public interface PersistentieFacade {
+public abstract class PersistentieFacade {
 	OpdrachtCatalogus oc = new OpdrachtCatalogus();
 	QuizCatalogus qc = new QuizCatalogus();
 	QuizOpdrachtCatalogus qoc = new QuizOpdrachtCatalogus();
 	
-	public void laadData();
-	public void bewaarData();
+	public abstract void laadData();
+	public abstract void bewaarData();
+	public abstract String getPersistentie();
 	
-}
+	public OpdrachtCatalogus getOpdrachtCatalogus(){
+		return oc;
+	}
+	
+	public QuizCatalogus getQuizCatalogus(){
+		return qc;
+	}
+	
+	public QuizOpdrachtCatalogus getQuizOpdrachtCatalogus(){
+		return qoc;
+	}
+	
+}// Einde class

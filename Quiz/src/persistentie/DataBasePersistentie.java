@@ -1,6 +1,6 @@
 package persistentie;
 
-public class DataBasePersistentie implements PersistentieFacade {
+public class DataBasePersistentie extends PersistentieFacade {
 
 	@Override
 	public void laadData() {
@@ -17,4 +17,9 @@ public class DataBasePersistentie implements PersistentieFacade {
 
 	}
 
-}
+	@Override
+	public String getPersistentie() {
+		return "Database";
+	}
+
+}// Einde class

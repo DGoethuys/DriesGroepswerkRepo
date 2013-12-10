@@ -1,5 +1,7 @@
 package controller;
 
+import persistentie.PersistentieFacade;
+import persistentie.PersistentieType;
 import views.*;
 import model.*;
 
@@ -10,8 +12,12 @@ public class MainController {
 	private MainWindow mainWin;
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		PersistentieType type = new PersistentieType();
+		PersistentieFacade persistentie = type.getPersistentie("Text");
+		persistentie.laadData();
+		System.out.println(persistentie.getOpdrachtCatalogus());
+		System.out.println(persistentie.getQuizCatalogus());
+		System.out.println(persistentie.getQuizOpdrachtCatalogus());
 	}
 	
 	public MainController(MainWindow view,Quiz quiz,Vraag vraag)
@@ -21,4 +27,4 @@ public class MainController {
 		this.mainWin = view;
 	}
 
-}
+}// Einde class

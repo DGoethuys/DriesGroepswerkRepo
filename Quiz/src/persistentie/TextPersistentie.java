@@ -1,7 +1,7 @@
 package persistentie;
 
 //deze klasse roept simpelweg de alle methods op die data halen uit textbestanden en wegschrijven naar
-public class TextPersistentie implements PersistentieFacade {
+public class TextPersistentie extends PersistentieFacade {
 	
 	@Override
 	public void laadData() {
@@ -17,4 +17,9 @@ public class TextPersistentie implements PersistentieFacade {
 		qc.schrijfQuizOpdrachtenNaarBestand();
 	}
 
-}
+	@Override
+	public String getPersistentie() {
+		return "Text";
+	}
+
+}// Einde class
