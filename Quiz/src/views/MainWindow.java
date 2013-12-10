@@ -158,4 +158,4 @@ public class MainWindow implements ActionListener {
 		// TODO Auto-generated method stub
 		
 	}
-}
+}// Einde class

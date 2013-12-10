@@ -18,7 +18,7 @@ public class DataBasePersistentie extends PersistentieFacade {
 	}
 
 	@Override
-	public String getPersistentie() {
+	public String getPersistentieType() {
 		return "Database";
 	}
 

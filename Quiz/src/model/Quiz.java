@@ -66,7 +66,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable, Serializable {
 	
 	@Override
 	public String toString() {
-		return "Quiz: " + this.naam + ", Onderwerp: "
+		return "Naam: " + this.naam + ", Onderwerp: "
 				+ this.onderwerp + ", Voor Leerjaar: " + this.leerjaren;
 	}
 
@@ -87,6 +87,4 @@ public class Quiz implements Comparable<Quiz>, Cloneable, Serializable {
 		Quiz clone=(Quiz)super.clone();
 		return clone;
 	}
-	
-	
-}
+}// Einde class

@@ -4,12 +4,12 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public Opsomming ( String vraag, String juisteAntwoord){
-		super( vraag, juisteAntwoord);
+	public Opsomming (String categorie, String vraag, String juisteAntwoord){
+		super(categorie, vraag, juisteAntwoord);
 		super.type = "Opsomming";
 	}
-	public Opsomming( String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd ){
-		super( vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
+	public Opsomming(String categorie, String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd ){
+		super(categorie, vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
 		super.type = "Opsomming";
 	}
 	
@@ -23,8 +23,13 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 	}	
 	@Override
 	public String toString() {
-		return "Opdracht - opsomming( zorg ervoor dat elk woord gescheiden moet zijn met een ';' ): " + this.vraag + "aantal pogingen: " + this.aantalPogingen
+		return "Opdracht(Opsomming) vraag: " + this.vraag + "aantal pogingen: " + this.aantalPogingen
 				+ ", maximale antwoord tijd: " + this.maxAntwoordTijd;
+	}
+	
+	@Override
+	public String uitleg(){
+		return "Zet de opsomming uit de opgave in de juiste volgorde, zorg ervoor dat elk woord/cijfer gescheiden is met een ';'";
 	}
 	
 	@Override
@@ -38,17 +43,7 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 	}
 	
 	public static void main(String[] args) {
-		Opsomming opsomming1 = new Opsomming("Zet in juiste volgorde: dinsdag, donderdag, woensdag, maandag ", "maandag, dinsdag, woensdag, donderdag",5,10);
+		Opsomming opsomming1 = new Opsomming("Dagen kennis", "Zet in juiste volgorde: dinsdag, donderdag, woensdag, maandag ", "maandag, dinsdag, woensdag, donderdag",5,10);
 		System.out.println(opsomming1.toString());
-		
-
 	}
-
-
-	
-	
-
-	
-	
-
-}
+}// Einde class

@@ -1,9 +1,10 @@
-Wat is de hoofdstad van België?,Brussel,Vraag
-Wat is de hoofdstad van Nederland?,Amsterdam,Vraag
-Wat is de hoofdstad van Italië?,Rome,Meerkeuze,Rome,Venetië,
-Wat is de hoofdstad van Duitsland?,Berlijn,Vraag
-Hoeveel is 1 * 1?,2,Vraag
-Hoeveel is 5 * 5?,25,Vraag
-Hoeveel is 5 + 5?,10,Meerkeuze,30,20,10,
-Plaats in de juiste volgorde:(5;3;1;2;4),1;2;3;4;5,Opsomming
- *
+Aardrijkskunde,Wat is de hoofdstad van België?,Brussel,Vraag
+Aardrijkskunde,Wat is de hoofdstad van Nederland?,Amsterdam,Vraag
+Aardrijkskunde,Wat is de hoofdstad van Italië?,Rome,Meerkeuze,Rome,Venetië,
+Aardrijkskunde,Wat is de hoofdstad van Duitsland?,Berlijn,Vraag
+Wiskunde,Hoeveel is 1 * 1?,2,Vraag
+Wiskunde,Hoeveel is 5 * 5?,25,Vraag
+Wiskunde,Hoeveel is 5 + 5?,10,Meerkeuze,30,20,10,
+Wiskunde,Plaats in de juiste volgorde:(5;3;1;2;4),1;2;3;4;5,Opsomming
+Wiskunde,Hoeveel is 100 + 100?,200,Vraag
+END

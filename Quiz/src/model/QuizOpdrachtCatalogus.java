@@ -4,18 +4,24 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
-public class QuizOpdrachtCatalogus {
+public class QuizOpdrachtCatalogus implements Iterable<QuizOpdracht> {
 	
 	private ArrayList<QuizOpdracht> quizOpdrachten = new ArrayList<QuizOpdracht>();
 	
-
+	public QuizOpdracht getQuizOpdracht( int qO ){
+		QuizOpdracht quizOpdracht = quizOpdrachten.get(qO);
+		return quizOpdracht;
+	}
+	
+	//method om QuizOpdrachten uit tekst bestand in te lezen en ze op te slaan als objecten in een ArrayList
 	public void leesQuizOpdrachtenVanTekstBestand(){
 		  File file = new File("bestanden/quizOpdrachten.txt");
 		  try{
 			Scanner scanner = new Scanner(file);
-			while (scanner.hasNext() || scanner.nextLine() != "*"){
+			while (scanner.hasNext() && !scanner.hasNext("END")){
 		      String lijn = scanner.nextLine();
 			  String [] velden = lijn.split(",");
 			  String naam = velden[0];
@@ -34,10 +40,12 @@ public class QuizOpdrachtCatalogus {
 		    System.out.println("bestand met quizOpdrachten niet gevonden");
 		  }
 		  catch(Exception ex){
-		    System.out.println(ex.getMessage());
+		    System.out.println("Error message lees quizOpdracht van tekstbestand: " + ex.getMessage());
 		  }
 		}
 
+	//method om ArrayList van objecten af te gaan en deze om te zetten naar strings om ze weg te schrijven
+	//in een tekst bestand
 	public void schrijfQuizOpdrachtenNaarBestand(){
 		File file = new File("bestanden/quizOpdrachten.txt");
 		try{
@@ -47,7 +55,7 @@ public class QuizOpdrachtCatalogus {
 				String lijn = qo.getQuiz().getNaam().toString() + "," + qo.getOpdracht().getVraag().toString() + "," + qo.getMaxScore();
 				writer.println(lijn);
 			}
-			writer.println("*");
+			writer.println("END");
 			if (writer !=null)
 				writer.close();
 			}
@@ -89,4 +97,17 @@ public class QuizOpdrachtCatalogus {
 		System.out.println(qoc.toString() + "\n");
 		
 	}*/
-}
+	
+	@Override
+	public String toString() {
+		return "OpdrachtCatalogus [QuizOpdrachten=" + quizOpdrachten + "]";
+	}
+	
+	@Override
+	public Iterator<QuizOpdracht> iterator() {
+		Iterator<QuizOpdracht> iterator = quizOpdrachten.iterator();
+		return iterator;
+	}
+	
+	
+}// Einde class

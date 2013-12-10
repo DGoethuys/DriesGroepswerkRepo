@@ -117,5 +117,5 @@ public class Gregoriaans implements Comparable<Datum> {
 	}
 	
 
-}
+}// Einde class
 

@@ -4,9 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
-public class QuizCatalogus {
+public class QuizCatalogus implements Iterable<Quiz> {
 	
 	/* Aanpassingen: method voor quiz te zoeken op naam, method voor quizzen te lezen van bestand
 	 * 
@@ -42,7 +43,7 @@ public class QuizCatalogus {
 		  File file = new File("bestanden/quizzen.txt");
 		  try{
 			Scanner scanner = new Scanner(file);
-			while (scanner.hasNext() || scanner.nextLine() != "*"){
+			while (scanner.hasNext() && !scanner.hasNext("END")){
 		      String lijn = scanner.nextLine();
 			  String [] velden = lijn.split(",");
 			  String naam = velden[0];
@@ -60,8 +61,11 @@ public class QuizCatalogus {
 		  catch(FileNotFoundException ex){
 		    System.out.println("bestand met quizzen niet gevonden");
 		  }
+		  catch(ArrayIndexOutOfBoundsException ex){
+			  System.out.println("Je bent buiten de grenzen van je array zaken aan het proberen op te halen");
+		  }
 		  catch(Exception ex){
-		    System.out.println(ex.getMessage());
+		    System.out.println("Error message lees quiz van tekstbestand: " + ex.getMessage());
 		  }
 		}
 	
@@ -74,7 +78,7 @@ public class QuizCatalogus {
 				String lijn = q.getNaam().toString() + "," + q.getleerjaren().toString() + "," + q.getOnderwerp().toString();
 				writer.println(lijn);
 			}
-			writer.println("*");
+			writer.println("END");
 			if (writer !=null)
 				writer.close();
 			}
@@ -101,4 +105,10 @@ public class QuizCatalogus {
 		return "QuizCatalogus [quizzen=" + quizzen + "]";
 	}
 	
-}
+	@Override
+	public Iterator<Quiz> iterator() {
+		Iterator<Quiz> iterator = quizzen.iterator();
+		return iterator;
+	}
+	
+}// Einde class

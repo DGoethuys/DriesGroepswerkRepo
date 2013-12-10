@@ -1,6 +1,7 @@
 package persistentie;
 
 //deze klasse roept simpelweg de alle methods op die data halen uit textbestanden en wegschrijven naar
+//met twee methods
 public class TextPersistentie extends PersistentieFacade {
 	
 	@Override
@@ -18,7 +19,7 @@ public class TextPersistentie extends PersistentieFacade {
 	}
 
 	@Override
-	public String getPersistentie() {
+	public String getPersistentieType() {
 		return "Text";
 	}
 

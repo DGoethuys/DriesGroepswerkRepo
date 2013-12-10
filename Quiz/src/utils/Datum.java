@@ -428,4 +428,4 @@ public class Datum implements Comparable<Datum> {
 	}
 	
 
-}
+}// Einde class

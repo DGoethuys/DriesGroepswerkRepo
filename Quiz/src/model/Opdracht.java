@@ -15,6 +15,7 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Seria
 	 * Serializable?
 	 */
 	
+	protected String categorie;
 	protected String vraag;
 	protected String juisteAntwoord;
 	protected int aantalPogingen;
@@ -25,12 +26,13 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Seria
 	protected ArrayList<QuizOpdracht> quizOpdrachten = new ArrayList<QuizOpdracht>();
 	
 	//constructor die alleen vraag en antwoord nodig heeft en default waarde aan aantalPogingen en maxAntwoordTijd geeft
-	public Opdracht(String vraag, String juisteAntwoord){
-		this(vraag, juisteAntwoord, 3, 5);
+	public Opdracht(String categorie, String vraag, String juisteAntwoord){
+		this(categorie, vraag, juisteAntwoord, 3, 5);
 	}
 	
 	//constructor voor alle parameters behalve de hints
-	public Opdracht(String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd){
+	public Opdracht(String categorie, String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd){
+		this.setCategorie(categorie);
 		this.setVraag(vraag);
 		this.setJuisteAntwoord(juisteAntwoord);
 		this.setAantalPogingen(aantalPogingen);
@@ -38,6 +40,10 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Seria
 	}
 	
 	//getters
+	public String getCategorie(){
+		return this.categorie;
+	}
+	
 	public String getVraag(){
 		return this.vraag;
 	}
@@ -59,6 +65,13 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Seria
 	}
 	
 	//setters
+	public void setCategorie(String categorie)throws NullPointerException{
+		if(categorie != null)
+			this.categorie = categorie;
+		else throw new NullPointerException("Categorie moet ingevuld zijn!");
+	}
+	
+	
 	public void setVraag(String vraag)throws NullPointerException{
 		if(vraag != null)
 			this.vraag = vraag;
@@ -104,6 +117,7 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Seria
 		 return clone;
 	}
 	
-	
-
-}
+	public String uitleg(){
+		return null;
+	}
+}// Einde class

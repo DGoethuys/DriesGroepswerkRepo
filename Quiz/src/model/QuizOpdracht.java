@@ -61,5 +61,10 @@ public class QuizOpdracht {
 	public void setMaxScore(int maxScore) {
 		this.maxScore = maxScore;
 	}
-
-}
+	
+	@Override
+	public String toString() {
+		return "Quiz: " + this.getQuiz() + " Opdracht: "
+				+ this.getOpdracht() + " Maximum score: " + this.getMaxScore();
+	}
+}// Einde class

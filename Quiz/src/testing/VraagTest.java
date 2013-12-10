@@ -13,7 +13,7 @@ public class VraagTest {
 	
 	@Before
 	public void setUp(){
-		 vraag = new Vraag("Wat is je naam", "Jan");
+		 vraag = new Vraag("Wetenschappen", "Wat is je naam", "Jan");
 	}
 	
 	@Test
@@ -57,4 +57,4 @@ public class VraagTest {
 	}
 	
 
-}
+}// Einde class

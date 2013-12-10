@@ -17,7 +17,7 @@ public class MeerkeuzeTest {
 	
 	@Before
 	public void setUp(){
-		 meerkeuze = new Meerkeuze("Wat is de hoofdstad van Belgie", "Brussel", keuze, 1, 50);
+		 meerkeuze = new Meerkeuze("Aardrijkskunde", "Wat is de hoofdstad van Belgie", "Brussel", keuze, 1, 50);
 		 
 		final ArrayList<String> keuze = new ArrayList<String>();
 			keuze.add("Parijs");
@@ -40,4 +40,4 @@ public class MeerkeuzeTest {
 		assertEquals(this.Valide, meerkeuze.isValid());
 	}
 
-}
+}// Einde class

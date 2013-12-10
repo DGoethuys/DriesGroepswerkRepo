@@ -10,13 +10,13 @@ import model.QuizOpdrachtCatalogus;
 //ze appart te declareren en initialiseren
 
 public abstract class PersistentieFacade {
-	OpdrachtCatalogus oc = new OpdrachtCatalogus();
-	QuizCatalogus qc = new QuizCatalogus();
-	QuizOpdrachtCatalogus qoc = new QuizOpdrachtCatalogus();
+	protected OpdrachtCatalogus oc = new OpdrachtCatalogus();
+	protected QuizCatalogus qc = new QuizCatalogus();
+	protected QuizOpdrachtCatalogus qoc = new QuizOpdrachtCatalogus();
 	
 	public abstract void laadData();
 	public abstract void bewaarData();
-	public abstract String getPersistentie();
+	public abstract String getPersistentieType();
 	
 	public OpdrachtCatalogus getOpdrachtCatalogus(){
 		return oc;

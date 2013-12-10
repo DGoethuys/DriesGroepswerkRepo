@@ -4,9 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
-public class OpdrachtCatalogus {
+public class OpdrachtCatalogus implements Iterable<Opdracht> {
 	
 	/* Aanpassingen: method voor opdracht te zoeken op vraag, method voor opdrachten te lezen van bestand
 	 * 
@@ -17,7 +18,6 @@ public class OpdrachtCatalogus {
 	 * bij gebruik van onderliggende klassen casten naar subclasses 
 	 * cast: Subclass referenceOfSubClass = (SubClass)referenceOfGeneralClass;
 	 * (instanceof of .getClass().getName() gebruiken om te testen)
-	 * Methods voor wegschrijven in file
 	 */
 	
 	//Lijst waar Opdracht objecten in gaan komen
@@ -77,29 +77,30 @@ public class OpdrachtCatalogus {
 		  File file = new File("bestanden/opdrachten.txt");
 		  try{
 			Scanner scanner = new Scanner(file);
-			while (scanner.hasNext() || scanner.nextLine() != "*"){
+			while (scanner.hasNext() && !scanner.hasNext("END")){
 		      String lijn = scanner.nextLine();
 			  String [] velden = lijn.split(",");
-			  String vraag = velden[0];
-			  String juisteAntwoord = velden[1];
-			  String type = velden[2];
+			  String categorie = velden[0];
+			  String vraag = velden[1];
+			  String juisteAntwoord = velden[2];
+			  String type = velden[3];
 			  switch(type){
 			  case "Vraag":
-				  Opdracht v = new Vraag(vraag, juisteAntwoord);		
+				  Opdracht v = new Vraag(categorie, vraag, juisteAntwoord);		
 				  opdrachten.add(v);
 				  break;
 			  case "Meerkeuze":
 				  ArrayList<String> keuzes = new ArrayList<String>();
-				  int n= 3;
+				  int n= 4;
 				  while(velden.length > n){
 					  keuzes.add(velden[n]);
 					  n++;
 				  }
-				  Opdracht m = new Meerkeuze(vraag, juisteAntwoord, keuzes);		
+				  Opdracht m = new Meerkeuze(categorie, vraag, juisteAntwoord, keuzes);		
 				  opdrachten.add(m);
 				  break;
 			  case "Opsomming":
-				  Opdracht o = new Opsomming(vraag, juisteAntwoord);		
+				  Opdracht o = new Opsomming(categorie, vraag, juisteAntwoord);		
 				  opdrachten.add(o);
 				  break;
 			  }
@@ -113,11 +114,10 @@ public class OpdrachtCatalogus {
 		    System.out.println("bestand met opdrachten niet gevonden");
 		  }
 		  catch(Exception ex){
-		    System.out.println(ex.getMessage());
+		    System.out.println("Error message lees opdracht van tekstbestand: " + ex.getMessage());
 		  }
-		}
+	}
 	
-
 	public void schrijfOpdrachtenNaarBestand(){
 		File file = new File("bestanden/opdrachten.txt");
 		try{
@@ -139,7 +139,7 @@ public class OpdrachtCatalogus {
 				}
 				writer.println(lijn);
 			}
-			writer.println("*");
+			writer.println("END");
 			if (writer != null)
 				writer.close();
 			}
@@ -150,6 +150,23 @@ public class OpdrachtCatalogus {
 	
 	public Opdracht getOpdrachtBijVraag( String vraag ){
 		Opdracht o = null;
+		try{
+			for(Opdracht opdracht : opdrachten){
+				if(opdracht.getVraag().contains(vraag)){
+					o = opdracht;
+				}
+			}
+			if(o == null){
+				throw new Exception("Opdracht met opgegeven naam werd niet gevonden");
+			}
+		}
+		catch(Exception ex){
+			System.out.println("Error: " + ex.getMessage());
+		}
+		return o;
+		/*
+		Opdracht o = null;
+
 		for (int i = 0; i < opdrachten.size(); i++ ){
 			if (getOpdracht(i).getVraag().contentEquals(vraag)){
 				o = getOpdracht(i);
@@ -159,10 +176,25 @@ public class OpdrachtCatalogus {
 			throw new NullPointerException("Opdracht met vraag: " + vraag + " niet gevonden");
 		}
 		return o;
+		*/
 	}
 	
 	@Override
 	public String toString() {
 		return "OpdrachtCatalogus [opdrachten=" + opdrachten + "]";
 	}
-}
+
+	@Override
+	public Iterator<Opdracht> iterator() {
+		Iterator<Opdracht> iterator = opdrachten.iterator();
+		return iterator;
+	}
+
+	public static void main(String[] args) {
+		OpdrachtCatalogus x = new OpdrachtCatalogus();
+		x.leesOpdrachtenVanTekstBestand();
+		Opdracht o = x.getOpdrachtBijVraag("Wat is de hoofdstad van Duitsland?");
+		System.out.println(o);
+	}
+
+}// Einde class
