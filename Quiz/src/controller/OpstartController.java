@@ -1,27 +1,49 @@
 package controller;
 
-import java.awt.EventQueue;
 import java.io.File;
-
-import views.Menu;
-
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import persistentie.PersistentieFacade;
+import persistentie.PersistentieType;
+import views.Menu;
 import views.MainWindow;
+
 public class OpstartController {
+	MainWindow mainwindow;
 	
-	public static void main(String[] args) 
-	{
+	public static void main(String[] args) {
+		try{
+			OpstartController opstart = new OpstartController();
+			PersistentieType type = new PersistentieType();
+			PersistentieFacade persistentie = type.getPersistentie(opstart.getPersistentieFromInit());
+			persistentie.laadData();
+			System.out.println(persistentie.getOpdrachtCatalogus());
+			System.out.println(persistentie.getQuizCatalogus());
+			System.out.println(persistentie.getQuizOpdrachtCatalogus());
+			opstart.opstartMenu();
+
+			opstart.mainwindow.frame.setVisible(true);
+			
+			
+		}
+		catch(Exception ex){
+			System.out.println("Error: " + ex.getMessage());
+		}
+
+	}// Einde main
+	
+	public void opstartMenu(){
 		
 		Menu menu = new Menu ("Beheren van opdrachten (leraar)", "Beheren van quizzen/testen (leraar)" , "Deelnemen aan quiz (leerling)",
 					"Overzicht scores (leraar)"," Quiz rapport (deelnemer quiz)" ," Quiz lijsten"," Instellingen van de quiz applicatie");
 		
 		if (menu.getMenuKeuze() == 2){
 			
-			MainWindow mainwindow = new MainWindow();
+			mainwindow = new MainWindow();
 			mainwindow.startUpMainWindow();
 			}
+		
 	}
 	
 			

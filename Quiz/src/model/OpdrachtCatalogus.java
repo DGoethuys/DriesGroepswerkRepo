@@ -3,6 +3,11 @@ package model;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -73,10 +78,38 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 		opdrachten.get(opdracht).setMaxAntwoordTijd(maxAntwoordTijd);
 	}
 	
+	public void leesOpdrachtenVanDataBase(){
+		String DB_URL = "jdbc:mysql://localhost/quizdb";
+		try{
+				Connection con  = DriverManager.getConnection(DB_URL, "root","root");
+				Statement st = con.createStatement();
+				ResultSet res = st.executeQuery("select * from quizdb.quiz");
+				while (res.next()){
+					System.out.println(res.getString(2));
+					  String categorie = res.getString(1);
+					  String vraag = res.getString(2);
+					  String juisteAntwoord = res.getString(3);
+					  String type = res.getString(4);
+					  String keuzesString = res.getString(5);
+					  String [] veldenKeuzesString = keuzesString.split(",");
+					  ArrayList<String> keuzes = new ArrayList<String>();
+					  int n= 0;
+					  while(veldenKeuzesString.length > n){
+						  keuzes.add(veldenKeuzesString[n]);
+						  n++;
+					  }
+					  OpdrachtFactory factory = new OpdrachtFactory();
+					  opdrachten.add(factory.getOpdracht(type, categorie, vraag, juisteAntwoord, keuzes));
+				}
+			}
+		catch(SQLException ex){System.out.println("SQL exception: "+ex.getMessage());}
+	}
+	
 	public void leesOpdrachtenVanTekstBestand(){
 		  File file = new File("bestanden/opdrachten.txt");
+		  Scanner scanner = null ;
 		  try{
-			Scanner scanner = new Scanner(file);
+			scanner = new Scanner(file);
 			while (scanner.hasNext() && !scanner.hasNext("END")){
 		      String lijn = scanner.nextLine();
 			  String [] velden = lijn.split(",");
@@ -84,30 +117,14 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 			  String vraag = velden[1];
 			  String juisteAntwoord = velden[2];
 			  String type = velden[3];
-			  switch(type){
-			  case "Vraag":
-				  Opdracht v = new Vraag(categorie, vraag, juisteAntwoord);		
-				  opdrachten.add(v);
-				  break;
-			  case "Meerkeuze":
 				  ArrayList<String> keuzes = new ArrayList<String>();
 				  int n= 4;
 				  while(velden.length > n){
 					  keuzes.add(velden[n]);
 					  n++;
 				  }
-				  Opdracht m = new Meerkeuze(categorie, vraag, juisteAntwoord, keuzes);		
-				  opdrachten.add(m);
-				  break;
-			  case "Opsomming":
-				  Opdracht o = new Opsomming(categorie, vraag, juisteAntwoord);		
-				  opdrachten.add(o);
-				  break;
-			  }
-
-			}
-			if (scanner!=null){
-			  scanner.close();
+				  OpdrachtFactory factory = new OpdrachtFactory();
+				  opdrachten.add(factory.getOpdracht(type, categorie, vraag, juisteAntwoord, keuzes));
 			}
 		  }
 		  catch(FileNotFoundException ex){
@@ -116,9 +133,14 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 		  catch(Exception ex){
 		    System.out.println("Error message lees opdracht van tekstbestand: " + ex.getMessage());
 		  }
+		  finally{
+			  if (scanner!=null){
+				  scanner.close();
+				  }
+		  }
 	}
 	
-	public void schrijfOpdrachtenNaarBestand(){
+	public void schrijfOpdrachtenNaarTekstBestand(){
 		File file = new File("bestanden/opdrachten.txt");
 		try{
 			PrintWriter writer = new PrintWriter(file);
@@ -189,12 +211,12 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 		Iterator<Opdracht> iterator = opdrachten.iterator();
 		return iterator;
 	}
-
+/*
 	public static void main(String[] args) {
 		OpdrachtCatalogus x = new OpdrachtCatalogus();
 		x.leesOpdrachtenVanTekstBestand();
 		Opdracht o = x.getOpdrachtBijVraag("Wat is de hoofdstad van Duitsland?");
 		System.out.println(o);
 	}
-
+*/
 }// Einde class

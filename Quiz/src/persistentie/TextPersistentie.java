@@ -13,9 +13,9 @@ public class TextPersistentie extends PersistentieFacade {
 
 	@Override
 	public void bewaarData() {
-		qoc.schrijfQuizOpdrachtenNaarBestand();
-		oc.schrijfOpdrachtenNaarBestand();
-		qc.schrijfQuizOpdrachtenNaarBestand();
+		qoc.schrijfQuizOpdrachtenNaarTekstBestand();
+		oc.schrijfOpdrachtenNaarTekstBestand();
+		qc.schrijfQuizOpdrachtenNaarTekstBestand();
 	}
 
 	@Override

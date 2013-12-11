@@ -3,6 +3,11 @@ package model;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -39,10 +44,30 @@ public class QuizCatalogus implements Iterable<Quiz> {
 		return quizzen.get(quiz);
 	}
 	
+	public void leesQuizzenVanDataBase(){
+		String DB_URL = "jdbc:mysql://localhost/quizdb";
+		try{
+				Connection con  = DriverManager.getConnection(DB_URL, "root","root");
+				Statement st = con.createStatement();
+				ResultSet res = st.executeQuery("select * from quizdb.quiz");
+				while (res.next()){
+					System.out.println(res.getString(2));
+					  String naam = res.getString(1);
+					  String leerjaren = res.getString(2);
+					  String onderwerp = res.getString(3);
+					  
+					  Quiz q = new Quiz(naam, leerjaren, onderwerp);		
+					  quizzen.add(q);
+				}			 
+			}
+		catch(SQLException ex){System.out.println("SQL exception: "+ex.getMessage());}
+	}
+	
 	public void leesQuizzenVanTekstBestand(){
 		  File file = new File("bestanden/quizzen.txt");
+		  Scanner scanner = null;
 		  try{
-			Scanner scanner = new Scanner(file);
+			scanner = new Scanner(file);
 			while (scanner.hasNext() && !scanner.hasNext("END")){
 		      String lijn = scanner.nextLine();
 			  String [] velden = lijn.split(",");
@@ -54,9 +79,6 @@ public class QuizCatalogus implements Iterable<Quiz> {
 			  quizzen.add(q);
 
 			}
-			if (scanner!=null){
-			  scanner.close();
-			}
 		  }
 		  catch(FileNotFoundException ex){
 		    System.out.println("bestand met quizzen niet gevonden");
@@ -67,9 +89,14 @@ public class QuizCatalogus implements Iterable<Quiz> {
 		  catch(Exception ex){
 		    System.out.println("Error message lees quiz van tekstbestand: " + ex.getMessage());
 		  }
+		  finally{
+			  if (scanner!=null){
+				  scanner.close();
+				  }
+		  }
 		}
 	
-	public void schrijfQuizOpdrachtenNaarBestand(){
+	public void schrijfQuizOpdrachtenNaarTekstBestand(){
 		File file = new File("bestanden/quizzen.txt");
 		try{
 			PrintWriter writer = new PrintWriter(file);

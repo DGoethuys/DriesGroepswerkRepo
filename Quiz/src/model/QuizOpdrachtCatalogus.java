@@ -3,6 +3,11 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -16,11 +21,35 @@ public class QuizOpdrachtCatalogus implements Iterable<QuizOpdracht> {
 		return quizOpdracht;
 	}
 	
+	public void leesQuizOpdrachtenVanDataBase(){
+		String DB_URL = "jdbc:mysql://localhost/quizdb";
+		try{
+				Connection con  = DriverManager.getConnection(DB_URL, "root","root");
+				Statement st = con.createStatement();
+				ResultSet res = st.executeQuery("select * from quizdb.QuizOpdracht");
+				while (res.next()){
+					System.out.println(res.getString(2));
+					  String naam = res.getString(1);;
+					  String vraag = res.getString(2);
+					  int maxScore= res.getInt(3);
+					  
+					  QuizOpdracht qo = new QuizOpdracht(naam, vraag, maxScore);
+					  quizOpdrachten.add(qo);
+				}			 
+			}
+		catch(SQLException ex){System.out.println("SQL exception: "+ex.getMessage());}
+	}
+	
+	public void schrijfQuizOpdrachtenNaarDataBase(){
+		
+	}
+	
 	//method om QuizOpdrachten uit tekst bestand in te lezen en ze op te slaan als objecten in een ArrayList
 	public void leesQuizOpdrachtenVanTekstBestand(){
 		  File file = new File("bestanden/quizOpdrachten.txt");
+		  Scanner scanner = null;
 		  try{
-			Scanner scanner = new Scanner(file);
+			scanner = new Scanner(file);
 			while (scanner.hasNext() && !scanner.hasNext("END")){
 		      String lijn = scanner.nextLine();
 			  String [] velden = lijn.split(",");
@@ -32,9 +61,6 @@ public class QuizOpdrachtCatalogus implements Iterable<QuizOpdracht> {
 			  quizOpdrachten.add(qo);
 
 			}
-			if (scanner!=null){
-			  scanner.close();
-			}
 		  }
 		  catch(FileNotFoundException ex){
 		    System.out.println("bestand met quizOpdrachten niet gevonden");
@@ -42,11 +68,16 @@ public class QuizOpdrachtCatalogus implements Iterable<QuizOpdracht> {
 		  catch(Exception ex){
 		    System.out.println("Error message lees quizOpdracht van tekstbestand: " + ex.getMessage());
 		  }
+		  finally{
+			  if (scanner!=null){
+				  scanner.close();
+				  }
+		  }
 		}
 
 	//method om ArrayList van objecten af te gaan en deze om te zetten naar strings om ze weg te schrijven
 	//in een tekst bestand
-	public void schrijfQuizOpdrachtenNaarBestand(){
+	public void schrijfQuizOpdrachtenNaarTekstBestand(){
 		File file = new File("bestanden/quizOpdrachten.txt");
 		try{
 			PrintWriter writer = new PrintWriter(file);

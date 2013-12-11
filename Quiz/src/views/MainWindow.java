@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -8,8 +9,10 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 
 import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JMenuBar;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
@@ -22,6 +25,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.JList;
 
+import persistentie.PersistentieFacade;
+import persistentie.PersistentieType;
+import controller.OpstartController;
 import model.*;
 import Enums.*;
 
@@ -41,7 +47,7 @@ public class MainWindow implements ActionListener {
 			public void run() {
 				try {
 					MainWindow window = new MainWindow();
-					window.frame.setVisible(true);
+					//window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -73,10 +79,17 @@ public class MainWindow implements ActionListener {
 		
 		JLabel lblToonOpdrachtenVan = new JLabel("Toon opdrachten van categorie");
 		lblToonOpdrachtenVan.setBounds(12, 17, 222, 15);
-		
-		JComboBox Categorie = new JComboBox();
-		Categorie.setBounds(252, 12, 124, 24);
-		
+		//Combobox voor het kiezen van de categorie van de vraagen die getoont worden
+		JComboBox<String> CategorieCB = new JComboBox<String>();
+		CategorieCB.setBounds(252, 12, 124, 24);
+			//JComboBox opvullen met Enum Categorie
+			Categorie [] categorie = Categorie.values();
+			int n = 0;
+			while(n < categorie.length){
+				CategorieCB.addItem(categorie[n].toString());
+				n++;
+			}
+			
 		JLabel lblSorteerOpdrachtenOp = new JLabel("Sorteer opdrachten op");
 		lblSorteerOpdrachtenOp.setBounds(12, 59, 162, 15);
 		
@@ -89,11 +102,12 @@ public class MainWindow implements ActionListener {
 		JButton VraagOmhoog = new JButton("^^^^^^");
 		VraagOmhoog.setBounds(497, 53, 437, 40);
 		
-		JList LijstToegevoegd = new JList();
+		JList<String> LijstToegevoegd = new JList<String>();
 		LijstToegevoegd.setBounds(497, 105, 437, 288);
 		
-		JList LijstToevoegen = new JList();
+		JList<String> LijstToevoegen = new JList<String>();
 		LijstToevoegen.setBounds(12, 105, 364, 288);
+
 		
 		JButton QuizVerwijderen = new JButton("<<<<");
 		QuizVerwijderen.setBounds(405, 243, 74, 25);
@@ -120,15 +134,21 @@ public class MainWindow implements ActionListener {
 		
 		JLabel lblAuteur = new JLabel("Auteur");
 		lblAuteur.setBounds(539, 17, 48, 15);
+		//Combobox met auteur van de gemaakte quiz
+		JComboBox<String> AuteurCB = new JComboBox<String>();
+			//JComboBox opvullen met Enum Categorie
+			Leraar [] auteur = Leraar.values();
+			n = 0;
+			while(n < auteur.length){
+				AuteurCB.addItem(auteur[n].toString());
+				n++;
+			}
 		
-		JComboBox Auteur = new JComboBox();
-		//Auteur.setModel(new DefaultComboBoxModel(EnumLeraren.enumsToStringArray()));
-		
-		frame.add(Auteur);  
-        frame.pack();  
+		frame.add(AuteurCB);  
+        //frame.pack();  
         frame.setLocationRelativeTo(null);  
-        frame.setVisible(true);
-		Auteur.setBounds(605, 12, 137, 24);
+        //frame.setVisible(true);
+		AuteurCB.setBounds(605, 12, 137, 24);
 		
 		JButton RegistreerQuiz = new JButton("Registreer nieuwe quiz");
 		RegistreerQuiz.setBounds(20, 48, 728, 31);
@@ -140,13 +160,13 @@ public class MainWindow implements ActionListener {
 		panel_1.add(lblKlas);
 		panel_1.add(Klas);
 		panel_1.add(lblAuteur);
-		panel_1.add(Auteur);
+		panel_1.add(AuteurCB);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		panel.add(lblToonOpdrachtenVan);
 		panel.add(lblSorteerOpdrachtenOp);
 		panel.add(Sorteren);
-		panel.add(Categorie);
+		panel.add(CategorieCB);
 		panel.add(LijstToevoegen);
 		panel.add(QuizToevoegen);
 		panel.add(QuizVerwijderen);
@@ -161,4 +181,6 @@ public class MainWindow implements ActionListener {
 		// TODO Auto-generated method stub
 		
 	}
+	
+
 }// Einde class

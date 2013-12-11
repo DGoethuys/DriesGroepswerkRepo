@@ -117,7 +117,7 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Seria
 		 return clone;
 	}
 	
-	public String uitleg(){
+	protected String uitleg(){
 		return null;
 	}
 }// Einde class

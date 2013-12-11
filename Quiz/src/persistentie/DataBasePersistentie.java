@@ -4,11 +4,9 @@ public class DataBasePersistentie extends PersistentieFacade {
 
 	@Override
 	public void laadData() {
-		/* TODO Auto-generated method stub
-		 * Hier moetten calls naar methods komen die data uit de database haalt...
-		 */
-		
-
+		qc.leesQuizzenVanDataBase();
+		oc.leesOpdrachtenVanDataBase();
+		qoc.leesQuizOpdrachtenVanDataBase();
 	}
 
 	@Override

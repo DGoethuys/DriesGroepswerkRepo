@@ -1,7 +1,5 @@
 package views;
 
-
-
 public class Menu {
 	
 	private String menuTekst;
