@@ -28,13 +28,15 @@ import Enums.*;
 
 public class MainWindow implements ActionListener {
 
-	private JFrame frame;
+	public JFrame frame;
 	private JTextField Onderwerp;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	
+		
+	public void startUpMainWindow(){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -46,6 +48,7 @@ public class MainWindow implements ActionListener {
 			}
 		});
 	}
+	
 
 	/**
 	 * Create the application.
