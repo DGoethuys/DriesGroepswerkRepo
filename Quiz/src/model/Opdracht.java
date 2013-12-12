@@ -27,16 +27,17 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Seria
 	
 	//constructor die alleen vraag en antwoord nodig heeft en default waarde aan aantalPogingen en maxAntwoordTijd geeft
 	public Opdracht(String categorie, String vraag, String juisteAntwoord){
-		this(categorie, vraag, juisteAntwoord, 3, 5);
+		this(categorie, vraag, juisteAntwoord, 3, 5, "Meerkeuze");
 	}
 	
 	//constructor voor alle parameters behalve de hints
-	public Opdracht(String categorie, String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd){
+	public Opdracht(String categorie, String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd, String type){
 		this.setCategorie(categorie);
 		this.setVraag(vraag);
 		this.setJuisteAntwoord(juisteAntwoord);
 		this.setAantalPogingen(aantalPogingen);
-		this.setMaxAntwoordTijd(maxAntwoordTijd);	
+		this.setMaxAntwoordTijd(maxAntwoordTijd);
+		this.setType(type);
 	}
 	
 	//getters
@@ -65,6 +66,12 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Seria
 	}
 	
 	//setters
+	public void setType(String type)throws NullPointerException{
+		if(type != null)
+			this.type = type;
+		else throw new NullPointerException("Kies een Type!");
+	} 
+	
 	public void setCategorie(String categorie)throws NullPointerException{
 		if(categorie != null)
 			this.categorie = categorie;

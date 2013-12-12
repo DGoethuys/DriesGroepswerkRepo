@@ -19,14 +19,14 @@ public class Vraag extends Opdracht implements Valideerbaar {
 	}
 	
 	//constructor voor alle parameters behalve de hints
-	public Vraag(String categorie, String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd ){
-		super(categorie, vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
+	public Vraag(String categorie, String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd, String type ){
+		super(categorie, vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd, type);
 		super.type = "Vraag";
 	}
 	
 	//constructor voor hints mee te geven
-	public Vraag(String categorie, String vraag, String juisteAntwoord, int aantalPogingen,int maxAntwoordTijd , String ... hints ){
-		super(categorie, vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
+	public Vraag(String categorie, String vraag, String juisteAntwoord, int aantalPogingen,int maxAntwoordTijd, String type , String ... hints ){
+		super(categorie, vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd, type);
 		int n = 0;
 		while(hints.length < 0){
 			this.addHint(hints[n]);
@@ -79,7 +79,7 @@ public class Vraag extends Opdracht implements Valideerbaar {
 	
 	
 	public static void main(String[] args) {
-		Vraag opdracht1 = new Vraag("Vormen", "Wat is de vorm van de maan?", "rond", 5, 10);
+		Vraag opdracht1 = new Vraag("Vormen", "Wat is de vorm van de maan?", "rond", 5, 10, "Meerkeuze");
 		opdracht1.addHint("Bal");
 		opdracht1.addHint("Hoepel");
 		System.out.println(opdracht1.toString());
