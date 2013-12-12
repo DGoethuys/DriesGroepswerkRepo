@@ -9,10 +9,12 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JMenuBar;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
@@ -45,7 +47,7 @@ public class MainWindow implements ActionListener {
 	private JLabel lblAantalToegevoegdeOpdrachten;
 	private JButton bVraagOmhoog;
 	private JList<String> listToegevoegd;
-	private JList<String> listToevoegen;
+	private JList listToevoegen ;
 	private JButton bQuizVerwijderen;
 	private JButton bQuizToevoegen;
 	private JLabel lblCounter;
@@ -188,6 +190,16 @@ public class MainWindow implements ActionListener {
 		pBottom.add(lblAantalToegevoegdeOpdrachten);
 		pBottom.add(lblCounter);
 		pBottom.add(bVraagOmhoog);
+	}
+	
+	public void vulListToevoegen(Iterator opdrachten){
+		DefaultListModel listModel = new DefaultListModel();;
+		while(opdrachten.hasNext()){
+			listModel.addElement(opdrachten.next().toString());
+		}
+		listToevoegen = new JList<String>(listModel);
+		
+		
 	}
 
 	@Override
