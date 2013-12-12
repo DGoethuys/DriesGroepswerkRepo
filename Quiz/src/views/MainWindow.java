@@ -192,12 +192,12 @@ public class MainWindow implements ActionListener {
 		pBottom.add(bVraagOmhoog);
 	}
 	
-	public void vulListToevoegen(Iterator opdrachten){
-		DefaultListModel listModel = new DefaultListModel();;
-		while(opdrachten.hasNext()){
-			listModel.addElement(opdrachten.next().toString());
+	public void vulListToevoegen(ArrayList<Opdracht> opdrachten){
+		DefaultListModel<Opdracht> listModel = new DefaultListModel<Opdracht>();;
+		while(opdrachten.iterator().hasNext()){
+			listModel.addElement(opdrachten.iterator().next());
 		}
-		listToevoegen = new JList<String>(listModel);
+		listToevoegen = new JList<Opdracht>(listModel);
 		
 		
 	}
