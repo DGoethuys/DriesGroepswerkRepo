@@ -211,6 +211,10 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 		Iterator<Opdracht> iterator = opdrachten.iterator();
 		return iterator;
 	}
+	
+	public ArrayList<Opdracht> getListOpdrachten(){
+		return this.opdrachten;
+	}
 /*
 	public static void main(String[] args) {
 		OpdrachtCatalogus x = new OpdrachtCatalogus();

@@ -22,7 +22,7 @@ public class OpstartController {
 			System.out.println(persistentie.getQuizCatalogus());
 			System.out.println(persistentie.getQuizOpdrachtCatalogus());
 			opstart.opstartMenu();
-			opstart.mainwindow.vulListToevoegen(persistentie.getOpdrachtCatalogus().iterator());
+			opstart.mainwindow.vulListToevoegen(persistentie.getOpdrachtCatalogus().getListOpdrachten());
 
 			//opstart.mainwindow.frame.setVisible(true);
 			
