@@ -3,7 +3,10 @@ package testing;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
 import java.util.ArrayList;
 
 import model.Meerkeuze;
@@ -13,10 +16,11 @@ public class MeerkeuzeTest {
 	private Meerkeuze meerkeuze;
 	public boolean Valide = true;
 	
-	
+	@Rule
+	public ExpectedException expectedEx = ExpectedException.none();
 	
 	@Before
-	public void setUp(){
+	public void setUp() throws Exception {
 		 meerkeuze = new Meerkeuze("Aardrijkskunde", "Wat is de hoofdstad van Belgie", "Brussel", keuze, 1, 50, "Meerkeuze");
 		 
 		final ArrayList<String> keuze = new ArrayList<String>();
@@ -38,6 +42,22 @@ public class MeerkeuzeTest {
 		meerkeuze.isValid();
 		
 		assertEquals(this.Valide, meerkeuze.isValid());
+	}
+	
+	@Test
+	public void Test_SetVraag_VraagIsNull_Exception(){
+		expectedEx.expect(NullPointerException.class);
+	    expectedEx.expectMessage("Vraag moet ingevuld zijn!");
+		meerkeuze = new Meerkeuze("Aardrijkskunde", null, "Brussel", keuze, 1, 50, "Meerkeuze");
+		
+	}
+	
+	@Test
+	public void Test_SetVraag_AntwoordIsNull_Exception(){
+		expectedEx.expect(NullPointerException.class);
+	    expectedEx.expectMessage("Het juiste antwoord moet ingevuld zijn!");
+		meerkeuze = new Meerkeuze( "Aardrijkskunde", "Wat is de hoofdstad van Belgie", null, keuze, 1, 50, "Meerkeuze");
+		
 	}
 
 }// Einde class
