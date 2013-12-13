@@ -2,8 +2,10 @@ package controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
+import model.Opdracht;
 import persistentie.PersistentieFacade;
 import persistentie.PersistentieType;
 import views.Menu;
@@ -22,8 +24,6 @@ public class OpstartController {
 			System.out.println(persistentie.getQuizCatalogus());
 			System.out.println(persistentie.getQuizOpdrachtCatalogus());
 			opstart.opstartMenu();
-			opstart.mainwindow.vulListToevoegen(persistentie.getOpdrachtCatalogus().getListOpdrachten());
-
 			//opstart.mainwindow.frame.setVisible(true);
 			
 			
@@ -40,26 +40,11 @@ public class OpstartController {
 					"Overzicht scores (leraar)"," Quiz rapport (deelnemer quiz)" ," Quiz lijsten"," Instellingen van de quiz applicatie");
 		
 		if (menu.getMenuKeuze() == 2){
-			
 			mainwindow = new MainWindow();
 			mainwindow.startUpMainWindow();
 			}
 		
 	}
-	
-			
-			/*EventQueue.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						MainWindow window = new MainWindow();
-						window.frame.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		}
-	} */
 
 	
 	public String getPersistentieFromInit()throws NullPointerException{

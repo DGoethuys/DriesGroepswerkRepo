@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
 
@@ -9,6 +10,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -16,8 +18,10 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JMenuBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
+import javax.swing.ListCellRenderer;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
@@ -29,13 +33,14 @@ import javax.swing.JList;
 
 import persistentie.PersistentieFacade;
 import persistentie.PersistentieType;
+import persistentie.TextPersistentie;
 import controller.OpstartController;
 import model.*;
 import Enums.*;
 
 
 public class MainWindow implements ActionListener {
-
+	
 	public JFrame frame;
 	private JTextField tfOnderwerp;
 	private JPanel pTop;
@@ -81,6 +86,7 @@ public class MainWindow implements ActionListener {
 	 */
 	public MainWindow() {
 		initialize();
+		
 	}
 
 	/**
@@ -120,11 +126,17 @@ public class MainWindow implements ActionListener {
 		bVraagOmhoog = new JButton("^^^^^^");
 		bVraagOmhoog.setBounds(497, 53, 437, 40);
 		
-		listToegevoegd = new JList<String>();
+		listToegevoegd = new JList();
 		listToegevoegd.setBounds(497, 105, 437, 288);
-		
-		listToevoegen = new JList<String>();
+
+		OpstartController opstart = new OpstartController();
+		PersistentieType type = new PersistentieType();
+		PersistentieFacade persistentie = type.getPersistentie(opstart.getPersistentieFromInit());
+		persistentie.laadData();
+		listToevoegen = new JList(persistentie.getOpdrachtCatalogus().getListOpdrachten().toArray());
+		listToevoegen.setCellRenderer(new OpdrachtCellRenderer());
 		listToevoegen.setBounds(12, 105, 364, 288);
+	    JScrollPane pane = new JScrollPane(listToevoegen);
 
 		
 		bQuizVerwijderen = new JButton("<<<<");
@@ -191,16 +203,6 @@ public class MainWindow implements ActionListener {
 		pBottom.add(lblCounter);
 		pBottom.add(bVraagOmhoog);
 	}
-	
-	public void vulListToevoegen(ArrayList<Opdracht> opdrachten){
-		DefaultListModel<Opdracht> listModel = new DefaultListModel<Opdracht>();;
-		while(opdrachten.iterator().hasNext()){
-			listModel.addElement(opdrachten.iterator().next());
-		}
-		listToevoegen = new JList<Opdracht>(listModel);
-		
-		
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -209,4 +211,44 @@ public class MainWindow implements ActionListener {
 	}
 	
 
+	// An inner class to respond to clicks on the Print button
+	class PrintListener implements ActionListener {
+	  public void actionPerformed(ActionEvent e) {
+	    int selected[] = listToevoegen.getSelectedIndices();
+	    System.out.println("Selected Elements:  ");
+
+	    for (int i = 0; i < selected.length; i++) {
+	  	  Opdracht element = (Opdracht) listToevoegen.getModel()
+	          .getElementAt(selected[i]);
+	      System.out.println("  " + element.toString());
+	    }
+	  }
+	}
+
+	class OpdrachtCellRenderer extends JLabel implements ListCellRenderer {
+		  private Color HIGHLIGHT_COLOR = new Color(0, 0, 128);
+
+		  public OpdrachtCellRenderer() {
+		    setOpaque(true);
+		    setIconTextGap(12);
+		  }
+
+		  public Component getListCellRendererComponent(JList list, Object value,
+		      int index, boolean isSelected, boolean cellHasFocus) {
+		    Opdracht entry = (Opdracht) value;
+		    setText(entry.getVraag() + " - " + entry.getType());
+		    if (isSelected) {
+		      setBackground(HIGHLIGHT_COLOR);
+		      setForeground(Color.white);
+		    } else {
+		      setBackground(Color.white);
+		      setForeground(Color.black);
+		    }
+		    return this;
+		  }
+		}
 }// Einde class
+
+
+
+
