@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import javax.swing.ComboBoxModel;
@@ -30,6 +31,7 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.JList;
+import javax.swing.ListModel;
 
 import persistentie.PersistentieFacade;
 import persistentie.PersistentieType;
@@ -41,6 +43,9 @@ import Enums.*;
 
 public class MainWindow implements ActionListener {
 	
+	private OpstartController o;
+	private HashSet<Opdracht> opdrachtenInRight = new HashSet<Opdracht>();
+	
 	public JFrame frame;
 	private JTextField tfOnderwerp;
 	private JPanel pTop;
@@ -51,10 +56,12 @@ public class MainWindow implements ActionListener {
 	private JComboBox cbSorteren;
 	private JLabel lblAantalToegevoegdeOpdrachten;
 	private JButton bVraagOmhoog;
-	private JList<String> listToegevoegd;
-	private JList listToevoegen ;
-	private JButton bQuizVerwijderen;
-	private JButton bQuizToevoegen;
+	private JList listRight;
+	private JScrollPane spListRight;
+	private JList listLeft;
+	private JScrollPane spListLeft;
+	private JButton bOpdrachtVerwijderen;
+	private JButton bOpdrachtToevoegen;
 	private JLabel lblCounter;
 	private JLabel lblOnderwerp;
 	private JLabel lblKlas;
@@ -126,21 +133,24 @@ public class MainWindow implements ActionListener {
 		bVraagOmhoog = new JButton("^^^^^^");
 		bVraagOmhoog.setBounds(497, 53, 437, 40);
 		
-		listToegevoegd = new JList();
-		listToegevoegd.setBounds(497, 105, 437, 288);
+		
+		listRight = new JList();
+		spListRight = new JScrollPane(listRight);
+		spListRight.setBounds(497, 105, 437, 288);
 
-		OpstartController o = new OpstartController();
-		listToevoegen = new JList(o.getPersistentie().getOpdrachtCatalogus().getListOpdrachten().toArray());
-		listToevoegen.setCellRenderer(new OpdrachtCellRenderer());
-		listToevoegen.setBounds(12, 105, 364, 288);
-	    //JScrollPane pane = new JScrollPane(listToevoegen);
+		o = new OpstartController();
+		listLeft = new JList(o.getPersistentie().getOpdrachtCatalogus().getListOpdrachten().toArray());
+		listLeft.setCellRenderer(new OpdrachtCellRenderer());
+		spListLeft = new JScrollPane(listLeft);
+	    spListLeft.setBounds(12, 105, 364, 288);
 
 		
-		bQuizVerwijderen = new JButton("<<<<");
-		bQuizVerwijderen.setBounds(405, 243, 74, 25);
+		bOpdrachtVerwijderen = new JButton("<<<<");
+		bOpdrachtVerwijderen.setBounds(405, 243, 74, 25);
 		
-		bQuizToevoegen = new JButton(">>>>");
-		bQuizToevoegen.setBounds(405, 177, 74, 25);
+		bOpdrachtToevoegen = new JButton(">>>>");
+		bOpdrachtToevoegen.setBounds(405, 177, 74, 25);
+		bOpdrachtToevoegen.addActionListener(new AddOpdrachtListener());
 		
 		lblCounter = new JLabel("");
 		lblCounter.setBounds(759, 32, 0, 0);
@@ -192,10 +202,10 @@ public class MainWindow implements ActionListener {
 		pBottom.add(lblSorteerOpdrachtenOp);
 		pBottom.add(cbSorteren);
 		pBottom.add(cbCategorie);
-		pBottom.add(listToevoegen);
-		pBottom.add(bQuizToevoegen);
-		pBottom.add(bQuizVerwijderen);
-		pBottom.add(listToegevoegd);
+		pBottom.add(spListLeft);
+		pBottom.add(bOpdrachtToevoegen);
+		pBottom.add(bOpdrachtVerwijderen);
+		pBottom.add(spListRight);
 		pBottom.add(lblAantalToegevoegdeOpdrachten);
 		pBottom.add(lblCounter);
 		pBottom.add(bVraagOmhoog);
@@ -209,15 +219,18 @@ public class MainWindow implements ActionListener {
 	
 
 	// An inner class to respond to clicks on the Print button
-	class PrintListener implements ActionListener {
+	class AddOpdrachtListener implements ActionListener {
 	  public void actionPerformed(ActionEvent e) {
-	    int selected[] = listToevoegen.getSelectedIndices();
-	    System.out.println("Selected Elements:  ");
-
+	    int selected[] = listLeft.getSelectedIndices();
+	    DefaultListModel model = new DefaultListModel();
 	    for (int i = 0; i < selected.length; i++) {
-	  	  Opdracht element = (Opdracht) listToevoegen.getModel().getElementAt(selected[i]);
-	      System.out.println("  " + element.toString());
+    		opdrachtenInRight.add((Opdracht) listLeft.getModel().getElementAt(selected[i]));
 	    }
+	    for(Opdracht o : opdrachtenInRight){
+	    	model.addElement(o);
+	    }
+	    listRight.setModel(model);
+		listRight.setCellRenderer(new OpdrachtCellRenderer());
 	  }
 	}
 
