@@ -66,7 +66,7 @@ public class MainWindow implements ActionListener {
 	 * Launch the application.
 	 */
 	
-		
+/*		
 	public void startUpMainWindow(){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -79,7 +79,7 @@ public class MainWindow implements ActionListener {
 			}
 		});
 	}
-	
+*/	
 
 	/**
 	 * Create the application.
@@ -129,14 +129,11 @@ public class MainWindow implements ActionListener {
 		listToegevoegd = new JList();
 		listToegevoegd.setBounds(497, 105, 437, 288);
 
-		OpstartController opstart = new OpstartController();
-		PersistentieType type = new PersistentieType();
-		PersistentieFacade persistentie = type.getPersistentie(opstart.getPersistentieFromInit());
-		persistentie.laadData();
-		listToevoegen = new JList(persistentie.getOpdrachtCatalogus().getListOpdrachten().toArray());
+		OpstartController o = new OpstartController();
+		listToevoegen = new JList(o.getPersistentie().getOpdrachtCatalogus().getListOpdrachten().toArray());
 		listToevoegen.setCellRenderer(new OpdrachtCellRenderer());
 		listToevoegen.setBounds(12, 105, 364, 288);
-	    JScrollPane pane = new JScrollPane(listToevoegen);
+	    //JScrollPane pane = new JScrollPane(listToevoegen);
 
 		
 		bQuizVerwijderen = new JButton("<<<<");
@@ -218,8 +215,7 @@ public class MainWindow implements ActionListener {
 	    System.out.println("Selected Elements:  ");
 
 	    for (int i = 0; i < selected.length; i++) {
-	  	  Opdracht element = (Opdracht) listToevoegen.getModel()
-	          .getElementAt(selected[i]);
+	  	  Opdracht element = (Opdracht) listToevoegen.getModel().getElementAt(selected[i]);
 	      System.out.println("  " + element.toString());
 	    }
 	  }

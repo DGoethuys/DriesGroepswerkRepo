@@ -42,7 +42,7 @@ public class jlistNest extends JPanel {
 				PersistentieFacade persistentie = new TextPersistentie();
 				OpstartController opstart = new OpstartController();
 				PersistentieType type = new PersistentieType();
-				persistentie = type.getPersistentie(opstart.getPersistentieFromInit());
+				persistentie = type.getPersistentie(opstart.setPersistentieFromInit());
 				persistentie.laadData();
 		    JFrame frame = new JFrame("Opdrachten");
 		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.EventQueue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -12,19 +13,17 @@ import views.Menu;
 import views.MainWindow;
 
 public class OpstartController {
-	MainWindow mainwindow;
+	private PersistentieFacade p;
 	
 	public static void main(String[] args) {
 		try{
-			OpstartController opstart = new OpstartController();
-			PersistentieType type = new PersistentieType();
-			PersistentieFacade persistentie = type.getPersistentie(opstart.getPersistentieFromInit());
-			persistentie.laadData();
-			System.out.println(persistentie.getOpdrachtCatalogus());
-			System.out.println(persistentie.getQuizCatalogus());
-			System.out.println(persistentie.getQuizOpdrachtCatalogus());
-			opstart.opstartMenu();
-			//opstart.mainwindow.frame.setVisible(true);
+			OpstartController o = new OpstartController();
+			o.p = o.getPersistentie();
+			o.p.laadData();
+			System.out.println(o.p.getOpdrachtCatalogus());
+			System.out.println(o.p.getQuizCatalogus());
+			System.out.println(o.p.getQuizOpdrachtCatalogus());
+			o.opstartMenu();
 			
 			
 		}
@@ -34,20 +33,40 @@ public class OpstartController {
 
 	}// Einde main
 	
+	public PersistentieFacade getPersistentie(){
+		PersistentieType type = new PersistentieType();
+		PersistentieFacade persistentie = type.getPersistentie(setPersistentieFromInit());
+		persistentie.laadData();
+		return persistentie;
+	}
+	
 	public void opstartMenu(){
 		
 		Menu menu = new Menu ("Beheren van opdrachten (leraar)", "Beheren van quizzen/testen (leraar)" , "Deelnemen aan quiz (leerling)",
 					"Overzicht scores (leraar)"," Quiz rapport (deelnemer quiz)" ," Quiz lijsten"," Instellingen van de quiz applicatie");
 		
 		if (menu.getMenuKeuze() == 2){
-			mainwindow = new MainWindow();
-			mainwindow.startUpMainWindow();
+			startUpMainWindow();
 			}
 		
 	}
+	
+	
+	public void startUpMainWindow(){
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MainWindow window = new MainWindow();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	
-	public String getPersistentieFromInit()throws NullPointerException{
+	public String setPersistentieFromInit()throws NullPointerException{
 		String persistentie = null;
 		try{
 			persistentie = this.leesVanInit("Persistentie");
