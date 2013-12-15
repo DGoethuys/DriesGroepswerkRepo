@@ -8,12 +8,8 @@ import javax.swing.JPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
@@ -57,11 +53,7 @@ public class MainWindow {
 	private JLabel lblAuteur;
 	private JComboBox<String> cbAuteur;
 
-	/**
-	 * Launch the application.
-	 */
-	
-/*		
+/*	startUpMainWindow verplaatst naar opstart
 	public void startUpMainWindow(){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -76,9 +68,6 @@ public class MainWindow {
 	}
 */	
 
-	/**
-	 * Create the application.
-	 */
 	public MainWindow() {
 		initialize();
 		
@@ -242,15 +231,16 @@ public class MainWindow {
 	}// Einde inner class
 
 	// Inner class om uitzicht van cellen te bepalen
-	class OpdrachtCellRenderer extends JLabel implements ListCellRenderer {
-		  private Color HIGHLIGHT_COLOR = new Color(0, 0, 128);
+	class OpdrachtCellRenderer extends JLabel implements ListCellRenderer<Object> {
+		private static final long serialVersionUID = 1L;
+		private Color HIGHLIGHT_COLOR = new Color(0, 0, 128);
 
 		  public OpdrachtCellRenderer() {
 		    setOpaque(true);
 		    setIconTextGap(12);
 		  }// Einde constructor
 
-		  public Component getListCellRendererComponent(JList list, Object value,
+		  public Component getListCellRendererComponent(JList<?> list, Object value,
 		      int index, boolean isSelected, boolean cellHasFocus) {
 		    Opdracht entry = (Opdracht) value;
 		    setText(entry.getVraag() + " - " + entry.getType());
