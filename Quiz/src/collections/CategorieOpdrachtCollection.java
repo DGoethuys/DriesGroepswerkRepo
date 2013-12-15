@@ -1,5 +1,3 @@
-
-
 //Oefening 6a
 package collections;
 

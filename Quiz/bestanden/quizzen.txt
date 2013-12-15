@@ -1,5 +1,7 @@
 AardrijkskundeQuiz,1,Aardrijkskunde
-RekenQuiz,2,Wiskunde
+LandenKennis,2,Aardrijkskunde
+RekenQuiz,1,Wiskunde
+Rekenen,2,Wiskunde
 TaalQuiz,1,Nederlands
 WetenschappenQuiz,3,Wetenschappen
 END
