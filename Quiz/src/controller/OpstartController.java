@@ -13,19 +13,11 @@ import views.Menu;
 import views.MainWindow;
 
 public class OpstartController {
-	private PersistentieFacade p;
 	
 	public static void main(String[] args) {
 		try{
 			OpstartController o = new OpstartController();
-			o.p = o.getPersistentie();
-			o.p.laadData();
-			System.out.println(o.p.getOpdrachtCatalogus());
-			System.out.println(o.p.getQuizCatalogus());
-			System.out.println(o.p.getQuizOpdrachtCatalogus());
 			o.opstartMenu();
-			
-			
 		}
 		catch(Exception ex){
 			System.out.println("Error: " + ex.getMessage());

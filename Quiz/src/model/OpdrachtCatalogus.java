@@ -9,75 +9,95 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Scanner;
 
+/**
+ * Klasse die een catalogus bijhoud van Opdrachten
+ * 
+ * @author Dries Goethuys
+ *
+ */
 public class OpdrachtCatalogus implements Iterable<Opdracht> {
-	
-	/* Aanpassingen: method voor opdracht te zoeken op vraag, method voor opdrachten te lezen van bestand
-	 * 
-	 * 
-	 * TO DO:
-	 * Testklasses schrijven
-	 * logica voor verschillende soorten vragen (Polymorphisme toepassen)
-	 * bij gebruik van onderliggende klassen casten naar subclasses 
-	 * cast: Subclass referenceOfSubClass = (SubClass)referenceOfGeneralClass;
-	 * (instanceof of .getClass().getName() gebruiken om te testen)
+		
+	/**
+	 * Lijst waar Opdracht objecten in gaan komen
 	 */
+	private HashSet<Opdracht> opdrachten = new HashSet<Opdracht>();
 	
-	//Lijst waar Opdracht objecten in gaan komen
-	private ArrayList<Opdracht> opdrachten = new ArrayList<Opdracht>();
-	
-	//method voor toe te voegen
+	/**
+	 * method voor toe te voegen
+	 * @param opdracht
+	 */
 	public void addOpdracht( Opdracht opdracht ){
 		opdrachten.add(opdracht);
 	}
 
-	//method voor deleten
+	/**
+	 * method voor deleten
+	 * @param opdracht
+	 */
 	public void deleteOpdracht( Opdracht opdracht ){
 		opdrachten.remove(opdracht);
 	}
 	
-	//method om de lengte van de lijst te verkrijgen
+	/**
+	 * method om de lengte van de lijst te verkrijgen
+	 */
 	public int getLength(){
 		return opdrachten.size();
 	}
 	
-	//method om met int een object op te halen (beginnend van 0)
+	/**
+	 * method om met int een object op te halen (beginnend van 0)
+	 * @param opdracht
+	 * @return Opdracht
+	 */
 	public Opdracht getOpdracht( int opdracht ){
-		return opdrachten.get(opdracht);
+        ArrayList<Opdracht> oArrayList = new ArrayList<Opdracht>();
+    	for(Opdracht o : opdrachten){
+    		oArrayList.add(o);
+    	}
+		return oArrayList.get(opdracht);
 	}
 	
-	public void verwisselOpdracht( int opdracht, Opdracht nieuweOpdracht ){
-		opdrachten.remove(opdracht);
-		opdrachten.add(opdracht, nieuweOpdracht);
-	}
-	
-	//method voor alle variabelen voor Opdracht te veranderen (deze zijn tot nu toe alleen voor de abstracte klasse)
+	/**
+	 * method voor alle variabelen voor Opdracht te veranderen (deze zijn tot nu toe alleen voor de abstracte klasse)
+	 * @param opdracht
+	 * @param vraag
+	 * @param juisteAntwoord
+	 * @param aantalPogingen
+	 * @param maxAntwoordTijd
+	 */
 	public void veranderOpdracht( int opdracht, String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd ){
-		opdrachten.get(opdracht).setVraag(vraag);
-		opdrachten.get(opdracht).setJuisteAntwoord(juisteAntwoord);
-		opdrachten.get(opdracht).setAantalPogingen(aantalPogingen);
-		opdrachten.get(opdracht).setMaxAntwoordTijd(maxAntwoordTijd);
+		getOpdracht(opdracht).setVraag(vraag);
+		getOpdracht(opdracht).setJuisteAntwoord(juisteAntwoord);
+		getOpdracht(opdracht).setAantalPogingen(aantalPogingen);
+		getOpdracht(opdracht).setMaxAntwoordTijd(maxAntwoordTijd);
 	}
 
-	//methods voor aanpassen van variabelen in Opdracht
+	/**
+	 * methods voor aanpassen van vraag in Opdracht
+	 * @param opdracht
+	 * @param vraag
+	 */
 	public void veranderVraag( int opdracht, String vraag ){
-		opdrachten.get(opdracht).setVraag(vraag);
+		getOpdracht(opdracht).setVraag(vraag);
 	}
 	
 	public void veranderJuisteAntwoord( int opdracht, String juisteAntwoord ){
-		opdrachten.get(opdracht).setJuisteAntwoord(juisteAntwoord);
+		getOpdracht(opdracht).setJuisteAntwoord(juisteAntwoord);
 	}
 	
 	public void veranderAantalPogingen(int opdracht, int aantalPogingen){
-		opdrachten.get(opdracht).setAantalPogingen(aantalPogingen);
+		getOpdracht(opdracht).setAantalPogingen(aantalPogingen);
 	}
 	
 	public void veranderMaxAntwoordTijd( int opdracht, int maxAntwoordTijd ){
-		opdrachten.get(opdracht).setMaxAntwoordTijd(maxAntwoordTijd);
+		getOpdracht(opdracht).setMaxAntwoordTijd(maxAntwoordTijd);
 	}
-	
+
 	public void leesOpdrachtenVanDataBase(){
 		String DB_URL = "jdbc:mysql://localhost/quizdb";
 		try{
@@ -139,13 +159,15 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 				  }
 		  }
 	}
-	
+	/**
+	 * Method om data weg te schrijven naar tekstbestanden
+	 */
 	public void schrijfOpdrachtenNaarTekstBestand(){
 		File file = new File("bestanden/opdrachten.txt");
 		try{
 			PrintWriter writer = new PrintWriter(file);
 			for (int i = 0 ; i <opdrachten.size() ; i++){
-				Opdracht o = opdrachten.get(i);
+				Opdracht o = getOpdracht(i);
 				String lijn = null;
 				if(o.type == "Meerkeuze"){
 					lijn = o.getVraag() + "," + o.getJuisteAntwoord().toString() + "," + o.getType() + ",";
@@ -186,19 +208,6 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 			System.out.println("Error: " + ex.getMessage());
 		}
 		return o;
-		/*
-		Opdracht o = null;
-
-		for (int i = 0; i < opdrachten.size(); i++ ){
-			if (getOpdracht(i).getVraag().contentEquals(vraag)){
-				o = getOpdracht(i);
-			}
-		}
-		if(o == null){
-			throw new NullPointerException("Opdracht met vraag: " + vraag + " niet gevonden");
-		}
-		return o;
-		*/
 	}
 	
 	@Override
@@ -212,15 +221,7 @@ public class OpdrachtCatalogus implements Iterable<Opdracht> {
 		return iterator;
 	}
 	
-	public ArrayList<Opdracht> getListOpdrachten(){
+	public HashSet<Opdracht> getListOpdrachten(){
 		return this.opdrachten;
 	}
-/*
-	public static void main(String[] args) {
-		OpdrachtCatalogus x = new OpdrachtCatalogus();
-		x.leesOpdrachtenVanTekstBestand();
-		Opdracht o = x.getOpdrachtBijVraag("Wat is de hoofdstad van Duitsland?");
-		System.out.println(o);
-	}
-*/
 }// Einde class

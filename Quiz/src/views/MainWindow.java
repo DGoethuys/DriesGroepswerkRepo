@@ -2,49 +2,35 @@ package views;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.GroupLayout;
 import javax.swing.ListCellRenderer;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
-import javax.swing.JTextArea;
-import javax.swing.JTree;
 import javax.swing.JList;
-import javax.swing.ListModel;
 
-import persistentie.PersistentieFacade;
-import persistentie.PersistentieType;
-import persistentie.TextPersistentie;
 import controller.OpstartController;
 import model.*;
 import Enums.*;
 
 
-public class MainWindow implements ActionListener {
+public class MainWindow {
 	
 	private OpstartController o;
-	private HashSet<Opdracht> opdrachtenInRight = new HashSet<Opdracht>();
+	private HashSet<Opdracht> hsRechts = new HashSet<Opdracht>();
 	
 	public JFrame frame;
 	private JTextField tfOnderwerp;
@@ -52,20 +38,22 @@ public class MainWindow implements ActionListener {
 	private JPanel pBottom;
 	private JLabel lblToonOpdrachtenVan;
 	private JComboBox<String> cbCategorie;
-	private JLabel lblSorteerOpdrachtenOp;
-	private JComboBox cbSorteren;
+	private JLabel lblSorteren;
+	private JComboBox<String> cbSorteren;
 	private JLabel lblAantalToegevoegdeOpdrachten;
 	private JButton bVraagOmhoog;
-	private JList listRight;
+	private JList<Opdracht> listRight;
+	private ListModel<Opdracht> modelRight;
 	private JScrollPane spListRight;
-	private JList listLeft;
+	private JList<Opdracht> listLeft;
+	private ListModel<Opdracht> modelLeft;
 	private JScrollPane spListLeft;
 	private JButton bOpdrachtVerwijderen;
 	private JButton bOpdrachtToevoegen;
 	private JLabel lblCounter;
 	private JLabel lblOnderwerp;
 	private JLabel lblKlas;
-	private JComboBox cbKlas;
+	private JComboBox<String> cbKlas;
 	private JLabel lblAuteur;
 	private JComboBox<String> cbAuteur;
 
@@ -115,17 +103,23 @@ public class MainWindow implements ActionListener {
 		//Combobox voor het kiezen van de categorie van de vraagen die getoont worden
 		cbCategorie = new JComboBox<String>();
 		cbCategorie.setBounds(252, 12, 124, 24);
+		//default waarde toevoegen
+		cbCategorie.addItem(" -");
 			//JComboBox opvullen met Enum Categorie
 			Categorie [] categorie = Categorie.values();
 			for(Categorie e : categorie){
 				cbCategorie.addItem(e.toString());
 			}
 			
-		lblSorteerOpdrachtenOp = new JLabel("Sorteer opdrachten op");
-		lblSorteerOpdrachtenOp.setBounds(12, 59, 162, 15);
-		
-		cbSorteren = new JComboBox();
+		lblSorteren = new JLabel("Sorteer opdrachten op");
+		lblSorteren.setBounds(12, 59, 162, 15);
+		//Combobox die de manier van sorteren bepaald
+		cbSorteren = new JComboBox<String>();
 		cbSorteren.setBounds(252, 54, 124, 24);
+		//dafault sorteren van A tot Z
+		cbSorteren.addItem("A-Z");
+		//achterstevoren sorteren
+		cbSorteren.addItem("Z-A");
 		
 		lblAantalToegevoegdeOpdrachten = new JLabel("Aantal toegevoegde opdrachten");
 		lblAantalToegevoegdeOpdrachten.setBounds(497, 32, 230, 15);
@@ -133,13 +127,16 @@ public class MainWindow implements ActionListener {
 		bVraagOmhoog = new JButton("^^^^^^");
 		bVraagOmhoog.setBounds(497, 53, 437, 40);
 		
-		
-		listRight = new JList();
+		modelRight = new ListModel<Opdracht>();
+		listRight = new JList<Opdracht>(modelRight);
+		listRight.setCellRenderer(new OpdrachtCellRenderer());
 		spListRight = new JScrollPane(listRight);
 		spListRight.setBounds(497, 105, 437, 288);
 
+		
 		o = new OpstartController();
-		listLeft = new JList(o.getPersistentie().getOpdrachtCatalogus().getListOpdrachten().toArray());
+		modelLeft = new ListModel<Opdracht>(o.getPersistentie().getOpdrachtCatalogus().getListOpdrachten());
+		listLeft = new JList<Opdracht>(modelLeft);
 		listLeft.setCellRenderer(new OpdrachtCellRenderer());
 		spListLeft = new JScrollPane(listLeft);
 	    spListLeft.setBounds(12, 105, 364, 288);
@@ -147,6 +144,7 @@ public class MainWindow implements ActionListener {
 		
 		bOpdrachtVerwijderen = new JButton("<<<<");
 		bOpdrachtVerwijderen.setBounds(405, 243, 74, 25);
+		bOpdrachtVerwijderen.addActionListener(new RemoveOpdrachtListener());
 		
 		bOpdrachtToevoegen = new JButton(">>>>");
 		bOpdrachtToevoegen.setBounds(405, 177, 74, 25);
@@ -165,25 +163,26 @@ public class MainWindow implements ActionListener {
 		
 		lblKlas = new JLabel("Klas");
 		lblKlas.setBounds(402, 17, 30, 15);
-		
-		cbKlas = new JComboBox(); 
+		//Combobox met auteur van de gemaakte quiz
+		cbKlas = new JComboBox<String>(); 
 		cbKlas.setBounds(450, 12, 62, 24);
+		cbKlas.addItem(" -");
 		
 		lblAuteur = new JLabel("Auteur");
 		lblAuteur.setBounds(539, 17, 48, 15);
 		//Combobox met auteur van de gemaakte quiz
 		cbAuteur = new JComboBox<String>();
+		cbAuteur.setBounds(605, 12, 137, 24);
+		//defaultwaarde toevoegen
+		cbAuteur.addItem(" -");
 			//JComboBox opvullen met Enum Categorie
 			Leraar [] auteur = Leraar.values();
 			for(Leraar e : auteur){
 				cbAuteur.addItem(e.toString());
 			}
-		
-		//frame.add(AuteurCB);  
-        //frame.pack();  
-        frame.setLocationRelativeTo(null);  
-        //frame.setVisible(true);
-		cbAuteur.setBounds(605, 12, 137, 24);
+		 
+        frame.setLocationRelativeTo(null);
+		//frame.pack();
 		
 		JButton RegistreerQuiz = new JButton("Registreer nieuwe quiz");
 		RegistreerQuiz.setBounds(20, 48, 728, 31);
@@ -199,7 +198,7 @@ public class MainWindow implements ActionListener {
 		frame.getContentPane().add(pBottom);
 		pBottom.setLayout(null);
 		pBottom.add(lblToonOpdrachtenVan);
-		pBottom.add(lblSorteerOpdrachtenOp);
+		pBottom.add(lblSorteren);
 		pBottom.add(cbSorteren);
 		pBottom.add(cbCategorie);
 		pBottom.add(spListLeft);
@@ -210,37 +209,46 @@ public class MainWindow implements ActionListener {
 		pBottom.add(lblCounter);
 		pBottom.add(bVraagOmhoog);
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 	
+    class AddOpdrachtListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+          int selected[] = listLeft.getSelectedIndices();
+          ListModel<Opdracht> model = new ListModel<Opdracht>();
+          for (int i = 0; i < selected.length; i++) {
+                  hsRechts.add((Opdracht) listLeft.getModel().getElementAt(selected[i]));
+          }
+          for(Opdracht o : hsRechts){
+                  model.addElement(o);
+          }
+          listRight.setModel(model);
+          listRight.setCellRenderer(new OpdrachtCellRenderer());
+		}// Einde ActionListener
+	}// Einde inner class
+	
+	// Inner class om uit de rechte JList objecten te verwijderen
+	class RemoveOpdrachtListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            int selected[] = listRight.getSelectedIndices();
+            ListModel<Opdracht> model = new ListModel<Opdracht>();
+            for (int i = 0; i < selected.length; i++) {
+                    hsRechts.remove((Opdracht) listRight .getModel().getElementAt(selected[i]));
+            }
+            for(Opdracht o : hsRechts){
+                    model.addElement(o);
+            }
+            listRight.setModel(model);
+            listRight.setCellRenderer(new OpdrachtCellRenderer());
+	  }// Einde ActionListener
+	}// Einde inner class
 
-	// An inner class to respond to clicks on the Print button
-	class AddOpdrachtListener implements ActionListener {
-	  public void actionPerformed(ActionEvent e) {
-	    int selected[] = listLeft.getSelectedIndices();
-	    DefaultListModel model = new DefaultListModel();
-	    for (int i = 0; i < selected.length; i++) {
-    		opdrachtenInRight.add((Opdracht) listLeft.getModel().getElementAt(selected[i]));
-	    }
-	    for(Opdracht o : opdrachtenInRight){
-	    	model.addElement(o);
-	    }
-	    listRight.setModel(model);
-		listRight.setCellRenderer(new OpdrachtCellRenderer());
-	  }
-	}
-
+	// Inner class om uitzicht van cellen te bepalen
 	class OpdrachtCellRenderer extends JLabel implements ListCellRenderer {
 		  private Color HIGHLIGHT_COLOR = new Color(0, 0, 128);
 
 		  public OpdrachtCellRenderer() {
 		    setOpaque(true);
 		    setIconTextGap(12);
-		  }
+		  }// Einde constructor
 
 		  public Component getListCellRendererComponent(JList list, Object value,
 		      int index, boolean isSelected, boolean cellHasFocus) {
@@ -254,8 +262,8 @@ public class MainWindow implements ActionListener {
 		      setForeground(Color.black);
 		    }
 		    return this;
-		  }
-		}
+		  }// Einde method
+		}// Einde inner class
 }// Einde class
 
 
