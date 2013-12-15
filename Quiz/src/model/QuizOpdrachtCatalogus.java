@@ -9,16 +9,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Scanner;
 
 public class QuizOpdrachtCatalogus implements Iterable<QuizOpdracht> {
 	
-	private ArrayList<QuizOpdracht> quizOpdrachten = new ArrayList<QuizOpdracht>();
+	private HashSet<QuizOpdracht> quizOpdrachten = new HashSet<QuizOpdracht>();
 	
 	public QuizOpdracht getQuizOpdracht( int qO ){
-		QuizOpdracht quizOpdracht = quizOpdrachten.get(qO);
-		return quizOpdracht;
+        ArrayList<QuizOpdracht> qoArrayList = new ArrayList<QuizOpdracht>();
+    	for(QuizOpdracht qo : quizOpdrachten){
+    		qoArrayList.add(qo);
+    	}
+		return qoArrayList.get(qO);
+	}
+	
+	public int getLenght(){
+		return quizOpdrachten.size();
 	}
 	
 	public void leesQuizOpdrachtenVanDataBase(){
@@ -82,7 +90,7 @@ public class QuizOpdrachtCatalogus implements Iterable<QuizOpdracht> {
 		try{
 			PrintWriter writer = new PrintWriter(file);
 			for (int i = 0 ; i <quizOpdrachten.size() ; i++){
-				QuizOpdracht qo = quizOpdrachten.get(i);
+				QuizOpdracht qo = this.getQuizOpdracht(i);
 				String lijn = qo.getQuiz().getNaam().toString() + "," + qo.getOpdracht().getVraag().toString() + "," + qo.getMaxScore();
 				writer.println(lijn);
 			}
@@ -94,40 +102,6 @@ public class QuizOpdrachtCatalogus implements Iterable<QuizOpdracht> {
 			System.out.println(ex.getMessage());
 		}
 	}
-	/*
-	public static void main(String[] args){
-		OpdrachtCatalogus oc = new OpdrachtCatalogus();
-		oc.leesOpdrachtenVanTekstBestand();
-		QuizCatalogus qc = new QuizCatalogus();
-		qc.leesQuizzenVanTekstBestand();
-		QuizOpdrachtCatalogus qoc = new QuizOpdrachtCatalogus();
-		qoc.leesQuizOpdrachtenVanTekstBestand();
-
-		QuizOpdracht qo = qoc.quizOpdrachten.get(1);
-		if(qoc.quizOpdrachten.contains(qo)){
-			qoc.quizOpdrachten.remove(qo);
-		}else{
-			System.out.println("niet in lijst biatch");
-		}
-		
-		//qoc.quizOpdrachten.add(qo);
-		qoc.schrijfQuizOpdrachtenNaarBestand();
-		oc.schrijfOpdrachtenNaarBestand();
-		qc.schrijfQuizOpdrachtenNaarBestand();
-		
-
-		OpdrachtCatalogus oc = new OpdrachtCatalogus();
-		oc.leesOpdrachtenVanTekstBestand();
-		QuizCatalogus qc = new QuizCatalogus();
-		qc.leesQuizzenVanTekstBestand();
-		QuizOpdrachtCatalogus qoc = new QuizOpdrachtCatalogus();
-		qoc.leesQuizOpdrachtenVanTekstBestand();
-		
-		System.out.println(oc.toString() + "\n");
-		System.out.println(qc.toString() + "\n");
-		System.out.println(qoc.toString() + "\n");
-		
-	}*/
 	
 	@Override
 	public String toString() {
