@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashSet;
 
 import javax.swing.JScrollPane;
@@ -21,6 +23,9 @@ import javax.swing.JList;
 import controller.OpstartController;
 import model.*;
 import Enums.*;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class MainWindow {
@@ -52,6 +57,8 @@ public class MainWindow {
 	private JComboBox<String> cbKlas;
 	private JLabel lblAuteur;
 	private JComboBox<String> cbAuteur;
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
 
 /*	startUpMainWindow verplaatst naar opstart
 	public void startUpMainWindow(){
@@ -78,14 +85,14 @@ public class MainWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 936, 556);
+		frame.setBounds(100, 100, 936, 555);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		pTop = new JPanel();
 		pTop.setBounds(0, 0, 934, 91);
 		
 		pBottom = new JPanel();
-		pBottom.setBounds(0, 109, 934, 418);
+		pBottom.setBounds(0, 109, 934, 406);
 		
 		lblToonOpdrachtenVan = new JLabel("Toon opdrachten van categorie");
 		lblToonOpdrachtenVan.setBounds(12, 17, 222, 15);
