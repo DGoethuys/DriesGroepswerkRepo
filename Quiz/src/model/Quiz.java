@@ -71,9 +71,8 @@ public class Quiz implements Comparable<Quiz>, Cloneable, Serializable {
 	}
 
 	@Override
-	public int compareTo(Quiz o) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compareTo(Quiz q) {
+		return this.naam.toString().compareTo(q.naam.toString());
 	}
 
 	@Override

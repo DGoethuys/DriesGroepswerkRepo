@@ -8,8 +8,8 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 		super(categorie, vraag, juisteAntwoord);
 		super.type = "Opsomming";
 	}
-	public Opsomming(String categorie, String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd, String type ){
-		super(categorie, vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd, type);
+	public Opsomming(String categorie, String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd){
+		super(categorie, vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
 		super.type = "Opsomming";
 	}
 	
@@ -43,7 +43,7 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 	}
 	
 	public static void main(String[] args) {
-		Opsomming opsomming1 = new Opsomming("Dagen kennis", "Zet in juiste volgorde: dinsdag, donderdag, woensdag, maandag ", "maandag, dinsdag, woensdag, donderdag",5,10,"Opsomming");
+		Opsomming opsomming1 = new Opsomming("Dagen kennis", "Zet in juiste volgorde: dinsdag, donderdag, woensdag, maandag ", "maandag, dinsdag, woensdag, donderdag",5,10);
 		System.out.println(opsomming1.toString());
 	}
 }// Einde class

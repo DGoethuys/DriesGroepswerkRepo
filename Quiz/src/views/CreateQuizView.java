@@ -8,8 +8,6 @@ import javax.swing.JPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.HashSet;
 
 import javax.swing.JScrollPane;
@@ -24,41 +22,37 @@ import controller.OpstartController;
 import model.*;
 import Enums.*;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
-
-public class MainWindow {
+public class CreateQuizView {
 	
 	private OpstartController o;
 	private HashSet<Opdracht> hsRechts = new HashSet<Opdracht>();
+	private HashSet<Opdracht> hsLinks = new HashSet<Opdracht>();
 	
 	public JFrame frame;
 	private JTextField tfOnderwerp;
-	private JPanel pTop;
-	private JPanel pBottom;
+	private JPanel pBoven;
+	private JPanel pOnder;
 	private JLabel lblToonOpdrachtenVan;
 	private JComboBox<String> cbCategorie;
 	private JLabel lblSorteren;
 	private JComboBox<String> cbSorteren;
 	private JLabel lblAantalToegevoegdeOpdrachten;
 	private JButton bVraagOmhoog;
-	private JList<Opdracht> listRight;
-	private ListModel<Opdracht> modelRight;
-	private JScrollPane spListRight;
-	private JList<Opdracht> listLeft;
-	private ListModel<Opdracht> modelLeft;
-	private JScrollPane spListLeft;
+	private JList<Opdracht> listRechts;
+	private ListModel<Opdracht> modelRechts;
+	private JScrollPane spListRechts;
+	private JList<Opdracht> listLinks;
+	private ListModel<Opdracht> modelLinks;
+	private JScrollPane spListLinks;
 	private JButton bOpdrachtVerwijderen;
 	private JButton bOpdrachtToevoegen;
-	private JLabel lblCounter;
+	private JLabel lblTeller;
 	private JLabel lblOnderwerp;
 	private JLabel lblKlas;
 	private JComboBox<String> cbKlas;
 	private JLabel lblAuteur;
 	private JComboBox<String> cbAuteur;
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
 
 /*	startUpMainWindow verplaatst naar opstart
 	public void startUpMainWindow(){
@@ -75,7 +69,7 @@ public class MainWindow {
 	}
 */	
 
-	public MainWindow() {
+	public CreateQuizView() {
 		initialize();
 		
 	}
@@ -85,14 +79,14 @@ public class MainWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 936, 555);
+		frame.setBounds(100, 100, 936, 556);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		pTop = new JPanel();
-		pTop.setBounds(0, 0, 934, 91);
+		pBoven = new JPanel();
+		pBoven.setBounds(0, 0, 934, 91);
 		
-		pBottom = new JPanel();
-		pBottom.setBounds(0, 109, 934, 406);
+		pOnder = new JPanel();
+		pOnder.setBounds(0, 109, 934, 418);
 		
 		lblToonOpdrachtenVan = new JLabel("Toon opdrachten van categorie");
 		lblToonOpdrachtenVan.setBounds(12, 17, 222, 15);
@@ -106,6 +100,7 @@ public class MainWindow {
 			for(Categorie e : categorie){
 				cbCategorie.addItem(e.toString());
 			}
+		cbCategorie.addActionListener(new VeranderTypeListener());
 			
 		lblSorteren = new JLabel("Sorteer opdrachten op");
 		lblSorteren.setBounds(12, 59, 162, 15);
@@ -123,19 +118,20 @@ public class MainWindow {
 		bVraagOmhoog = new JButton("^^^^^^");
 		bVraagOmhoog.setBounds(497, 53, 437, 40);
 		
-		modelRight = new ListModel<Opdracht>();
-		listRight = new JList<Opdracht>(modelRight);
-		listRight.setCellRenderer(new OpdrachtCellRenderer());
-		spListRight = new JScrollPane(listRight);
-		spListRight.setBounds(497, 105, 437, 288);
+		modelRechts = new ListModel<Opdracht>();
+		listRechts = new JList<Opdracht>(modelRechts);
+		listRechts.setCellRenderer(new OpdrachtCellRenderer());
+		spListRechts = new JScrollPane(listRechts);
+		spListRechts.setBounds(497, 105, 437, 288);
 
 		
 		o = new OpstartController();
-		modelLeft = new ListModel<Opdracht>(o.getPersistentie().getOpdrachtCatalogus().getListOpdrachten());
-		listLeft = new JList<Opdracht>(modelLeft);
-		listLeft.setCellRenderer(new OpdrachtCellRenderer());
-		spListLeft = new JScrollPane(listLeft);
-	    spListLeft.setBounds(12, 105, 364, 288);
+		hsLinks = new HashSet<Opdracht>(o.getPersistentie().getOpdrachtCatalogus().getListOpdrachten());
+		modelLinks = new ListModel<Opdracht>(hsLinks);
+		listLinks = new JList<Opdracht>(modelLinks);
+		listLinks.setCellRenderer(new OpdrachtCellRenderer());
+		spListLinks = new JScrollPane(listLinks);
+	    spListLinks.setBounds(12, 105, 364, 288);
 
 		
 		bOpdrachtVerwijderen = new JButton("<<<<");
@@ -146,8 +142,8 @@ public class MainWindow {
 		bOpdrachtToevoegen.setBounds(405, 177, 74, 25);
 		bOpdrachtToevoegen.addActionListener(new AddOpdrachtListener());
 		
-		lblCounter = new JLabel("");
-		lblCounter.setBounds(759, 32, 0, 0);
+		lblTeller = new JLabel("");
+		lblTeller.setBounds(759, 32, 0, 0);
 		frame.getContentPane().setLayout(null);
 		
 		lblOnderwerp = new JLabel("Ondewerp");
@@ -182,60 +178,99 @@ public class MainWindow {
 		
 		JButton RegistreerQuiz = new JButton("Registreer nieuwe quiz");
 		RegistreerQuiz.setBounds(20, 48, 728, 31);
-		frame.getContentPane().add(pTop);
-		pTop.setLayout(null);
-		pTop.add(RegistreerQuiz);
-		pTop.add(lblOnderwerp);
-		pTop.add(tfOnderwerp);
-		pTop.add(lblKlas);
-		pTop.add(cbKlas);
-		pTop.add(lblAuteur);
-		pTop.add(cbAuteur);
-		frame.getContentPane().add(pBottom);
-		pBottom.setLayout(null);
-		pBottom.add(lblToonOpdrachtenVan);
-		pBottom.add(lblSorteren);
-		pBottom.add(cbSorteren);
-		pBottom.add(cbCategorie);
-		pBottom.add(spListLeft);
-		pBottom.add(bOpdrachtToevoegen);
-		pBottom.add(bOpdrachtVerwijderen);
-		pBottom.add(spListRight);
-		pBottom.add(lblAantalToegevoegdeOpdrachten);
-		pBottom.add(lblCounter);
-		pBottom.add(bVraagOmhoog);
+		frame.getContentPane().add(pBoven);
+		pBoven.setLayout(null);
+		pBoven.add(RegistreerQuiz);
+		pBoven.add(lblOnderwerp);
+		pBoven.add(tfOnderwerp);
+		pBoven.add(lblKlas);
+		pBoven.add(cbKlas);
+		pBoven.add(lblAuteur);
+		pBoven.add(cbAuteur);
+		frame.getContentPane().add(pOnder);
+		pOnder.setLayout(null);
+		pOnder.add(lblToonOpdrachtenVan);
+		pOnder.add(lblSorteren);
+		pOnder.add(cbSorteren);
+		pOnder.add(cbCategorie);
+		pOnder.add(spListLinks);
+		pOnder.add(bOpdrachtToevoegen);
+		pOnder.add(bOpdrachtVerwijderen);
+		pOnder.add(spListRechts);
+		pOnder.add(lblAantalToegevoegdeOpdrachten);
+		pOnder.add(lblTeller);
+		pOnder.add(bVraagOmhoog);
 	}
 	
     class AddOpdrachtListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-          int selected[] = listLeft.getSelectedIndices();
+          int selected[] = listLinks.getSelectedIndices();
           ListModel<Opdracht> model = new ListModel<Opdracht>();
           for (int i = 0; i < selected.length; i++) {
-                  hsRechts.add((Opdracht) listLeft.getModel().getElementAt(selected[i]));
+                  hsRechts.add((Opdracht) listLinks.getModel().getElementAt(selected[i]));
           }
           for(Opdracht o : hsRechts){
                   model.addElement(o);
           }
-          listRight.setModel(model);
-          listRight.setCellRenderer(new OpdrachtCellRenderer());
+          listRechts.setModel(model);
+          listRechts.setCellRenderer(new OpdrachtCellRenderer());
 		}// Einde ActionListener
 	}// Einde inner class
-	
-	// Inner class om uit de rechte JList objecten te verwijderen
+    
+    // Inner class om uit de rechte JList objecten te verwijderen
 	class RemoveOpdrachtListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            int selected[] = listRight.getSelectedIndices();
+            int selected[] = listRechts.getSelectedIndices();
             ListModel<Opdracht> model = new ListModel<Opdracht>();
             for (int i = 0; i < selected.length; i++) {
-                    hsRechts.remove((Opdracht) listRight .getModel().getElementAt(selected[i]));
+                    hsRechts.remove((Opdracht) listRechts .getModel().getElementAt(selected[i]));
             }
             for(Opdracht o : hsRechts){
                     model.addElement(o);
             }
-            listRight.setModel(model);
-            listRight.setCellRenderer(new OpdrachtCellRenderer());
+            listRechts.setModel(model);
+            listRechts.setCellRenderer(new OpdrachtCellRenderer());
 	  }// Einde ActionListener
 	}// Einde inner class
+	
+	class VeranderTypeListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("in VeranderTypeListener");
+			String c = cbCategorie.getSelectedItem().toString();
+			System.out.println("String gegeven aan c variabele");
+			hsLinks = new HashSet<Opdracht>(o.getPersistentie().getOpdrachtCatalogus().getListOpdrachten());
+			if(!hsLinks.isEmpty()){
+			 System.out.println("hsLinks volgestoken");
+			}else{
+				System.out.println("hsLinks niet volgestoken");
+			}
+			if(c == " -"){
+				System.out.println("c was \" -\"");
+			}else{
+				System.out.println("c was " + c);
+				volgensCategorie(c);
+			}
+		modelLinks = new ListModel<Opdracht>(hsLinks);
+		}// Einde ActionListener
+	}// Einde inner class
+	
+	//method om opdrachten aan lijst toe te voegen voor een categorie
+	public void volgensCategorie(String c){
+		System.out.println("in volgensCategorie");
+		HashSet<Opdracht> hsTemp = hsLinks;
+		for(Opdracht o : hsLinks){
+			System.out.println("in for met opdracht" + o.toString());
+			if(!o.getType().contains(c)){
+				System.out.println("in if gegdraakt");
+				hsTemp.remove(o);
+				System.out.println("remove gelukt");
+			}
+		}
+		hsLinks = hsTemp;
+		modelLinks = new ListModel<Opdracht>(hsLinks);
+	}
+	
+	
 
 	// Inner class om uitzicht van cellen te bepalen
 	class OpdrachtCellRenderer extends JLabel implements ListCellRenderer<Object> {
@@ -262,7 +297,3 @@ public class MainWindow {
 		  }// Einde method
 		}// Einde inner class
 }// Einde class
-
-
-
-

@@ -1,15 +1,10 @@
 package controller;
 
 import java.awt.EventQueue;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
 
-import model.Opdracht;
 import persistentie.PersistentieFacade;
 import views.Menu;
-import views.MainWindow;
+import views.CreateQuizView;
 
 public class OpstartController {
 	
@@ -21,20 +16,42 @@ public class OpstartController {
 	public void opstartMenu(){
 		
 		Menu menu = new Menu ("Beheren van opdrachten (leraar)", "Beheren van quizzen/testen (leraar)" , "Deelnemen aan quiz (leerling)",
-					"Overzicht scores (leraar)"," Quiz rapport (deelnemer quiz)" ," Quiz lijsten"," Instellingen van de quiz applicatie");
+					"Overzicht scores (leraar)", "Quiz rapport (deelnemer quiz)", "Quiz lijsten", "Instellingen van de quiz applicatie");
 		
-		if (menu.getMenuKeuze() == 2){
-			startUpMainWindow();
+		switch (menu.getMenuKeuze()){
+		case 1:
+			System.out.println("Beheren van opdrachten (leraar)");
+			break;
+		case 2:
+			startUpCreateQuizView();
+			break;
+		case 3:
+			System.out.println("Deelnemen aan quiz (leerling)");
+			break;
+		case 4:
+			System.out.println("Overzicht scores (leraar)");
+			break;
+		case 5:
+			System.out.println(" Quiz rapport (deelnemer quiz)");
+			break;
+		case 6:
+			System.out.println("Quiz lijsten");
+			break;
+		case 7:
+			System.out.println("Instellingen van de quiz applicatie");
+			break;
+		default:
+			break;
 			}
 		
 	}
 	
 	
-	public void startUpMainWindow(){
+	public void startUpCreateQuizView(){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainWindow window = new MainWindow();
+					CreateQuizView window = new CreateQuizView();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

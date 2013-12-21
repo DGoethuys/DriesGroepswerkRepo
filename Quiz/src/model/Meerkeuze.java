@@ -16,7 +16,7 @@ public class Meerkeuze extends Opdracht implements Valideerbaar{
 	
 	
 	public Meerkeuze(String categorie, String vraag, String juisteAntwoord, ArrayList<String> keuzes, int aantalPogingen, int maxAntwoordTijd, String type){
-		super(categorie, vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd, type);
+		super(categorie, vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
 		this.keuzes = keuzes;
 		super.type = "Meerkeuze";
 	}

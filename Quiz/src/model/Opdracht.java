@@ -28,17 +28,16 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Seria
 	
 	//constructor die alleen vraag en antwoord nodig heeft en default waarde aan aantalPogingen en maxAntwoordTijd geeft
 	public Opdracht(String categorie, String vraag, String juisteAntwoord){
-		this(categorie, vraag, juisteAntwoord, 3, 5, "Meerkeuze");
+		this(categorie, vraag, juisteAntwoord, 3, 5);
 	}
 	
 	//constructor voor alle parameters behalve de hints
-	public Opdracht(String categorie, String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd, String type){
+	public Opdracht(String categorie, String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd){
 		this.setCategorie(categorie);
 		this.setVraag(vraag);
 		this.setJuisteAntwoord(juisteAntwoord);
 		this.setAantalPogingen(aantalPogingen);
 		this.setMaxAntwoordTijd(maxAntwoordTijd);
-		this.setType(type);
 	}
 	
 	//getters
@@ -115,10 +114,10 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Seria
 
 	@Override
 	public int compareTo(Opdracht o) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.vraag.toString().compareTo(o.vraag.toString());
 	}
 
+	//beter maken (geen shadow clone gebruiken)
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
 		 Opdracht clone=(Opdracht)super.clone();
@@ -127,5 +126,11 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Seria
 	
 	protected String uitleg(){
 		return null;
+	}
+	
+	public static void main(String[] args) {
+		Opdracht o1 = new Vraag("Aardrijkskunde", "Wat is de hoofdstad van België?", "Brussel");
+		Opdracht o2 = new Vraag("Aardrijkskunde", "Wat is de hoofdstad van Italië?", "Brussel");
+		System.out.print(o1.compareTo(o2));
 	}
 }// Einde class

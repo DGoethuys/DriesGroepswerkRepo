@@ -19,14 +19,14 @@ public class Vraag extends Opdracht implements Valideerbaar {
 	}
 	
 	//constructor voor alle parameters behalve de hints
-	public Vraag(String categorie, String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd, String type ){
-		super(categorie, vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd, type);
+	public Vraag(String categorie, String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd ){
+		super(categorie, vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd );
 		super.type = "Vraag";
 	}
 	
 	//constructor voor hints mee te geven
 	public Vraag(String categorie, String vraag, String juisteAntwoord, int aantalPogingen,int maxAntwoordTijd, String type , String ... hints ){
-		super(categorie, vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd, type);
+		super(categorie, vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
 		int n = 0;
 		while(hints.length < 0){
 			this.addHint(hints[n]);

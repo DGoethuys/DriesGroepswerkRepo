@@ -48,6 +48,7 @@ public class QuizOpdrachtCatalogus implements Iterable<QuizOpdracht> {
 		catch(SQLException ex){System.out.println("SQL exception: "+ex.getMessage());}
 	}
 	
+	//moet nog uitgewerkt worden
 	public void schrijfQuizOpdrachtenNaarDataBase(){
 		
 	}

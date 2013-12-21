@@ -1,7 +1,7 @@
-AardrijkskundeQuiz,Wat is de hoofdstad van BelgiÃ«?,3
-AardrijkskundeQuiz,Wat is de hoofdstad van ItaliÃ«?,7
-LandenKennis,Wat is de hoofdstad van BelgiÃ«?,2
-LandenKennis,Wat is de hoofdstad van ItaliÃ«?,4
+AardrijkskundeQuiz,Wat is de hoofdstad van België?,3
+AardrijkskundeQuiz,Wat is de hoofdstad van Italië?,7
+LandenKennis,Wat is de hoofdstad van België?,2
+LandenKennis,Wat is de hoofdstad van Italië?,4
 LandenKennis,Wat is de hoofdstad van Duitsland?,4
 RekenQuiz,Hoeveel is 1 * 1?,4
 RekenQuiz,Hoeveel is 5 + 5?,2
