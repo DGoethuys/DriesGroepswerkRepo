@@ -1,33 +1,29 @@
-package views;
-
-import java.awt.Color;
-import java.awt.Component;
+package viewsCreateQuiz;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashSet;
+import java.util.Iterator;
 
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
-import javax.swing.JList;
 
-import controller.OpstartController;
+import persistentie.PersistentieFacade;
+import viewsCreateQuiz.OpdrachtList;
+import viewsCreateQuiz.OpdrachtTableModel;
 import model.*;
 import Enums.*;
 
-
 public class CreateQuizView {
 	
-	private OpstartController o;
-	private HashSet<Opdracht> hsRechts = new HashSet<Opdracht>();
-	private HashSet<Opdracht> hsLinks = new HashSet<Opdracht>();
+	private PersistentieFacade p;
+
 	
 	public JFrame frame;
 	private JTextField tfOnderwerp;
@@ -39,11 +35,13 @@ public class CreateQuizView {
 	private JComboBox<String> cbSorteren;
 	private JLabel lblAantalToegevoegdeOpdrachten;
 	private JButton bVraagOmhoog;
-	private JList<Opdracht> listRechts;
-	private ListModel<Opdracht> modelRechts;
+	private OpdrachtList listRechts;
+	private OpdrachtTableModel modelRechts;
+	private JTable tableRechts;
 	private JScrollPane spListRechts;
-	private JList<Opdracht> listLinks;
-	private ListModel<Opdracht> modelLinks;
+	private OpdrachtList listLinks;
+	private OpdrachtTableModel modelLinks;
+	private JTable tableLinks;
 	private JScrollPane spListLinks;
 	private JButton bOpdrachtVerwijderen;
 	private JButton bOpdrachtToevoegen;
@@ -70,6 +68,7 @@ public class CreateQuizView {
 */	
 
 	public CreateQuizView() {
+		p = PersistentieFacade.getPersistentie();
 		initialize();
 		
 	}
@@ -96,11 +95,11 @@ public class CreateQuizView {
 		//default waarde toevoegen
 		cbCategorie.addItem(" -");
 			//JComboBox opvullen met Enum Categorie
-			Categorie [] categorie = Categorie.values();
-			for(Categorie e : categorie){
-				cbCategorie.addItem(e.toString());
+			Categorie [] categoriën = Categorie.values();
+			for(Categorie c : categoriën){
+				cbCategorie.addItem(c.toString());
 			}
-		cbCategorie.addActionListener(new VeranderTypeListener());
+		cbCategorie.addActionListener(new VeranderCategorieListener());
 			
 		lblSorteren = new JLabel("Sorteer opdrachten op");
 		lblSorteren.setBounds(12, 59, 162, 15);
@@ -118,19 +117,21 @@ public class CreateQuizView {
 		bVraagOmhoog = new JButton("^^^^^^");
 		bVraagOmhoog.setBounds(497, 53, 437, 40);
 		
-		modelRechts = new ListModel<Opdracht>();
-		listRechts = new JList<Opdracht>(modelRechts);
-		listRechts.setCellRenderer(new OpdrachtCellRenderer());
-		spListRechts = new JScrollPane(listRechts);
+		listRechts = new OpdrachtList();
+		modelRechts = new OpdrachtTableModel(listRechts);
+		modelRechts.addMaxScoreToKolomNamen();
+		tableRechts = new JTable();
+		spListRechts = new JScrollPane(tableRechts);
 		spListRechts.setBounds(497, 105, 437, 288);
 
-		
-		o = new OpstartController();
-		hsLinks = new HashSet<Opdracht>(o.getPersistentie().getOpdrachtCatalogus().getListOpdrachten());
-		modelLinks = new ListModel<Opdracht>(hsLinks);
-		listLinks = new JList<Opdracht>(modelLinks);
-		listLinks.setCellRenderer(new OpdrachtCellRenderer());
-		spListLinks = new JScrollPane(listLinks);
+		listLinks= new OpdrachtList();
+		for(Iterator<Opdracht> i = p.getOpdrachtCatalogus().iterator(); i.hasNext();){
+			Opdracht o = i.next();
+			listLinks.addOpdracht(o);
+		}
+		modelLinks = new OpdrachtTableModel(listLinks);
+		tableLinks = new JTable(modelLinks);
+		spListLinks = new JScrollPane(tableLinks);
 	    spListLinks.setBounds(12, 105, 364, 288);
 
 		
@@ -202,76 +203,64 @@ public class CreateQuizView {
 		pOnder.add(bVraagOmhoog);
 	}
 	
-    class AddOpdrachtListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-          int selected[] = listLinks.getSelectedIndices();
-          ListModel<Opdracht> model = new ListModel<Opdracht>();
-          for (int i = 0; i < selected.length; i++) {
-                  hsRechts.add((Opdracht) listLinks.getModel().getElementAt(selected[i]));
-          }
-          for(Opdracht o : hsRechts){
-                  model.addElement(o);
-          }
-          listRechts.setModel(model);
-          listRechts.setCellRenderer(new OpdrachtCellRenderer());
-		}// Einde ActionListener
-	}// Einde inner class
-    
-    // Inner class om uit de rechte JList objecten te verwijderen
-	class RemoveOpdrachtListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            int selected[] = listRechts.getSelectedIndices();
-            ListModel<Opdracht> model = new ListModel<Opdracht>();
-            for (int i = 0; i < selected.length; i++) {
-                    hsRechts.remove((Opdracht) listRechts .getModel().getElementAt(selected[i]));
-            }
-            for(Opdracht o : hsRechts){
-                    model.addElement(o);
-            }
-            listRechts.setModel(model);
-            listRechts.setCellRenderer(new OpdrachtCellRenderer());
-	  }// Einde ActionListener
-	}// Einde inner class
-	
-	class VeranderTypeListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			System.out.println("in VeranderTypeListener");
-			String c = cbCategorie.getSelectedItem().toString();
-			System.out.println("String gegeven aan c variabele");
-			hsLinks = new HashSet<Opdracht>(o.getPersistentie().getOpdrachtCatalogus().getListOpdrachten());
-			if(!hsLinks.isEmpty()){
-			 System.out.println("hsLinks volgestoken");
-			}else{
-				System.out.println("hsLinks niet volgestoken");
-			}
-			if(c == " -"){
-				System.out.println("c was \" -\"");
-			}else{
-				System.out.println("c was " + c);
-				volgensCategorie(c);
-			}
-		modelLinks = new ListModel<Opdracht>(hsLinks);
-		}// Einde ActionListener
-	}// Einde inner class
-	
-	//method om opdrachten aan lijst toe te voegen voor een categorie
-	public void volgensCategorie(String c){
-		System.out.println("in volgensCategorie");
-		HashSet<Opdracht> hsTemp = hsLinks;
-		for(Opdracht o : hsLinks){
-			System.out.println("in for met opdracht" + o.toString());
-			if(!o.getType().contains(c)){
-				System.out.println("in if gegdraakt");
-				hsTemp.remove(o);
-				System.out.println("remove gelukt");
-			}
+	private void vulLinksJTableUitDB(){
+		listLinks = new OpdrachtList();
+		for(Iterator<Opdracht> i = p.getOpdrachtCatalogus().iterator(); i.hasNext();){
+			listLinks.addOpdracht(i.next());
 		}
-		hsLinks = hsTemp;
-		modelLinks = new ListModel<Opdracht>(hsLinks);
+		modelLinks = new OpdrachtTableModel(listLinks);
+		tableLinks.setModel(modelLinks);
 	}
 	
+	private void vulLinksJTableUitDBVolgensCategorie(String c){
+		listLinks = new OpdrachtList();
+		for(Iterator<Opdracht> i = p.getOpdrachtCatalogus().iterator(); i.hasNext();){
+			Opdracht o = i.next();
+			if(o.getCategorie().toString().equals(c)){
+				listLinks.addOpdracht(o);
+			}
+		}
+		modelLinks = new OpdrachtTableModel(listLinks);
+		tableLinks.setModel(modelLinks);
+	}
 	
+	class AddOpdrachtListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			int selected[] = tableLinks.getSelectedRows();
+			for (int i = 0; i < selected.length; i++) {
+				if(!listRechts.contains(listLinks.getOpdracht(selected[i]))){
+					listRechts.addOpdracht(listLinks.getOpdracht(selected[i]));
+				}
+			}
+			modelRechts = new OpdrachtTableModel(listRechts);
+			modelRechts.addMaxScoreToKolomNamen();
+			tableRechts.setModel(modelRechts);
+		}// Einde ActionListener
+	}// Einde inner class
 
+	 // Inner class om uit de rechte JList objecten te verwijderen
+	 class RemoveOpdrachtListener implements ActionListener {
+		 public void actionPerformed(ActionEvent e) {
+			 int selected[] = tableRechts.getSelectedRows();
+			 for (int i = 0; i < selected.length; i++) {
+				 listRechts.removeOpdracht(listRechts.getOpdracht(selected[i]));
+				}
+			modelRechts = new OpdrachtTableModel(listRechts);
+			tableRechts.setModel(modelRechts);
+			}// Einde ActionListener
+		}// Einde inner class
+	
+	class VeranderCategorieListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			String c = cbCategorie.getSelectedItem().toString();
+			if(c == " -"){
+				vulLinksJTableUitDB();
+			}else{
+				vulLinksJTableUitDBVolgensCategorie(c);
+			}
+		}// Einde ActionListener
+	}// Einde inner class
+	/*
 	// Inner class om uitzicht van cellen te bepalen
 	class OpdrachtCellRenderer extends JLabel implements ListCellRenderer<Object> {
 		private static final long serialVersionUID = 1L;
@@ -296,4 +285,6 @@ public class CreateQuizView {
 		    return this;
 		  }// Einde method
 		}// Einde inner class
+		*/
+	
 }// Einde class
