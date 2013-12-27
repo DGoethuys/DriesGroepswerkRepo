@@ -67,34 +67,34 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Seria
 	
 	//setters
 	public void setType(String type)throws NullPointerException{
-		if(type != null)
-			this.type = type;
-		else throw new NullPointerException("Kies een Type!");
+		if(type == null)
+			throw new NullPointerException("Kies een Type!");
+		else this.type = type;
 	} 
 	
 	public void setCategorie(String categorie)throws NullPointerException{
-		if(categorie != null)
-			this.categorie = categorie;
-		else throw new NullPointerException("Categorie moet ingevuld zijn!");
+		if(categorie == null)
+			throw new NullPointerException("Categorie moet ingevuld zijn!");
+		else this.categorie = categorie;
 	}
 	
 	
 	public void setVraag(String vraag)throws NullPointerException{
-		if(vraag != null)
-			this.vraag = vraag;
-		else throw new NullPointerException("Vraag moet ingevuld zijn!");
+		if(vraag == null)
+			throw new NullPointerException("Vraag moet ingevuld zijn!");
+		else this.vraag = vraag;
 	}
 	
 	public void setJuisteAntwoord(String juisteAntwoord) throws NullPointerException{
-		if(juisteAntwoord != null)
-			this.juisteAntwoord = juisteAntwoord;
-		else throw new NullPointerException("Het juiste antwoord moet ingevuld zijn!");
+		if(juisteAntwoord == null)
+			throw new NullPointerException("Het juiste antwoord moet ingevuld zijn!");
+		else this.juisteAntwoord = juisteAntwoord;
 	}
 	
 	public void setAantalPogingen(int aantalPogingen) throws NullPointerException{
-		if(aantalPogingen != 0)
-			this.aantalPogingen = aantalPogingen;
-		else throw new NullPointerException("Er moet minstens 1 poging worden gegevens");
+		if(aantalPogingen == 0)
+			throw new NullPointerException("Er moet minstens 1 poging worden gegevens");
+		else this.aantalPogingen = aantalPogingen;
 	}
 	
 	public void setMaxAntwoordTijd(int maxAntwoordTijd) throws NullPointerException{
@@ -129,8 +129,8 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Seria
 	}
 	
 	public static void main(String[] args) {
-		Opdracht o1 = new Vraag("Aardrijkskunde", "Wat is de hoofdstad van België?", "Brussel");
-		Opdracht o2 = new Vraag("Aardrijkskunde", "Wat is de hoofdstad van Italië?", "Brussel");
+		Opdracht o1 = new Vraag("Aardrijkskunde", "Wat is de hoofdstad van Belgiï¿½?", "Brussel");
+		Opdracht o2 = new Vraag("Aardrijkskunde", "Wat is de hoofdstad van Italiï¿½?", "Brussel");
 		System.out.print(o1.compareTo(o2));
 	}
 }// Einde class

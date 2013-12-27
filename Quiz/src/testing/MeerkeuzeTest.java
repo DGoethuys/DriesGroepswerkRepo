@@ -44,18 +44,14 @@ public class MeerkeuzeTest {
 		assertEquals(this.Valide, meerkeuze.isValid());
 	}
 	
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void Test_SetVraag_VraagIsNull_Exception(){
-		expectedEx.expect(NullPointerException.class);
-	    expectedEx.expectMessage("Vraag moet ingevuld zijn!");
 		meerkeuze = new Meerkeuze("Aardrijkskunde", null, "Brussel", keuze, 1, 50, "Meerkeuze");
 		
 	}
 	
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void Test_SetVraag_AntwoordIsNull_Exception(){
-		expectedEx.expect(NullPointerException.class);
-	    expectedEx.expectMessage("Het juiste antwoord moet ingevuld zijn!");
 		meerkeuze = new Meerkeuze( "Aardrijkskunde", "Wat is de hoofdstad van Belgie", null, keuze, 1, 50, "Meerkeuze");
 		
 	}
