@@ -4,7 +4,7 @@ import java.awt.EventQueue;
 
 import persistentie.PersistentieFacade;
 import views.Menu;
-import views.CreateQuizView;
+import viewsCreateQuiz.CreateQuizView;
 
 public class OpstartController {
 	

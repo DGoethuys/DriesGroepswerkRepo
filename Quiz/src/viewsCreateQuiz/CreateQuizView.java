@@ -95,8 +95,8 @@ public class CreateQuizView {
 		//default waarde toevoegen
 		cbCategorie.addItem(" -");
 			//JComboBox opvullen met Enum Categorie
-			Categorie [] categoriën = Categorie.values();
-			for(Categorie c : categoriën){
+			Categorie [] categoriÃ«n = Categorie.values();
+			for(Categorie c : categoriÃ«n){
 				cbCategorie.addItem(c.toString());
 			}
 		cbCategorie.addActionListener(new VeranderCategorieListener());
