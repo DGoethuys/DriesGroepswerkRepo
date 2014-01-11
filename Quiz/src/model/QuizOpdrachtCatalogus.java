@@ -17,6 +17,10 @@ public class QuizOpdrachtCatalogus implements Iterable<QuizOpdracht> {
 	
 	private HashSet<QuizOpdracht> quizOpdrachten = new HashSet<QuizOpdracht>();
 	
+	public void addQuizOpdracht( QuizOpdracht quizOpdracht ){
+		quizOpdrachten.add(quizOpdracht);
+	}
+	
 	public QuizOpdracht getQuizOpdracht( int qO ){
         ArrayList<QuizOpdracht> qoArrayList = new ArrayList<QuizOpdracht>();
     	for(QuizOpdracht qo : quizOpdrachten){

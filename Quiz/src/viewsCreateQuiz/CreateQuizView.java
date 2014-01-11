@@ -15,8 +15,6 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 
 import persistentie.PersistentieFacade;
-import viewsCreateQuiz.OpdrachtList;
-import viewsCreateQuiz.OpdrachtTableModel;
 import model.*;
 import Enums.*;
 
@@ -35,14 +33,14 @@ public class CreateQuizView {
 	private JComboBox<String> cbSorteren;
 	private JLabel lblAantalToegevoegdeOpdrachten;
 	private JButton bVraagOmhoog;
-	private OpdrachtList listRechts;
-	private OpdrachtTableModel modelRechts;
-	private JTable tableRechts;
-	private JScrollPane spListRechts;
-	private OpdrachtList listLinks;
-	private OpdrachtTableModel modelLinks;
-	private JTable tableLinks;
-	private JScrollPane spListLinks;
+	private TableList listR;
+	private TableModel modelR;
+	private JTable tableR;
+	private JScrollPane scrollR;
+	private TableList listL;
+	private TableModel modelL;
+	private JTable tableL;
+	private JScrollPane scrollL;
 	private JButton bOpdrachtVerwijderen;
 	private JButton bOpdrachtToevoegen;
 	private JLabel lblTeller;
@@ -117,22 +115,25 @@ public class CreateQuizView {
 		bVraagOmhoog = new JButton("^^^^^^");
 		bVraagOmhoog.setBounds(497, 53, 437, 40);
 		
-		listRechts = new OpdrachtList();
-		modelRechts = new OpdrachtTableModel(listRechts);
-		modelRechts.addMaxScoreToKolomNamen();
-		tableRechts = new JTable();
-		spListRechts = new JScrollPane(tableRechts);
-		spListRechts.setBounds(497, 105, 437, 288);
+		listR = new TableList();
+		modelR = new TableModel(listR);
+		modelR.setColumnNames("Vraag", "Categorie", "Max Score");
+		tableR = new JTable();
+		scrollR = new JScrollPane(tableR);
+		scrollR.setBounds(497, 105, 437, 288);
 
-		listLinks= new OpdrachtList();
+		listL= new TableList();
+		
+		listL = new TableList();
 		for(Iterator<Opdracht> i = p.getOpdrachtCatalogus().iterator(); i.hasNext();){
 			Opdracht o = i.next();
-			listLinks.addOpdracht(o);
+			listL.add(o.getVraag(), o.getCategorie());
 		}
-		modelLinks = new OpdrachtTableModel(listLinks);
-		tableLinks = new JTable(modelLinks);
-		spListLinks = new JScrollPane(tableLinks);
-	    spListLinks.setBounds(12, 105, 364, 288);
+		modelL = new TableModel(listL);
+		modelL.setColumnNames("Vraag", "Categorie");
+		tableL = new JTable(modelL);
+		scrollL = new JScrollPane(tableL);
+	    scrollL.setBounds(12, 105, 364, 288);
 
 		
 		bOpdrachtVerwijderen = new JButton("<<<<");
@@ -160,6 +161,9 @@ public class CreateQuizView {
 		cbKlas = new JComboBox<String>(); 
 		cbKlas.setBounds(450, 12, 62, 24);
 		cbKlas.addItem(" -");
+		for(int n = 1; n < 7; n++){
+			cbKlas.addItem(Integer.toString(n));
+		}
 		
 		lblAuteur = new JLabel("Auteur");
 		lblAuteur.setBounds(539, 17, 48, 15);
@@ -178,6 +182,7 @@ public class CreateQuizView {
 		//frame.pack();
 		
 		JButton RegistreerQuiz = new JButton("Registreer nieuwe quiz");
+		RegistreerQuiz.addActionListener(new RegistreerQuizListener());
 		RegistreerQuiz.setBounds(20, 48, 728, 31);
 		frame.getContentPane().add(pBoven);
 		pBoven.setLayout(null);
@@ -194,59 +199,70 @@ public class CreateQuizView {
 		pOnder.add(lblSorteren);
 		pOnder.add(cbSorteren);
 		pOnder.add(cbCategorie);
-		pOnder.add(spListLinks);
+		pOnder.add(scrollL);
 		pOnder.add(bOpdrachtToevoegen);
 		pOnder.add(bOpdrachtVerwijderen);
-		pOnder.add(spListRechts);
+		pOnder.add(scrollR);
 		pOnder.add(lblAantalToegevoegdeOpdrachten);
 		pOnder.add(lblTeller);
 		pOnder.add(bVraagOmhoog);
 	}
 	
-	private void vulLinksJTableUitDB(){
-		listLinks = new OpdrachtList();
-		for(Iterator<Opdracht> i = p.getOpdrachtCatalogus().iterator(); i.hasNext();){
-			listLinks.addOpdracht(i.next());
-		}
-		modelLinks = new OpdrachtTableModel(listLinks);
-		tableLinks.setModel(modelLinks);
-	}
-	
-	private void vulLinksJTableUitDBVolgensCategorie(String c){
-		listLinks = new OpdrachtList();
+	private void vulJTableL(String c){
+		listL = new TableList();
 		for(Iterator<Opdracht> i = p.getOpdrachtCatalogus().iterator(); i.hasNext();){
 			Opdracht o = i.next();
-			if(o.getCategorie().toString().equals(c)){
-				listLinks.addOpdracht(o);
+			if(c == "geen"){
+				listL.add(o.getVraag(), o.getCategorie());
+			}else if(o.getCategorie().toString().equals(c)){
+				listL.add(o.getVraag(), o.getCategorie());
 			}
 		}
-		modelLinks = new OpdrachtTableModel(listLinks);
-		tableLinks.setModel(modelLinks);
+		modelL = new TableModel(listL);
+		modelL.setColumnNames("Vraag", "Categorie");
+		tableL.setModel(modelL);
 	}
+	
+	class RegistreerQuizListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			Quiz q = new Quiz( tfOnderwerp.getText(), cbKlas.getSelectedItem().toString(), cbCategorie.getSelectedItem().toString());
+			p.getQuizCatalogus().addQuiz(q);
+			for(Iterator<TableObject> i = listR.iterator(); i.hasNext();){
+				TableObject o = i.next();
+				QuizOpdracht qo = new QuizOpdracht(q, p.getOpdrachtCatalogus().getOpdrachtBijVraag(o.getVraag()), o.getMaxScore());
+				p.getQuizOpdrachtCatalogus().addQuizOpdracht(qo);
+			}
+			System.out.println(p.getQuizCatalogus().toString());
+		}// Einde ActionListener
+	}// Einde inner class
 	
 	class AddOpdrachtListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			int selected[] = tableLinks.getSelectedRows();
+			int selected[] = tableL.getSelectedRows();
 			for (int i = 0; i < selected.length; i++) {
-				if(!listRechts.contains(listLinks.getOpdracht(selected[i]))){
-					listRechts.addOpdracht(listLinks.getOpdracht(selected[i]));
+				if(!listR.contains(listL.getRow(selected[i]))){
+					listR.add(listL.getRow(selected[i]));
 				}
 			}
-			modelRechts = new OpdrachtTableModel(listRechts);
-			modelRechts.addMaxScoreToKolomNamen();
-			tableRechts.setModel(modelRechts);
+
+			modelR = new TableModel(listR);
+			modelR.setColumnNames("Vraag", "Categorie", "Max Score");
+			modelR.setEditableColumn(2, true);
+			tableR.setModel(modelR);
 		}// Einde ActionListener
 	}// Einde inner class
 
 	 // Inner class om uit de rechte JList objecten te verwijderen
 	 class RemoveOpdrachtListener implements ActionListener {
 		 public void actionPerformed(ActionEvent e) {
-			 int selected[] = tableRechts.getSelectedRows();
+			 int selected[] = tableR.getSelectedRows();
 			 for (int i = 0; i < selected.length; i++) {
-				 listRechts.removeOpdracht(listRechts.getOpdracht(selected[i]));
+				 listR.remove(selected[i]);
 				}
-			modelRechts = new OpdrachtTableModel(listRechts);
-			tableRechts.setModel(modelRechts);
+			modelR = new TableModel(listR);
+			modelR.setColumnNames("Vraag", "Categorie", "Max Score");
+			modelR.setEditableColumn(2, true);
+			tableR.setModel(modelR);
 			}// Einde ActionListener
 		}// Einde inner class
 	
@@ -254,12 +270,14 @@ public class CreateQuizView {
 		public void actionPerformed(ActionEvent e) {
 			String c = cbCategorie.getSelectedItem().toString();
 			if(c == " -"){
-				vulLinksJTableUitDB();
+				vulJTableL("geen");
 			}else{
-				vulLinksJTableUitDBVolgensCategorie(c);
+				vulJTableL(c);
 			}
 		}// Einde ActionListener
 	}// Einde inner class
+	
+	
 	/*
 	// Inner class om uitzicht van cellen te bepalen
 	class OpdrachtCellRenderer extends JLabel implements ListCellRenderer<Object> {

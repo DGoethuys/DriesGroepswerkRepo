@@ -18,7 +18,7 @@ public class QuizOpdracht {
 	private Opdracht opdracht;
 	private int maxScore;
 	
-	QuizOpdracht(Quiz quiz, Opdracht opdracht, int maxScore){
+	public QuizOpdracht(Quiz quiz, Opdracht opdracht, int maxScore){
 		this.setQuiz(quiz);
 		this.setOpdracht(opdracht);
 		this.setMaxScore(maxScore);

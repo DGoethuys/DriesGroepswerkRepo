@@ -1,6 +1,6 @@
-Aardrijkskunde,Wat is de hoofdstad van België?,Brussel,Vraag
+Aardrijkskunde,Wat is de hoofdstad van BelgiÃ«?,Brussel,Vraag
 Aardrijkskunde,Wat is de hoofdstad van Nederland?,Amsterdam,Vraag
-Aardrijkskunde,Wat is de hoofdstad van Italië?,Rome,Meerkeuze,Rome,Venetië,
+Aardrijkskunde,Wat is de hoofdstad van ItaliÃ«?,Rome,Meerkeuze,Rome,VenetiÃ«,
 Aardrijkskunde,Wat is de hoofdstad van Duitsland?,Berlijn,Vraag
 Wiskunde,Hoeveel is 1 * 1?,2,Vraag
 Wiskunde,Hoeveel is 5 * 5?,25,Vraag
