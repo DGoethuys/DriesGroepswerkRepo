@@ -33,6 +33,12 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 	}
 	
 	@Override
+	protected Opsomming clone() throws CloneNotSupportedException {
+		 Opsomming clone = new Opsomming(this.categorie, this.vraag, this.juisteAntwoord, this.aantalPogingen, this.maxAntwoordTijd);
+		 return clone;
+	}
+	
+	@Override
 	public boolean isValid(String antwoord) {
 		return this.isJuisteVolgorde(antwoord);
 	}

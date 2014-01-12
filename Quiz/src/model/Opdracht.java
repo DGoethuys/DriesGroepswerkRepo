@@ -116,13 +116,6 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable, Seria
 	public int compareTo(Opdracht o) {
 		return this.vraag.toString().compareTo(o.vraag.toString());
 	}
-
-	//beter maken (geen shadow clone gebruiken)
-	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		 Opdracht clone=(Opdracht)super.clone();
-		 return clone;
-	}
 	
 	protected String uitleg(){
 		return null;

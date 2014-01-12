@@ -15,7 +15,7 @@ public class Meerkeuze extends Opdracht implements Valideerbaar{
 	}
 	
 	
-	public Meerkeuze(String categorie, String vraag, String juisteAntwoord, ArrayList<String> keuzes, int aantalPogingen, int maxAntwoordTijd, String type){
+	public Meerkeuze(String categorie, String vraag, String juisteAntwoord, int aantalPogingen, int maxAntwoordTijd, ArrayList<String> keuzes){
 		super(categorie, vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
 		this.keuzes = keuzes;
 		super.type = "Meerkeuze";
@@ -36,10 +36,11 @@ public class Meerkeuze extends Opdracht implements Valideerbaar{
 				+ ", maximale antwoord tijd: " + this.maxAntwoordTijd + ", Keuzes: " + this.keuzes;
 	}
 	
-	public boolean isValid(){
-		return true;
+	@Override
+	protected Meerkeuze clone() throws CloneNotSupportedException {
+		 Meerkeuze clone = new Meerkeuze(this.categorie, this.vraag, this.juisteAntwoord, this.aantalPogingen, this.maxAntwoordTijd, this.keuzes);
+		 return clone;
 	}
-
 
 	@Override
 	public boolean isValid(String antwoord) {

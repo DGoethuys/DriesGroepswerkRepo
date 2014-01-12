@@ -25,13 +25,20 @@ public class Vraag extends Opdracht implements Valideerbaar {
 	}
 	
 	//constructor voor hints mee te geven
-	public Vraag(String categorie, String vraag, String juisteAntwoord, int aantalPogingen,int maxAntwoordTijd, String type , String ... hints ){
+	public Vraag(String categorie, String vraag, String juisteAntwoord, int aantalPogingen,int maxAntwoordTijd, String ... hints ){
 		super(categorie, vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
 		int n = 0;
 		while(hints.length < 0){
 			this.addHint(hints[n]);
 			n++;
 		}
+		super.type = "Vraag";
+	}
+	
+	//constructor voor hints mee te geven
+	public Vraag(String categorie, String vraag, String juisteAntwoord, int aantalPogingen,int maxAntwoordTijd, ArrayList<String> hints ){
+		super(categorie, vraag, juisteAntwoord, aantalPogingen, maxAntwoordTijd);
+		this.hints = hints;
 		super.type = "Vraag";
 	}
 	
@@ -77,16 +84,10 @@ public class Vraag extends Opdracht implements Valideerbaar {
 				+ ", maximale antwoord tijd: " + this.maxAntwoordTijd + ", hints: " + this.numberOfHints();
 	}
 	
-	
-	public static void main(String[] args) {
-		Vraag opdracht1 = new Vraag("Vormen", "Wat is de vorm van de maan?", "rond", 5, 10, "Meerkeuze");
-		opdracht1.addHint("Bal");
-		opdracht1.addHint("Hoepel");
-		System.out.println(opdracht1.toString());
-		System.out.println("Hint1 : " + opdracht1.getHint(0));
-		System.out.println("Hint2: " + opdracht1.getHint(1));
-		opdracht1.setAantalPogingen(4);
-		System.out.println(opdracht1.toString());
+	@Override
+	protected Vraag clone() throws CloneNotSupportedException {
+		 Vraag clone = new Vraag(this.categorie, this.vraag, this.juisteAntwoord, this.aantalPogingen, this.maxAntwoordTijd, this.hints);
+		 return clone;
 	}
 
 	@Override
@@ -98,4 +99,16 @@ public class Vraag extends Opdracht implements Valideerbaar {
 	public String getValideerTekst() {
 		return "Je antwoord voor vraag: \"" + this.vraag + "\" was juist.";
 	}
+	
+	public static void main(String[] args) {
+		Vraag opdracht1 = new Vraag("Vormen", "Wat is de vorm van de maan?", "rond", 5, 10, "Meerkeuze");
+		opdracht1.addHint("Bal");
+		opdracht1.addHint("Hoepel");
+		System.out.println(opdracht1.toString());
+		System.out.println("Hint1 : " + opdracht1.getHint(0));
+		System.out.println("Hint2: " + opdracht1.getHint(1));
+		opdracht1.setAantalPogingen(4);
+		System.out.println(opdracht1.toString());
+	}
+	
 }// Einde class
