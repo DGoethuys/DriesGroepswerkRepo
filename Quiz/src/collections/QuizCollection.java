@@ -21,15 +21,21 @@ public class QuizCollection {
 		PersistentieFacade p;
 		
 	//TreeMap
-		Map TreeMap = new TreeMap();
-	
+		//Map TreeMap = new TreeMap();
+		SortedMap<Integer,Integer> naammap = 
+                new TreeMap<Integer,Integer>();
+
+		SortedMap<Integer,List<String>> cijfermap = 
+                new TreeMap<Integer,List<String>>();
 		
 	//Method
 		public QuizCollection(){
 			//Opject van opstart controller die persistentie gekozen in init bestand zal terug geven
 			OpstartController o = new OpstartController();
 			p = o.getPersistentie();
-			TreeMap = new TreeMap<String, Integer>();
+			//TreeMap = new TreeMap<String, Integer>();
+			//SortedMap<Integer,List<String>> cijfermap = 
+                    new TreeMap<Integer,List<String>>();
 		}
 		
 		
@@ -46,13 +52,13 @@ public class QuizCollection {
 		
 		public void toonLijst(){
 			//Set met alle Key waarden (categorie)
-			Set<String> categorieSet = TreeMap.keySet();
+			Set<Integer> categorieSet = cijfermap.keySet();
 			//iterator van deze set
-			Iterator<String> i = categorieSet.iterator();
+			Iterator<Integer> i = categorieSet.iterator();
 			//itereren door deze set en de Key en Value pinten in console
 			while(i.hasNext()){
-			String categorie = i.next();
-			System.out.println(categorie + "\t" + TreeMap.get(categorie));
+			Integer categorie = i.next();
+			System.out.println(categorie + "\t" + cijfermap.get(categorie));}
 			}// Einde while
 			
 		
@@ -65,12 +71,12 @@ public class QuizCollection {
 			while( quiz < length){
 				String opdracht = p.getQuizOpdrachtCatalogus().getQuizOpdracht(quiz).toString();
 				}
-			if(!TreeMap.containsKey(quiz)){
-				TreeMap.put(quiz, 1);
+			if(!naammap.containsKey(quiz)){
+				naammap.put(quiz, 1);
 			}else{
-				int n = TreeMap.get(quiz);
+				int n = naammap.get(quiz);
 				n++;
-				TreeMap.put(quiz, n);
+				naammap.put(quiz, n);
 			} //Einde if...else
 				quiz++;
 			}// Einde while
