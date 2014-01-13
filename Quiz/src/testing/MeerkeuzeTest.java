@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import model.Meerkeuze;
 
+
+//geeft fouten wegens aanpassing van constructor
 public class MeerkeuzeTest {
 	public ArrayList<String> keuze;
 	private Meerkeuze meerkeuze;
