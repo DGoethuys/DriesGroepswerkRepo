@@ -21,9 +21,8 @@ public class GemeenschappelijkeOpdrachtCollection {
 	private String quizNaam;
 	
 	public GemeenschappelijkeOpdrachtCollection(String qN){
-		//Opject van opstart controller die persistentie gekozen in init bestand zal terug geven
-		OpstartController o = new OpstartController();
-		p = o.getPersistentie();
+		//static functie van PersistentieFacade gebruiken om persistentie object te verkrijgen
+		p = PersistentieFacade.getPersistentie();
 		//quiz naam bepalen
 		this.setQuizNaam(qN);
 		//lijst van opdrachten voor huidige gekozen quiz in HashSet steken
@@ -83,7 +82,7 @@ public class GemeenschappelijkeOpdrachtCollection {
 	
 	public static void main(String[] args) {
 		System.out.println("Beschikbare quizzen: ");
-		for(Quiz q : new OpstartController().getPersistentie().getQuizCatalogus()){
+		for(Quiz q : PersistentieFacade.getPersistentie().getQuizCatalogus()){
 			System.out.println(q.getNaam());
 		}
 		boolean opnieuw = false;

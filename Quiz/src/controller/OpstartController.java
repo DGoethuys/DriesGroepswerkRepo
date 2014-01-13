@@ -7,12 +7,12 @@ import views.Menu;
 import viewsCreateQuiz.CreateQuizView;
 
 public class OpstartController {
-	
+	/*
 	public PersistentieFacade getPersistentie(){
 		PersistentieFacade persistentie = PersistentieFacade.getPersistentie();
 		return persistentie;
 	}
-	
+	*/
 	public void opstartMenu(){
 		
 		Menu menu = new Menu ("Beheren van opdrachten (leraar)", "Beheren van quizzen/testen (leraar)" , "Deelnemen aan quiz (leerling)",

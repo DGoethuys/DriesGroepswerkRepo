@@ -30,9 +30,8 @@ public class QuizCollection {
 		
 	//Method
 		public QuizCollection(){
-			//Opject van opstart controller die persistentie gekozen in init bestand zal terug geven
-			OpstartController o = new OpstartController();
-			p = o.getPersistentie();
+			//static functie van PersistentieFacade gebruiken om persistentie object te verkrijgen
+			p = PersistentieFacade.getPersistentie();
 			//TreeMap = new TreeMap<String, Integer>();
 			//SortedMap<Integer,List<String>> cijfermap = 
                     new TreeMap<Integer,List<String>>();
